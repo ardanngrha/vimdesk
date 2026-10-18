@@ -4,6 +4,8 @@ A Neovim workspace for people who work across several Git repositories and want 
 
 Open the parent folder. Switch repositories in the Git sidebar. Review changes side by side, resolve conflicts in three resizable panes, and draft a commit with your choice of Codex or Claude Code.
 
+**[Website & install guide](https://ardanngrha.github.io/nvim-workbench/)** · [English](docs/getting-started.md) · [Bahasa Indonesia](docs/mulai-dari-nol.md)
+
 ![Git sidebar and side-by-side review](docs/images/review.png)
 
 Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: an agent edits the code, this workbench handles reviewing, Git, search, and the final commit. Orca is an optional coding companion; the workbench works independently.

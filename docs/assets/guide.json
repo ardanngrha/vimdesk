@@ -7,8 +7,8 @@
         "id": "Buka Terminal"
       },
       "intro": {
-        "en": "Press Command + Space, type Terminal, then press Enter. This guide uses the default macOS zsh shell. Paste a command with Command + V, then press Enter. Copy only the command, without a $ prompt.",
-        "id": "Tekan Command + Space, ketik Terminal, lalu Enter. Panduan ini memakai zsh, shell bawaan macOS. Tempel perintah dengan Command + V, lalu Enter. Salin perintahnya saja, tanpa tanda $."
+        "en": "Press Command + Space, type Terminal, then press Enter. This guide uses the default macOS zsh shell. Paste a command with Command + V, then press Enter. Copy only the command, without a $ prompt. The prompt is the line where Terminal accepts your next command.",
+        "id": "Tekan Command + Space, ketik Terminal, lalu Enter. Panduan ini memakai zsh, shell bawaan macOS. Tempel perintah dengan Command + V, lalu Enter. Salin perintahnya saja, tanpa tanda $. Prompt adalah baris tempat Terminal menerima perintah berikutnya."
       },
       "blocks": [],
       "expected": {
@@ -148,8 +148,8 @@
         "id": "Buka workspace latihan dengan dua repo"
       },
       "intro": {
-        "en": "From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.",
-        "id": "Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview."
+        "en": "A repository (repo) is a project folder whose history is tracked with Git. From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.",
+        "id": "Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview."
       },
       "blocks": [
         {
@@ -251,8 +251,8 @@
         "id": "Buka proyek sendiri dengan mudah"
       },
       "intro": {
-        "en": "Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
-        "id": "Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut."
+        "en": "PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
+        "id": "PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut."
       },
       "blocks": [
         {

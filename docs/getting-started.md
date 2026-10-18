@@ -9,7 +9,7 @@ Mac-first guide. Neovim 0.12+ and Python 3.9+ are required. Linux has not been v
 
 ## 1. Open Terminal
 
-Press Command + Space, type Terminal, then press Enter. This guide uses the default macOS zsh shell. Paste a command with Command + V, then press Enter. Copy only the command, without a $ prompt.
+Press Command + Space, type Terminal, then press Enter. This guide uses the default macOS zsh shell. Paste a command with Command + V, then press Enter. Copy only the command, without a $ prompt. The prompt is the line where Terminal accepts your next command.
 
 **Success check:** A Terminal window is open. Internet access is available; you can install apps on this Mac.
 
@@ -101,7 +101,7 @@ cd nvim-workbench
 
 ## 6. Open a two-repo practice workspace
 
-From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.
+A repository (repo) is a project folder whose history is tracked with Git. From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.
 
 **Terminal**
 
@@ -161,7 +161,7 @@ Press Space, release it, then g, then Shift + g. The Git sidebar should list bac
 
 ## 9. Make it easy to open your own projects
 
-Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.
+PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.
 
 **Terminal**
 

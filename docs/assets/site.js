@@ -1,34 +1,442 @@
-'use strict';
+"use strict";
 const strings = {
   en: {
-    sources:'Official references',skip:'Skip to content',navPreview:'See the UI',navInstall:'Install from zero',heroTitle:'Many repos.<br><span>One workspace.</span>',heroDescription:'Review changes, switch repositories, and resolve conflicts in Neovim. Visible controls, with Vim shortcuts always close by.',start:'Install from zero ↗',viewSource:'View the source ↗',heroNote:'macOS guide · Separate profile · Optional AI',previewTitle:'A workspace you can see.',realUI:'Real UI · practice repositories',tabReview:'Git review',tabConflicts:'Merge conflicts',tabSearch:'Search & replace',featureOne:'Multiple repositories.<br><strong>One Git sidebar.</strong>',featureTwo:'Incoming, Current, Result.<br><strong>Three resizable panes.</strong>',featureThree:'Codex or Claude Code.<br><strong>Draft, review, then commit.</strong>',guideEyebrow:'FROM YOUR FIRST TERMINAL',installTitle:'Start with<br> a fresh Mac.',installIntro:'Never installed Neovim? Follow the steps in order. Each explains where a command goes, what it does, and what success looks like.',reset:'Reset',progressNote:'Your personal checklist, not automatic detection of your Mac.',markdownGuide:'Read the Markdown guide ↗',loading:'Loading the guide…',copy:'Copy',copied:'Copied',copyError:'Select and copy the command manually.',terminal:'Terminal',neovim:'Inside Neovim',success:'Success check',complete:'I completed this step',progress:'steps marked',extrasEyebrow:'AFTER YOUR FIRST SESSION',extrasTitle:'Add what you need.',extrasIntro:'Start with editing and Git. Completion, diagnostics, and AI can come later.',lspText:'Install language servers from the source folder. Projects still need their own runtimes and dependencies.',lspMore:'Server and runtime guide ↗',aiTitle:'AI commits you still review',aiText:'Install and authenticate Codex CLI or Claude Code using its official guide. In Git: save → stage → Generate → choose agent → review → Commit. The staged diff goes to the provider using your account; normal usage costs may apply.',learningTitle:'From first shortcuts to first merge',learningText:'The full workflow guide covers copy/paste, undo, Git, merge conflicts, search/replace, updates, and restoring backups.',workflow:'Workflow guide ↗',maintenance:'Update & restore ↗',faqTitle:'A little more help.',faqQ1:'Will this overwrite my existing Neovim config?',faqA1:'The default install uses a separate nvim-workbench profile, away from ~/.config/nvim. Workbench upgrades create backups. Replacing the default config requires an explicit flag described in the docs.',faqQ2:'Can I use it without AI or a GitHub account?',faqA2:'Yes. Downloading the public repo and practicing locally needs no login. AI is optional. Pushing real projects needs a remote, commit identity, and Git authentication; the practice repos have no remotes.',faqQ3:'Why is brew or nvim-workbench not found?',faqA3:'For brew, follow the Homebrew installer’s Next steps. For the launcher, use ~/.local/bin/nvim-workbench or complete the PATH step above. Open a new Terminal window after changing shell configuration.',faqQ4:'Why can’t I type or quit?',faqA4:'Press i to type. Press Esc to return to Normal mode. Then :w and Enter saves, :qa and Enter quits. Space q q offers a quit confirmation when there are unsaved changes.',faqQ5:'Does it work on Linux or Windows?',faqA5:'This guide targets macOS. A POSIX/Linux installer is available but has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.',faqQ6:'What if the nvim-workbench folder already exists?',faqA6:'The source has already been downloaded. Open that folder, preserve your local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.',closingTitle:'One step at a time.',closingText:'Start with Terminal. Your first workspace is in the guide.',backInstall:'Start installing ↑',report:'Report an issue ↗',verification:'Verification notes ↗',credits:'Built on Neovim, LazyGit, Diffview, and open-source plugins. A static site on GitHub Pages.',guideError:'The guide could not load. Use the Markdown guide link to continue.'
+    sources: "Official references",
+    skip: "Skip to content",
+    navPreview: "See the UI",
+    navInstall: "Install from zero",
+    heroTitle: "Many repos.<br><span>One workspace.</span>",
+    heroDescription:
+      "Review changes, switch repositories, and resolve conflicts in Neovim. Visible controls, with Vim shortcuts always close by.",
+    start: "Install from zero ↗",
+    viewSource: "View the source ↗",
+    heroNote: "macOS guide · Separate profile · Optional AI",
+    previewTitle: "A workspace you can see.",
+    realUI: "Real UI · practice repositories",
+    tabReview: "Git review",
+    tabConflicts: "Merge conflicts",
+    tabSearch: "Search & replace",
+    featureOne: "Multiple repositories.<br><strong>One Git sidebar.</strong>",
+    featureTwo:
+      "Incoming, Current, Result.<br><strong>Three resizable panes.</strong>",
+    featureThree:
+      "Codex or Claude Code.<br><strong>Draft, review, then commit.</strong>",
+    guideEyebrow: "FROM YOUR FIRST TERMINAL",
+    installTitle: "Start with<br> a fresh Mac.",
+    installIntro:
+      "Never installed Neovim? Follow the steps in order. Each explains where a command goes, what it does, and what success looks like.",
+    reset: "Reset",
+    progressNote:
+      "Your personal checklist, not automatic detection of your Mac.",
+    markdownGuide: "Read the Markdown guide ↗",
+    loading: "Loading the guide…",
+    copy: "Copy",
+    copied: "Copied",
+    copyError: "Select and copy the command manually.",
+    terminal: "Terminal",
+    neovim: "Inside Neovim",
+    success: "Success check",
+    complete: "I completed this step",
+    progress: "steps marked",
+    extrasEyebrow: "AFTER YOUR FIRST SESSION",
+    extrasTitle: "Add what you need.",
+    extrasIntro:
+      "Start with editing and Git. Completion, diagnostics, and AI can come later.",
+    lspText:
+      "Install language servers from the source folder. Projects still need their own runtimes and dependencies.",
+    lspMore: "Server and runtime guide ↗",
+    aiTitle: "AI commits you still review",
+    aiText:
+      "Install and authenticate Codex CLI or Claude Code using its official guide. In Git: save → stage → Generate → choose agent → review → Commit. The staged diff goes to the provider using your account; normal usage costs may apply.",
+    learningTitle: "From first shortcuts to first merge",
+    learningText:
+      "The full workflow guide covers copy/paste, undo, Git, merge conflicts, search/replace, updates, and restoring backups.",
+    workflow: "Workflow guide ↗",
+    maintenance: "Update & restore ↗",
+    faqTitle: "A little more help.",
+    faqQ1: "Will this overwrite my existing Neovim config?",
+    faqA1:
+      "The default install uses a separate nvim-workbench profile, away from ~/.config/nvim. Workbench upgrades create backups. Replacing the default config requires an explicit flag described in the docs.",
+    faqQ2: "Can I use it without AI or a GitHub account?",
+    faqA2:
+      "Yes. Downloading the public repo and practicing locally needs no login. AI is optional. Pushing real projects needs a remote, commit identity, and Git authentication; the practice repos have no remotes.",
+    faqQ3: "Why is brew or nvim-workbench not found?",
+    faqA3:
+      "For brew, follow the Homebrew installer’s Next steps. For the launcher, use ~/.local/bin/nvim-workbench or complete the PATH step above. Open a new Terminal window after changing shell configuration.",
+    faqQ4: "Why can’t I type or quit?",
+    faqA4:
+      "Press i to type. Press Esc to return to Normal mode. Then :w and Enter saves, :qa and Enter quits. Space q q offers a quit confirmation when there are unsaved changes.",
+    faqQ5: "Does it work on Linux or Windows?",
+    faqA5:
+      "This guide targets macOS. A POSIX/Linux installer is available but has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.",
+    faqQ6: "What if the nvim-workbench folder already exists?",
+    faqA6:
+      "The source has already been downloaded. Open that folder, preserve your local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
+    closingTitle: "One step at a time.",
+    closingText: "Start with Terminal. Your first workspace is in the guide.",
+    backInstall: "Start installing ↑",
+    report: "Report an issue ↗",
+    verification: "Verification notes ↗",
+    credits:
+      "Built on Neovim, LazyGit, Diffview, and open-source plugins. A static site on GitHub Pages.",
+    guideError:
+      "The guide could not load. Use the Markdown guide link to continue.",
   },
   id: {
-    sources:'Referensi resmi',skip:'Langsung ke konten',navPreview:'Lihat UI',navInstall:'Mulai dari nol',heroTitle:'Semua repo.<br><span>Satu tempat kerja.</span>',heroDescription:'Review perubahan, pindah repo, dan bereskan konflik di Neovim. Kontrolnya terlihat. Shortcut-nya tetap ada.',start:'Install dari nol ↗',viewSource:'Lihat source ↗',heroNote:'Panduan macOS · Profil terpisah · AI opsional',previewTitle:'Ruang kerja yang bisa kamu lihat.',realUI:'UI asli · repo latihan',tabReview:'Review Git',tabConflicts:'Merge konflik',tabSearch:'Search & replace',featureOne:'Beberapa repo.<br><strong>Satu sidebar Git.</strong>',featureTwo:'Incoming, Current, Result.<br><strong>Tiga panel yang bisa di-resize.</strong>',featureThree:'Codex atau Claude Code.<br><strong>Draft dulu, review, baru commit.</strong>',guideEyebrow:'DARI TERMINAL PERTAMA',installTitle:'Mulai dari<br> Mac yang kosong.',installIntro:'Belum punya Neovim? Ikuti urutannya. Tiap langkah menjelaskan perintahnya dijalankan di mana, apa fungsinya, dan tanda berhasilnya.',reset:'Reset',progressNote:'Checklist ini catatanmu, bukan deteksi otomatis Mac.',markdownGuide:'Baca versi Markdown ↗',loading:'Memuat panduan…',copy:'Salin',copied:'Tersalin',copyError:'Pilih dan salin perintah secara manual.',terminal:'Terminal',neovim:'Di dalam Neovim',success:'Tanda berhasil',complete:'Saya sudah menyelesaikan langkah ini',progress:'langkah ditandai',extrasEyebrow:'SETELAH BERHASIL JALAN',extrasTitle:'Tambahkan sesuai kebutuhan.',extrasIntro:'Mulai dengan edit dan Git. Completion, diagnostik, dan AI bisa dipasang belakangan.',lspText:'Pasang language server dari folder source. Proyek tetap butuh runtime dan dependensinya sendiri.',lspMore:'Panduan server dan runtime ↗',aiTitle:'AI commit yang tetap kamu review',aiText:'Pasang dan login Codex CLI atau Claude Code dari panduan resminya. Di Git: simpan file → stage → Generate → pilih agent → review → Commit. Staged diff dikirim ke provider melalui akunmu; penggunaan normal bisa berbiaya.',learningTitle:'Shortcut pertama, sampai merge pertama',learningText:'Panduan lanjutan membahas copy/paste, undo, Git, merge konflik, search/replace, update, dan restore backup.',workflow:'Panduan pemakaian ↗',maintenance:'Update & restore ↗',faqTitle:'Kalau masih bingung.',faqQ1:'Config Neovim yang sudah ada bakal tertimpa?',faqA1:'Install default menggunakan profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default perlu flag khusus yang dijelaskan di dokumentasi.',faqQ2:'Bisa pakai tanpa AI atau akun GitHub?',faqA2:'Bisa. Download repo publik dan latihan lokal tidak butuh login. AI opsional. Push ke remote sungguhan memerlukan remote, identitas commit, dan autentikasi Git yang sesuai; demo tidak punya remote.',faqQ3:'Kenapa brew atau nvim-workbench tidak ditemukan?',faqA3:'Untuk brew, jalankan Next steps dari installer Homebrew. Untuk launcher, pakai ~/.local/bin/nvim-workbench atau selesaikan langkah PATH di atas. Buka jendela Terminal baru setelah mengubah konfigurasi shell.',faqQ4:'Kok tidak bisa mengetik atau keluar?',faqA4:'Tekan i untuk mengetik. Tekan Esc untuk kembali ke Normal mode. Lalu :w dan Enter untuk menyimpan, :qa dan Enter untuk keluar. Space q q membuka konfirmasi keluar jika ada perubahan belum disimpan.',faqQ5:'Linux dan Windows bisa?',faqA5:'Panduan ini untuk macOS. Installer POSIX/Linux tersedia tetapi belum diuji menyeluruh. Windows belum didukung. Untuk Homebrew di Mac Intel atau macOS lama, cek persyaratan dukungan Homebrew sebelum mulai.',faqQ6:'Folder nvim-workbench sudah ada saat git clone?',faqA6:'Berarti sumbernya sudah diunduh. Buka folder itu, simpan perubahan lokal milikmu, lalu jalankan git pull --ff-only dan ./install.sh. Jangan menghapus folder yang sudah berisi pekerjaanmu.',closingTitle:'Pelan-pelan. Satu langkah dulu.',closingText:'Mulai dari Terminal. Workspace pertamamu sudah ada di panduan.',backInstall:'Mulai install ↑',report:'Laporkan masalah ↗',verification:'Catatan pengujian ↗',credits:'Dibangun di atas Neovim, LazyGit, Diffview, dan plugin open source. Website statis di GitHub Pages.',guideError:'Panduan gagal dimuat. Gunakan tautan versi Markdown untuk melanjutkan.'
+    sources: "Referensi resmi",
+    skip: "Langsung ke konten",
+    navPreview: "Lihat UI",
+    navInstall: "Mulai dari nol",
+    heroTitle: "Semua repo.<br><span>Satu tempat kerja.</span>",
+    heroDescription:
+      "Review perubahan, pindah repo, dan bereskan konflik di Neovim. Kontrolnya terlihat. Shortcut-nya tetap ada.",
+    start: "Install dari nol ↗",
+    viewSource: "Lihat source ↗",
+    heroNote: "Panduan macOS · Profil terpisah · AI opsional",
+    previewTitle: "Ruang kerja yang bisa kamu lihat.",
+    realUI: "UI asli · repo latihan",
+    tabReview: "Review Git",
+    tabConflicts: "Merge konflik",
+    tabSearch: "Search & replace",
+    featureOne: "Beberapa repo.<br><strong>Satu sidebar Git.</strong>",
+    featureTwo:
+      "Incoming, Current, Result.<br><strong>Tiga panel yang bisa di-resize.</strong>",
+    featureThree:
+      "Codex atau Claude Code.<br><strong>Draft dulu, review, baru commit.</strong>",
+    guideEyebrow: "DARI TERMINAL PERTAMA",
+    installTitle: "Mulai dari<br> Mac yang kosong.",
+    installIntro:
+      "Belum punya Neovim? Ikuti urutannya. Tiap langkah menjelaskan perintahnya dijalankan di mana, apa fungsinya, dan tanda berhasilnya.",
+    reset: "Reset",
+    progressNote: "Checklist ini catatanmu, bukan deteksi otomatis Mac.",
+    markdownGuide: "Baca versi Markdown ↗",
+    loading: "Memuat panduan…",
+    copy: "Salin",
+    copied: "Tersalin",
+    copyError: "Pilih dan salin perintah secara manual.",
+    terminal: "Terminal",
+    neovim: "Di dalam Neovim",
+    success: "Tanda berhasil",
+    complete: "Saya sudah menyelesaikan langkah ini",
+    progress: "langkah ditandai",
+    extrasEyebrow: "SETELAH BERHASIL JALAN",
+    extrasTitle: "Tambahkan sesuai kebutuhan.",
+    extrasIntro:
+      "Mulai dengan edit dan Git. Completion, diagnostik, dan AI bisa dipasang belakangan.",
+    lspText:
+      "Pasang language server dari folder source. Proyek tetap butuh runtime dan dependensinya sendiri.",
+    lspMore: "Panduan server dan runtime ↗",
+    aiTitle: "AI commit yang tetap kamu review",
+    aiText:
+      "Pasang dan login Codex CLI atau Claude Code dari panduan resminya. Di Git: simpan file → stage → Generate → pilih agent → review → Commit. Staged diff dikirim ke provider melalui akunmu; penggunaan normal bisa berbiaya.",
+    learningTitle: "Shortcut pertama, sampai merge pertama",
+    learningText:
+      "Panduan lanjutan membahas copy/paste, undo, Git, merge konflik, search/replace, update, dan restore backup.",
+    workflow: "Panduan pemakaian ↗",
+    maintenance: "Update & restore ↗",
+    faqTitle: "Kalau masih bingung.",
+    faqQ1: "Config Neovim yang sudah ada bakal tertimpa?",
+    faqA1:
+      "Install default menggunakan profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default perlu flag khusus yang dijelaskan di dokumentasi.",
+    faqQ2: "Bisa pakai tanpa AI atau akun GitHub?",
+    faqA2:
+      "Bisa. Download repo publik dan latihan lokal tidak butuh login. AI opsional. Push ke remote sungguhan memerlukan remote, identitas commit, dan autentikasi Git yang sesuai; demo tidak punya remote.",
+    faqQ3: "Kenapa brew atau nvim-workbench tidak ditemukan?",
+    faqA3:
+      "Untuk brew, jalankan Next steps dari installer Homebrew. Untuk launcher, pakai ~/.local/bin/nvim-workbench atau selesaikan langkah PATH di atas. Buka jendela Terminal baru setelah mengubah konfigurasi shell.",
+    faqQ4: "Kok tidak bisa mengetik atau keluar?",
+    faqA4:
+      "Tekan i untuk mengetik. Tekan Esc untuk kembali ke Normal mode. Lalu :w dan Enter untuk menyimpan, :qa dan Enter untuk keluar. Space q q membuka konfirmasi keluar jika ada perubahan belum disimpan.",
+    faqQ5: "Linux dan Windows bisa?",
+    faqA5:
+      "Panduan ini untuk macOS. Installer POSIX/Linux tersedia tetapi belum diuji menyeluruh. Windows belum didukung. Untuk Homebrew di Mac Intel atau macOS lama, cek persyaratan dukungan Homebrew sebelum mulai.",
+    faqQ6: "Folder nvim-workbench sudah ada saat git clone?",
+    faqA6:
+      "Berarti sumbernya sudah diunduh. Buka folder itu, simpan perubahan lokal milikmu, lalu jalankan git pull --ff-only dan ./install.sh. Jangan menghapus folder yang sudah berisi pekerjaanmu.",
+    closingTitle: "Pelan-pelan. Satu langkah dulu.",
+    closingText:
+      "Mulai dari Terminal. Workspace pertamamu sudah ada di panduan.",
+    backInstall: "Mulai install ↑",
+    report: "Laporkan masalah ↗",
+    verification: "Catatan pengujian ↗",
+    credits:
+      "Dibangun di atas Neovim, LazyGit, Diffview, dan plugin open source. Website statis di GitHub Pages.",
+    guideError:
+      "Panduan gagal dimuat. Gunakan tautan versi Markdown untuk melanjutkan.",
+  },
+};
+const views = {
+  review: {
+    image: "images/review.png",
+    alt: "Three-repository Git sidebar and side-by-side Before / After review",
+    id: "Klik repo untuk berpindah. Klik file untuk melihat Before / After. Tarik pembatas untuk mengatur ruang.",
+    en: "Click a repository to switch. Click a file for Before / After. Drag the dividers to make room.",
+  },
+  conflicts: {
+    image: "images/conflicts.png",
+    alt: "Incoming on the left, Current on the right, editable Result below",
+    id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah. Review hasilnya, simpan, lalu stage.",
+    en: "Incoming left, Current right, editable Result below. Review the result, save, then stage.",
+  },
+  search: {
+    image: "images/search.png",
+    alt: "Persistent search and replace fields with selected-file replacement preview",
+    id: "Search dan Replace ada di sidebar. Preview dulu, pilih file, lalu terapkan. Menyimpan tetap keputusanmu.",
+    en: "Search and Replace stay in the sidebar. Preview first, choose files, then apply. Saving remains explicit.",
+  },
+};
+const storage = {
+  get(key, fallback) {
+    try {
+      return localStorage.getItem(key) ?? fallback;
+    } catch {
+      return fallback;
+    }
+  },
+  set(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      /* The guide also works without storage. */
+    }
+  },
+};
+const queryLang = new URLSearchParams(location.search).get("lang");
+let language = ["id", "en"].includes(queryLang)
+  ? queryLang
+  : storage.get("workbench-language", "id");
+if (!strings[language]) language = "id";
+let completed = [];
+try {
+  const saved = JSON.parse(storage.get("workbench-checklist", "[]"));
+  if (Array.isArray(saved))
+    completed = saved.filter((value) => typeof value === "string");
+} catch {
+  /* Start with an empty checklist. */
+}
+let guide = null,
+  selectedView = "review",
+  announceTimer;
+const tr = (key) => strings[language][key] || key;
+const element = (tag, className, text) => {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text !== undefined) el.textContent = text;
+  return el;
+};
+function announce(message) {
+  const box = document.getElementById("announcement");
+  box.textContent = message;
+  box.classList.add("visible");
+  clearTimeout(announceTimer);
+  announceTimer = setTimeout(() => box.classList.remove("visible"), 2500);
+}
+function progress() {
+  const total = guide?.steps.length || 9;
+  const count = guide
+    ? guide.steps.filter((step) => completed.includes(step.id)).length
+    : 0;
+  document.getElementById("progress-text").textContent =
+    `${count} / ${total} ${tr("progress")}`;
+  const bar = document.getElementById("progress");
+  bar.max = total;
+  bar.value = count;
+  bar.setAttribute("aria-label", `${count} / ${total} ${tr("progress")}`);
+}
+function renderView() {
+  const view = views[selectedView];
+  const image = document.getElementById("preview-image");
+  image.src = view.image;
+  image.alt = view.alt;
+  document.getElementById("preview-caption").textContent = view[language];
+  document
+    .getElementById("preview-panel")
+    .setAttribute("aria-labelledby", `tab-${selectedView}`);
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    const active = button.dataset.view === selectedView;
+    button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
+  });
+}
+function codeBlock(block, index) {
+  const container = element("div", "code-block"),
+    toolbar = element("div", "code-toolbar");
+  const label = element(
+    "span",
+    block.where === "neovim" ? "vim-label" : "",
+    tr(block.where) + (block.label ? ` · ${block.label[language]}` : ""),
+  );
+  const button = element("button", "", tr("copy"));
+  button.type = "button";
+  button.dataset.copyTarget = index;
+  button.setAttribute("aria-label", `${tr("copy")}: ${tr(block.where)}`);
+  toolbar.append(label, button);
+  const pre = element("pre"),
+    code = element("code", "", block.code);
+  code.id = index;
+  pre.append(code);
+  container.append(toolbar, pre);
+  return container;
+}
+function renderGuide() {
+  if (!guide) return;
+  const host = document.getElementById("guide-steps"),
+    nav = document.getElementById("step-nav");
+  host.replaceChildren();
+  nav.replaceChildren();
+  guide.steps.forEach((step, index) => {
+    const section = element("article", "guide-step");
+    section.id = `step-${step.id}`;
+    section.dataset.complete = String(completed.includes(step.id));
+    const heading = element("div", "step-heading");
+    const title = element("h3", "", step.title[language]);
+    title.id = `title-${step.id}`;
+    section.setAttribute("aria-labelledby", title.id);
+    heading.append(
+      element("span", "", String(index + 1).padStart(2, "0")),
+      title,
+    );
+    section.append(heading, element("p", "step-intro", step.intro[language]));
+    step.blocks.forEach((block, blockIndex) =>
+      section.append(codeBlock(block, `code-${step.id}-${blockIndex}`)),
+    );
+    const check = element("p", "step-check");
+    check.append(
+      element("strong", "", tr("success")),
+      document.createTextNode(step.expected[language]),
+    );
+    section.append(check);
+    if (step.note)
+      section.append(element("p", "step-note", step.note[language]));
+    const label = element("label", "complete-label");
+    const checkbox = element("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = completed.includes(step.id);
+    checkbox.addEventListener("change", () => {
+      completed = completed.filter((id) => id !== step.id);
+      if (checkbox.checked) completed.push(step.id);
+      storage.set("workbench-checklist", JSON.stringify(completed));
+      section.dataset.complete = String(checkbox.checked);
+      progress();
+    });
+    label.append(checkbox, document.createTextNode(tr("complete")));
+    section.append(label);
+    host.append(section);
+    const link = element("a");
+    link.href = `#step-${step.id}`;
+    link.append(
+      element("span", "", String(index + 1).padStart(2, "0")),
+      document.createTextNode(step.title[language]),
+    );
+    nav.append(link);
+  });
+  progress();
+}
+function translate() {
+  document.documentElement.lang = language;
+  document.getElementById("language").value = language;
+  document.querySelectorAll("[data-i18n]").forEach((node) => {
+    const value = tr(node.dataset.i18n);
+    if (
+      [
+        "heroTitle",
+        "featureOne",
+        "featureTwo",
+        "featureThree",
+        "installTitle",
+      ].includes(node.dataset.i18n)
+    )
+      node.innerHTML = value;
+    else node.textContent = value;
+  });
+  document.getElementById("markdown-guide").href =
+    `https://github.com/ardanngrha/nvim-workbench/blob/main/docs/${language === "id" ? "mulai-dari-nol" : "getting-started"}.md`;
+  renderView();
+  renderGuide();
+  progress();
+}
+document.getElementById("language").addEventListener("change", (event) => {
+  language = event.target.value;
+  storage.set("workbench-language", language);
+  const url = new URL(location.href);
+  url.searchParams.set("lang", language);
+  history.replaceState(null, "", url);
+  translate();
+});
+document.getElementById("reset-progress").addEventListener("click", () => {
+  completed = [];
+  storage.set("workbench-checklist", "[]");
+  document
+    .querySelectorAll(".complete-label input")
+    .forEach((input) => (input.checked = false));
+  document
+    .querySelectorAll(".guide-step")
+    .forEach((step) => (step.dataset.complete = "false"));
+  progress();
+});
+document.querySelectorAll("[data-view]").forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedView = button.dataset.view;
+    renderView();
+  });
+  button.addEventListener("keydown", (event) => {
+    const buttons = [...document.querySelectorAll("[data-view]")];
+    let index = buttons.indexOf(button);
+    if (event.key === "ArrowRight") index = (index + 1) % buttons.length;
+    else if (event.key === "ArrowLeft")
+      index = (index + buttons.length - 1) % buttons.length;
+    else if (event.key === "Home") index = 0;
+    else if (event.key === "End") index = buttons.length - 1;
+    else return;
+    event.preventDefault();
+    selectedView = buttons[index].dataset.view;
+    renderView();
+    buttons[index].focus();
+  });
+});
+document.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-copy-target]");
+  if (!button) return;
+  const code = document.getElementById(button.dataset.copyTarget);
+  if (!code) return;
+  let copied = false;
+  try {
+    await navigator.clipboard.writeText(code.textContent);
+    copied = true;
+  } catch {
+    const input = element("textarea", "", code.textContent);
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    try {
+      copied = document.execCommand("copy");
+    } catch {
+      /* Keep manual copy available. */
+    }
+    input.remove();
+    button.focus();
   }
-};
-const views={
-  review:{image:'images/review.png',alt:'Three-repository Git sidebar and side-by-side Before / After review',id:'Klik repo untuk berpindah. Klik file untuk melihat Before / After. Tarik pembatas untuk mengatur ruang.',en:'Click a repository to switch. Click a file for Before / After. Drag the dividers to make room.'},
-  conflicts:{image:'images/conflicts.png',alt:'Incoming on the left, Current on the right, editable Result below',id:'Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah. Review hasilnya, simpan, lalu stage.',en:'Incoming left, Current right, editable Result below. Review the result, save, then stage.'},
-  search:{image:'images/search.png',alt:'Persistent search and replace fields with selected-file replacement preview',id:'Search dan Replace ada di sidebar. Preview dulu, pilih file, lalu terapkan. Menyimpan tetap keputusanmu.',en:'Search and Replace stay in the sidebar. Preview first, choose files, then apply. Saving remains explicit.'}
-};
-const storage={get(key,fallback){try{return localStorage.getItem(key)??fallback}catch{return fallback}},set(key,value){try{localStorage.setItem(key,value)}catch{/* The guide also works without storage. */}}};
-const queryLang=new URLSearchParams(location.search).get('lang');
-let language=['id','en'].includes(queryLang)?queryLang:storage.get('workbench-language','id');
-if(!strings[language])language='id';
-let completed=[];try{const saved=JSON.parse(storage.get('workbench-checklist','[]'));if(Array.isArray(saved))completed=saved.filter(value=>typeof value==='string')}catch{/* Start with an empty checklist. */}
-let guide=null,selectedView='review',announceTimer;
-const tr=key=>strings[language][key]||key;
-const element=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
-function announce(message){const box=document.getElementById('announcement');box.textContent=message;box.classList.add('visible');clearTimeout(announceTimer);announceTimer=setTimeout(()=>box.classList.remove('visible'),2500)}
-function progress(){const total=guide?.steps.length||9;const count=guide?guide.steps.filter(step=>completed.includes(step.id)).length:0;document.getElementById('progress-text').textContent=`${count} / ${total} ${tr('progress')}`;const bar=document.getElementById('progress');bar.max=total;bar.value=count;bar.setAttribute('aria-label',`${count} / ${total} ${tr('progress')}`)}
-function renderView(){const view=views[selectedView];const image=document.getElementById('preview-image');image.src=view.image;image.alt=view.alt;document.getElementById('preview-caption').textContent=view[language];document.getElementById('preview-panel').setAttribute('aria-labelledby',`tab-${selectedView}`);document.querySelectorAll('[data-view]').forEach(button=>{const active=button.dataset.view===selectedView;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1})}
-function codeBlock(block,index){const container=element('div','code-block'),toolbar=element('div','code-toolbar');const label=element('span',block.where==='neovim'?'vim-label':'',tr(block.where)+(block.label?` · ${block.label[language]}`:''));const button=element('button','',tr('copy'));button.type='button';button.dataset.copyTarget=index;button.setAttribute('aria-label',`${tr('copy')}: ${tr(block.where)}`);toolbar.append(label,button);const pre=element('pre'),code=element('code','',block.code);code.id=index;pre.append(code);container.append(toolbar,pre);return container}
-function renderGuide(){if(!guide)return;const host=document.getElementById('guide-steps'),nav=document.getElementById('step-nav');host.replaceChildren();nav.replaceChildren();guide.steps.forEach((step,index)=>{const section=element('article','guide-step');section.id=`step-${step.id}`;section.dataset.complete=String(completed.includes(step.id));const heading=element('div','step-heading');const title=element('h3','',step.title[language]);title.id=`title-${step.id}`;section.setAttribute('aria-labelledby',title.id);heading.append(element('span','',String(index+1).padStart(2,'0')),title);section.append(heading,element('p','step-intro',step.intro[language]));step.blocks.forEach((block,blockIndex)=>section.append(codeBlock(block,`code-${step.id}-${blockIndex}`)));const check=element('p','step-check');check.append(element('strong','',tr('success')),document.createTextNode(step.expected[language]));section.append(check);if(step.note)section.append(element('p','step-note',step.note[language]));const label=element('label','complete-label');const checkbox=element('input');checkbox.type='checkbox';checkbox.checked=completed.includes(step.id);checkbox.addEventListener('change',()=>{completed=completed.filter(id=>id!==step.id);if(checkbox.checked)completed.push(step.id);storage.set('workbench-checklist',JSON.stringify(completed));section.dataset.complete=String(checkbox.checked);progress()});label.append(checkbox,document.createTextNode(tr('complete')));section.append(label);host.append(section);const link=element('a');link.href=`#step-${step.id}`;link.append(element('span','',String(index+1).padStart(2,'0')),document.createTextNode(step.title[language]));nav.append(link)});progress()}
-function translate(){document.documentElement.lang=language;document.getElementById('language').value=language;document.querySelectorAll('[data-i18n]').forEach(node=>{const value=tr(node.dataset.i18n);if(['heroTitle','featureOne','featureTwo','featureThree','installTitle'].includes(node.dataset.i18n))node.innerHTML=value;else node.textContent=value});document.getElementById('markdown-guide').href=`https://github.com/ardanngrha/nvim-workbench/blob/main/docs/${language==='id'?'mulai-dari-nol':'getting-started'}.md`;renderView();renderGuide();progress()}
-document.getElementById('language').addEventListener('change',event=>{language=event.target.value;storage.set('workbench-language',language);const url=new URL(location.href);url.searchParams.set('lang',language);history.replaceState(null,'',url);translate()});
-document.getElementById('reset-progress').addEventListener('click',()=>{completed=[];storage.set('workbench-checklist','[]');document.querySelectorAll('.complete-label input').forEach(input=>input.checked=false);document.querySelectorAll('.guide-step').forEach(step=>step.dataset.complete='false');progress()});
-document.querySelectorAll('[data-view]').forEach(button=>{button.addEventListener('click',()=>{selectedView=button.dataset.view;renderView()});button.addEventListener('keydown',event=>{const buttons=[...document.querySelectorAll('[data-view]')];let index=buttons.indexOf(button);if(event.key==='ArrowRight')index=(index+1)%buttons.length;else if(event.key==='ArrowLeft')index=(index+buttons.length-1)%buttons.length;else if(event.key==='Home')index=0;else if(event.key==='End')index=buttons.length-1;else return;event.preventDefault();selectedView=buttons[index].dataset.view;renderView();buttons[index].focus()})});
-document.addEventListener('click',async event=>{const button=event.target.closest('[data-copy-target]');if(!button)return;const code=document.getElementById(button.dataset.copyTarget);if(!code)return;let copied=false;try{await navigator.clipboard.writeText(code.textContent);copied=true}catch{const input=element('textarea','',code.textContent);input.style.position='fixed';input.style.opacity='0';document.body.append(input);input.select();try{copied=document.execCommand('copy')}catch{/* Keep manual copy available. */}input.remove();button.focus()}if(copied){button.textContent=tr('copied');announce(tr('copied'));setTimeout(()=>{button.textContent=tr('copy')},1800)}else announce(tr('copyError'))});
+  if (copied) {
+    button.textContent = tr("copied");
+    announce(tr("copied"));
+    setTimeout(() => {
+      button.textContent = tr("copy");
+    }, 1800);
+  } else announce(tr("copyError"));
+});
 translate();
-fetch('assets/guide.json').then(response=>{if(!response.ok)throw new Error('Guide unavailable');return response.json()}).then(data=>{guide=data;renderGuide();if(location.hash.startsWith('#step-'))document.getElementById(location.hash.slice(1))?.scrollIntoView()}).catch(()=>{document.getElementById('guide-steps').textContent=tr('guideError')});
+fetch("assets/guide.json")
+  .then((response) => {
+    if (!response.ok) throw new Error("Guide unavailable");
+    return response.json();
+  })
+  .then((data) => {
+    guide = data;
+    renderGuide();
+    if (location.hash.startsWith("#step-"))
+      document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  })
+  .catch(() => {
+    document.getElementById("guide-steps").textContent = tr("guideError");
+  });

@@ -9,7 +9,7 @@ Panduan untuk Mac. Membutuhkan Neovim 0.12+ dan Python 3.9+. Linux belum diuji m
 
 ## 1. Buka Terminal
 
-Tekan Command + Space, ketik Terminal, lalu Enter. Panduan ini memakai zsh, shell bawaan macOS. Tempel perintah dengan Command + V, lalu Enter. Salin perintahnya saja, tanpa tanda $.
+Tekan Command + Space, ketik Terminal, lalu Enter. Panduan ini memakai zsh, shell bawaan macOS. Tempel perintah dengan Command + V, lalu Enter. Salin perintahnya saja, tanpa tanda $. Prompt adalah baris tempat Terminal menerima perintah berikutnya.
 
 **Tanda berhasil:** Jendela Terminal terbuka. Internet tersedia dan kamu boleh memasang aplikasi di Mac ini.
 
@@ -101,7 +101,7 @@ cd nvim-workbench
 
 ## 6. Buka workspace latihan dengan dua repo
 
-Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview.
+Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview.
 
 **Terminal**
 
@@ -161,7 +161,7 @@ Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend
 
 ## 9. Buka proyek sendiri dengan mudah
 
-Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut.
+PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut.
 
 **Terminal**
 
