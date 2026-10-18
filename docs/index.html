@@ -20,8 +20,8 @@
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://ardanngrha.github.io/vimdesk/" />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="assets/site.css?v=3" />
-    <script src="assets/site.js?v=3" defer></script>
+    <link rel="stylesheet" href="assets/site.css?v=4" />
+    <script src="assets/site.js?v=4" defer></script>
     <title>VimDesk</title>
   </head>
   <body>
@@ -45,6 +45,17 @@
           <summary data-i18n="contents">Daftar isi</summary>
           <nav aria-label="Documentation">
             <a href="#install" data-i18n="installTitle">Install</a>
+            <div id="platform-nav">
+              <a data-platform="macos" href="?lang=id&amp;os=macos#install"
+                >macOS</a
+              >
+              <a data-platform="linux" href="?lang=id&amp;os=linux#install"
+                >Linux (Ubuntu / Debian)</a
+              >
+              <a data-platform="windows" href="?lang=id&amp;os=windows#install"
+                >Windows (WSL 2)</a
+              >
+            </div>
             <div id="step-nav"></div>
             <a href="#next" data-i18n="extrasTitle">Pengaturan tambahan</a>
             <a href="#preview" data-i18n="previewTitle">Tampilan</a>
@@ -72,16 +83,6 @@
           >
         </header>
         <section id="install" aria-labelledby="install-title">
-          <div class="platform-picker">
-            <label for="platform" data-i18n="platform">Sistem operasi</label>
-            <span class="language-control">
-              <select id="platform">
-                <option value="macos">macOS</option>
-                <option value="linux">Linux (Ubuntu / Debian)</option>
-                <option value="windows">Windows (WSL 2)</option>
-              </select>
-            </span>
-          </div>
           <h2 id="install-title" data-i18n="installTitle">Install</h2>
           <p id="platform-note" class="muted"></p>
           <p data-i18n="installIntro">

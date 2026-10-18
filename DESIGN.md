@@ -15,6 +15,6 @@ This records the owner's instructions: a simple site, direct wording, no promoti
 - Responsive behavior: collapsible contents above the reading column on narrow screens; contents alongside the document when both columns fit.
 - ENERGY 1 / RHYTHM 1 / MOTION 1: quiet documentation, regular step structure, and no scripted animation or smooth scrolling.
 - Identity motif: consistent Terminal / Inside Neovim labels tie each instruction to the place where it is run.
-- Platform guidance: one native OS selector changes the existing numbered guide, contents, source references, and Markdown link. PowerShell blocks are explicitly labelled before the Windows guide switches to Ubuntu. No automatic OS detection; the selected OS is shareable in the URL. Linux and WSL are documented paths, not claimed runtime-verified platforms.
+- Platform guidance: the owner requested visible macOS, Linux, and Windows links in the table of contents instead of a dropdown. The three links appear before the current guide's numbered steps and mark the active guide. Each changes the guide, references, and Markdown destination. Native URLs allow sharing, opening a new tab, and browser Back/Forward. PowerShell blocks are labelled before the Windows guide switches to Ubuntu. Linux and WSL remain documented paths without runtime verification.
 
 Anti-slop core, UI, copywriting, and mobile-layout rules are applied in DURING mode, selected by the owner for this session. The skill is read from its supplied source without installing global settings or changing agent entry files.

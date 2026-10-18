@@ -10,7 +10,6 @@ const strings = {
       "Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil vimdesk, terpisah dari ~/.config/nvim. Pilih panduan sesuai sistem operasi; Windows memakai WSL 2.",
     markdownGuide: "Panduan Markdown",
     installTitle: "Install",
-    platform: "Sistem operasi",
     installIntro:
       "Ikuti langkah berurutan. Jika suatu alat sudah terpasang, cek versinya lalu lanjutkan.",
     loading: "Memuat langkah instalasi…",
@@ -73,7 +72,6 @@ const strings = {
       "Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate vimdesk profile, away from ~/.config/nvim. Choose your operating-system guide; Windows uses WSL 2.",
     markdownGuide: "Markdown guide",
     installTitle: "Install",
-    platform: "Operating system",
     installIntro:
       "Follow the steps in order. If a tool is already installed, check its version and continue.",
     loading: "Loading installation steps…",
@@ -309,7 +307,16 @@ function translate() {
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = tr(node.dataset.i18n);
   });
-  document.getElementById("platform").value = platform;
+  document.querySelectorAll("[data-platform]").forEach((link) => {
+    const url = new URL(location.href);
+    url.searchParams.set("lang", language);
+    url.searchParams.set("os", link.dataset.platform);
+    url.hash = "install";
+    link.href = url.href;
+    if (link.dataset.platform === platform)
+      link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
   const filename =
     (language === "id" ? "mulai-dari-nol" : "getting-started") +
     (platform === "macos" ? "" : `-${platform}`);
@@ -328,16 +335,35 @@ document.getElementById("language").addEventListener("change", (event) => {
   translate();
 });
 
-document.getElementById("platform").addEventListener("change", (event) => {
-  platform = event.target.value;
-  const url = new URL(location.href);
-  url.searchParams.set("os", platform);
-  if (url.hash.startsWith("#step-")) url.hash = "install";
-  history.replaceState(null, "", url);
+document.getElementById("platform-nav").addEventListener("click", (event) => {
+  const link = event.target.closest("a[data-platform]");
+  if (
+    !link ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
+  event.preventDefault();
+  platform = link.dataset.platform;
+  history.pushState(null, "", link.href);
   translate();
+  if (!wideLayout.matches) contents.open = false;
+  document.getElementById("install").scrollIntoView();
   announce(
     platformGuides?.platforms[platform].title[language] || tr("installTitle"),
   );
+});
+
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(location.search);
+  platform = ["macos", "linux", "windows"].includes(params.get("os"))
+    ? params.get("os")
+    : "macos";
+  if (["id", "en"].includes(params.get("lang"))) language = params.get("lang");
+  translate();
 });
 
 const contents = document.getElementById("contents");

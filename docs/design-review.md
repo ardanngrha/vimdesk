@@ -113,3 +113,17 @@ The existing item-by-item gate above applies to the retained components and visu
 - Reload PASS: the selected Linux OS and Indonesian language survived reloading the shareable URL.
 
 Sources checked: [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux), [Homebrew support tiers](https://docs.brew.sh/Support-Tiers), [current Neovim formula](https://formulae.brew.sh/formula/neovim), [Microsoft WSL installation](https://learn.microsoft.com/en-us/windows/wsl/install), [WSL file storage](https://learn.microsoft.com/en-us/windows/wsl/filesystems), and [WSL troubleshooting](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting). The new guides link directly to their relevant references.
+
+## Visible platform links in the contents
+
+The owner requested that macOS, Linux, and Windows appear in the left table of contents instead of an OS dropdown. All three native links now appear before the current guide's numbered steps. The language selector remains unchanged.
+
+- Hard gate PASS, scoped: the OS dropdown was removed; all three native links have real, shareable destinations and preserve the current language. No new content claims or visual assets were introduced.
+- R-03 PASS: the 320px page matched the viewport width, and each OS link measured 44px high. The existing mobile contents disclosure opens, and choosing a guide closes it and navigates to the instructions.
+- R-24 / R-26 / R-35 PASS: clicking macOS, Linux, and Windows rendered their 9, 9, and 10 steps with the correct title, URL, and active link. Browser Back returned from Windows to Linux; Forward restored Windows.
+- R-25 / R-32 PASS, scoped: links inherit the established text palette; Enter activated the Linux link, preserving a visible 2px keyboard outline.
+- R-23 / R-37 PASS: the owner explicitly chose table-of-contents navigation. DESIGN.md records this direction.
+- R-33 PASS: the HTML, CSS, and JavaScript were edited directly; the formatter only reformatted those source files.
+- Purpose gate PASS: the selected link uses the existing accent and a left border to identify the active guide. This is a navigation state, not decoration. All three choices remain together above the numbered steps.
+- Liveliness PASS: ENERGY 1 / RHYTHM 1 / MOTION 1 is unchanged; the existing reading column, typography, and command-context labels remain.
+- Craftsmanship PASS, scoped: no guide data, installation command, fallback, or editor configuration changed. The previously recorded item-by-item gate applies to the retained components. English destinations were checked, the mobile selection worked, and the normal-page browser error log was empty.
