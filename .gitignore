@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 .venv/
 .test-artifacts/
+.vimdesk.json
 .nvim-workbench.json
 nvim.log

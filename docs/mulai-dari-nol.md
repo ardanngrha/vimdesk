@@ -3,7 +3,7 @@
 
 Mulai di sini kalau belum pernah memasang Neovim, Homebrew, atau alat developer lewat Terminal. Ikuti langkah secara berurutan. Tidak perlu akun GitHub atau AI untuk mencoba workspace latihan lokal.
 
-[Interactive guide / Panduan interaktif](https://ardanngrha.github.io/nvim-workbench/?lang=id#install)
+[Interactive guide / Panduan interaktif](https://ardanngrha.github.io/vimdesk/?lang=id#install)
 
 Panduan untuk Mac. Membutuhkan Neovim 0.12+ dan Python 3.9+. Linux belum diuji menyeluruh; Windows belum didukung.
 
@@ -89,19 +89,19 @@ Neovim adalah editornya; repo ini menambahkan tampilan dan alur kerjanya. Perint
 ```sh
 mkdir -p "$HOME/Developer"
 cd "$HOME/Developer"
-git clone https://github.com/ardanngrha/nvim-workbench.git
-cd nvim-workbench
+git clone https://github.com/ardanngrha/vimdesk.git
+cd vimdesk
 ./install.sh doctor
 ./install.sh
 ```
 
-**Tanda berhasil:** Installer mencetak Installed, Backup, dan Launch. Config default-nya ada di ~/.config/nvim-workbench dan launcher di ~/.local/bin/nvim-workbench. Folder ~/.config/nvim yang sudah ada tetap tersimpan.
+**Tanda berhasil:** Installer mencetak Installed, Backup, dan Launch. Config default-nya ada di ~/.config/vimdesk dan launcher di ~/.local/bin/vimdesk. Folder ~/.config/nvim yang sudah ada tetap tersimpan.
 
 > Tanda [--] di Doctor untuk language server, codex, atau claude bersifat opsional. Alat utama yang hilang atau versi Neovim yang terlalu lama perlu diperbaiki dulu. Jika folder checkout sudah ada, pakai panduan update di bawah; jangan hapus folder yang sudah ada.
 
 ## 6. Buka workspace latihan dengan dua repo
 
-Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview.
+Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber vimdesk, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview.
 
 **Terminal**
 
@@ -161,23 +161,23 @@ Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend
 
 ## 9. Buka proyek sendiri
 
-PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut.
+PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar vimdesk bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut.
 
 **Terminal**
 
 ```sh
 printf '\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$HOME/.zshrc"
 source "$HOME/.zshrc"
-command -v nvim-workbench
+command -v vimdesk
 ```
 
 **Terminal: Buka folder induk sungguhan**
 
 ```sh
-nvim-workbench "$HOME/Developer"
+vimdesk "$HOME/Developer"
 ```
 
-**Tanda berhasil:** command -v mencetak lokasi launcher. Neovim membuka folder induk yang dipilih. Untuk workspace milikmu, ganti path contoh atau tarik folder dari Finder ke Terminal setelah mengetik nvim-workbench dan satu spasi.
+**Tanda berhasil:** command -v mencetak lokasi launcher. Neovim membuka folder induk yang dipilih. Untuk workspace milikmu, ganti path contoh atau tarik folder dari Finder ke Terminal setelah mengetik vimdesk dan satu spasi.
 
 > Buka folder induk dari beberapa repo Git untuk melihat semuanya. Jika hanya ingin satu repo, buka folder repo itu langsung. Language server, AI, dan autentikasi Git remote adalah pengaturan tambahan terpisah.
 
@@ -186,7 +186,7 @@ nvim-workbench "$HOME/Developer"
 Untuk completion, diagnostik, dan formatting, pasang language server dari folder sumber:
 
 ```sh
-cd "$HOME/Developer/nvim-workbench"
+cd "$HOME/Developer/vimdesk"
 ./scripts/dependencies.sh languages
 ```
 
@@ -199,8 +199,8 @@ Repo latihan tidak memiliki remote. Untuk proyek sungguhan, siapkan remote dan l
 ## Kalau mentok
 
 - **brew: command not found:** Jalankan Next steps persis seperti yang dicetak installer Homebrew, lalu buka ulang Terminal.
-- **destination path already exists:** Sumbernya sudah pernah diunduh. Jalankan cd "$HOME/Developer/nvim-workbench", lalu git pull --ff-only dan ./install.sh. Simpan dulu perubahan lokal milikmu.
-- **nvim-workbench: command not found:** Pakai ~/.local/bin/nvim-workbench, atau selesaikan langkah 9 untuk menambahkan launcher ke PATH.
+- **destination path already exists:** Sumbernya sudah pernah diunduh. Jalankan cd "$HOME/Developer/vimdesk", lalu git pull --ff-only dan ./install.sh. Simpan dulu perubahan lokal milikmu.
+- **vimdesk: command not found:** Pakai ~/.local/bin/vimdesk, atau selesaikan langkah 9 untuk menambahkan launcher ke PATH.
 - **Cannot type / tidak bisa mengetik:** Tekan i untuk masuk Insert mode. Tekan Esc untuk kembali ke Normal mode sebelum shortcut atau perintah titik dua.
 - **No completion / tidak ada completion:** Server LSP bersifat opsional. Pasang server dan runtime proyek yang sesuai, buka file sumber, lalu jalankan :checkhealth vim.lsp.
 - **No author identity / identitas commit belum ada:** Untuk repo sendiri, atur user.name dan user.email mengikuti panduan penyedia Git. Demo hanya menyediakan identitas lokal untuk repo latihan.

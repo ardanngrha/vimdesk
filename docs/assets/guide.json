@@ -128,13 +128,13 @@
       },
       "blocks": [
         {
-          "code": "mkdir -p \"$HOME/Developer\"\ncd \"$HOME/Developer\"\ngit clone https://github.com/ardanngrha/nvim-workbench.git\ncd nvim-workbench\n./install.sh doctor\n./install.sh",
+          "code": "mkdir -p \"$HOME/Developer\"\ncd \"$HOME/Developer\"\ngit clone https://github.com/ardanngrha/vimdesk.git\ncd vimdesk\n./install.sh doctor\n./install.sh",
           "where": "terminal"
         }
       ],
       "expected": {
-        "en": "The installer prints Installed, Backup, and Launch. Its default config is ~/.config/nvim-workbench and its launcher is ~/.local/bin/nvim-workbench. Your existing ~/.config/nvim is preserved.",
-        "id": "Installer mencetak Installed, Backup, dan Launch. Config default-nya ada di ~/.config/nvim-workbench dan launcher di ~/.local/bin/nvim-workbench. Folder ~/.config/nvim yang sudah ada tetap tersimpan."
+        "en": "The installer prints Installed, Backup, and Launch. Its default config is ~/.config/vimdesk and its launcher is ~/.local/bin/vimdesk. Your existing ~/.config/nvim is preserved.",
+        "id": "Installer mencetak Installed, Backup, dan Launch. Config default-nya ada di ~/.config/vimdesk dan launcher di ~/.local/bin/vimdesk. Folder ~/.config/nvim yang sudah ada tetap tersimpan."
       },
       "note": {
         "en": "Doctor’s [--] next to a language server, codex, or claude is optional. Missing core tools or an unsupported Neovim version must be fixed first. If the checkout folder already exists, use the update instructions below; do not delete your existing folder.",
@@ -148,8 +148,8 @@
         "id": "Buka workspace latihan dengan dua repo"
       },
       "intro": {
-        "en": "A repository (repo) is a project folder whose history is tracked with Git. From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.",
-        "id": "Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview."
+        "en": "A repository (repo) is a project folder whose history is tracked with Git. From the vimdesk source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.",
+        "id": "Repository (repo) adalah folder proyek yang riwayat perubahannya disimpan oleh Git. Dari folder sumber vimdesk, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview."
       },
       "blocks": [
         {
@@ -251,16 +251,16 @@
         "id": "Buka proyek sendiri"
       },
       "intro": {
-        "en": "PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
-        "id": "PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut."
+        "en": "PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so vimdesk works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
+        "id": "PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar vimdesk bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut."
       },
       "blocks": [
         {
-          "code": "printf '\\nexport PATH=\"$HOME/.local/bin:$PATH\"\\n' >> \"$HOME/.zshrc\"\nsource \"$HOME/.zshrc\"\ncommand -v nvim-workbench",
+          "code": "printf '\\nexport PATH=\"$HOME/.local/bin:$PATH\"\\n' >> \"$HOME/.zshrc\"\nsource \"$HOME/.zshrc\"\ncommand -v vimdesk",
           "where": "terminal"
         },
         {
-          "code": "nvim-workbench \"$HOME/Developer\"",
+          "code": "vimdesk \"$HOME/Developer\"",
           "where": "terminal",
           "label": {
             "en": "Open a real parent folder",
@@ -269,8 +269,8 @@
         }
       ],
       "expected": {
-        "en": "command -v prints the launcher path. Neovim opens the selected parent folder. For your own workspace, replace the example path or drag a Finder folder into Terminal after typing nvim-workbench and a space.",
-        "id": "command -v mencetak lokasi launcher. Neovim membuka folder induk yang dipilih. Untuk workspace milikmu, ganti path contoh atau tarik folder dari Finder ke Terminal setelah mengetik nvim-workbench dan satu spasi."
+        "en": "command -v prints the launcher path. Neovim opens the selected parent folder. For your own workspace, replace the example path or drag a Finder folder into Terminal after typing vimdesk and a space.",
+        "id": "command -v mencetak lokasi launcher. Neovim membuka folder induk yang dipilih. Untuk workspace milikmu, ganti path contoh atau tarik folder dari Finder ke Terminal setelah mengetik vimdesk dan satu spasi."
       },
       "note": {
         "en": "Open the parent of your Git repos to see them together. If you just want one repository, opening its folder works too. Language servers, AI and remote Git authentication are separate optional setup steps.",

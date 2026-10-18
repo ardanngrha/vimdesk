@@ -7,7 +7,7 @@ const strings = {
     description:
       "Konfigurasi Neovim untuk bekerja dengan beberapa repo Git. Termasuk sidebar Git, LazyGit, diff, dan search/replace.",
     requirements:
-      "Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil nvim-workbench, terpisah dari ~/.config/nvim.",
+      "Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil vimdesk, terpisah dari ~/.config/nvim.",
     markdownGuide: "Panduan Markdown",
     installTitle: "Install di macOS",
     installIntro:
@@ -44,13 +44,13 @@ const strings = {
     faqTitle: "Masalah umum",
     faqQ1: "Config Neovim lama akan tertimpa?",
     faqA1:
-      "Install default memakai profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default membutuhkan flag khusus di dokumentasi.",
+      "Install default memakai profil vimdesk, terpisah dari ~/.config/nvim. Upgrade profil VimDesk membuat backup. Mengganti config default membutuhkan flag khusus di dokumentasi.",
     faqQ2: "Perlu akun AI atau GitHub?",
     faqA2:
       "Download repo publik dan latihan lokal tidak membutuhkan login. AI opsional. Push ke proyek sungguhan membutuhkan remote, identitas commit, dan autentikasi Git. Repo latihan tidak memiliki remote.",
-    faqQ3: "brew atau nvim-workbench tidak ditemukan",
+    faqQ3: "brew atau vimdesk tidak ditemukan",
     faqA3:
-      "Untuk brew, jalankan Next steps dari installer Homebrew. Untuk workbench, pakai ~/.local/bin/nvim-workbench atau ikuti langkah PATH. Buka ulang Terminal setelah mengubah konfigurasi shell.",
+      "Untuk brew, jalankan Next steps dari installer Homebrew. Untuk VimDesk, pakai ~/.local/bin/vimdesk atau ikuti langkah PATH. Buka ulang Terminal setelah mengubah konfigurasi shell.",
     faqQ4: "Tidak bisa mengetik atau keluar dari Neovim",
     faqA4:
       "Tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode. Ketik :w lalu Enter untuk menyimpan, atau :qa lalu Enter untuk keluar. Space q q membuka konfirmasi jika ada perubahan belum tersimpan.",
@@ -59,7 +59,7 @@ const strings = {
       "Panduan ini untuk macOS. Installer POSIX/Linux belum diuji menyeluruh. Windows belum didukung. Untuk Mac Intel atau macOS lama, cek dukungan Homebrew sebelum mulai.",
     faqQ6: "Folder sudah ada saat git clone",
     faqA6:
-      "Buka folder nvim-workbench yang sudah diunduh, simpan perubahan lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus folder yang berisi pekerjaanmu.",
+      "Buka folder vimdesk yang sudah diunduh, simpan perubahan lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus folder yang berisi pekerjaanmu.",
     report: "Laporkan masalah",
   },
   en: {
@@ -68,7 +68,7 @@ const strings = {
     description:
       "Neovim configuration for working across Git repositories. Includes a Git sidebar, LazyGit, diff views, and search/replace.",
     requirements:
-      "This guide targets macOS. Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate nvim-workbench profile, away from ~/.config/nvim.",
+      "This guide targets macOS. Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate vimdesk profile, away from ~/.config/nvim.",
     markdownGuide: "Markdown guide",
     installTitle: "Install on macOS",
     installIntro:
@@ -106,13 +106,13 @@ const strings = {
     faqTitle: "Troubleshooting",
     faqQ1: "Will this overwrite my existing Neovim config?",
     faqA1:
-      "The default install uses a separate nvim-workbench profile, away from ~/.config/nvim. Workbench upgrades create backups. Replacing the default config requires an explicit flag described in the docs.",
+      "The default install uses a separate vimdesk profile, away from ~/.config/nvim. VimDesk upgrades create backups. Replacing the default config requires an explicit flag described in the docs.",
     faqQ2: "Do I need an AI or GitHub account?",
     faqA2:
       "Downloading the public repo and practicing locally needs no login. AI is optional. Pushing real projects needs a remote, commit identity, and Git authentication. Practice repositories have no remotes.",
-    faqQ3: "brew or nvim-workbench is not found",
+    faqQ3: "brew or vimdesk is not found",
     faqA3:
-      "For brew, follow the Homebrew installer’s Next steps. For workbench, use ~/.local/bin/nvim-workbench or complete the PATH step. Reopen Terminal after changing shell configuration.",
+      "For brew, follow the Homebrew installer’s Next steps. For VimDesk, use ~/.local/bin/vimdesk or complete the PATH step. Reopen Terminal after changing shell configuration.",
     faqQ4: "Cannot type or quit Neovim",
     faqA4:
       "Press i to type, then Esc to return to Normal mode. Type :w and Enter to save, or :qa and Enter to quit. Space q q offers a confirmation when changes are unsaved.",
@@ -121,7 +121,7 @@ const strings = {
       "This guide targets macOS. The POSIX/Linux installer has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.",
     faqQ6: "The folder already exists during git clone",
     faqA6:
-      "Open the existing nvim-workbench folder, preserve local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
+      "Open the existing vimdesk folder, preserve local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
     report: "Report an issue",
   },
 };
@@ -281,7 +281,7 @@ function translate() {
   });
   const filename = language === "id" ? "mulai-dari-nol" : "getting-started";
   document.getElementById("markdown-guide").href =
-    `https://github.com/ardanngrha/nvim-workbench/blob/main/docs/${filename}.md`;
+    `https://github.com/ardanngrha/vimdesk/blob/main/docs/${filename}.md`;
   renderView();
   renderGuide();
 }

@@ -16,7 +16,7 @@ for package in $packages; do
   fi
 done
 if [ "${1:-core}" = languages ]; then
-  APP_NAME=${NVIM_APPNAME:-nvim-workbench}
+  APP_NAME=${NVIM_APPNAME:-vimdesk}
   DATA_BASE=${XDG_DATA_HOME:-"$HOME/.local/share"}
   case "$APP_NAME" in *[!A-Za-z0-9_-]*|'') echo 'Invalid NVIM_APPNAME' >&2; exit 2;; esac
   TOOLS_DIR="$DATA_BASE/$APP_NAME/tools"

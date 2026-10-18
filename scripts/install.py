@@ -13,7 +13,8 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-MARKER = '.nvim-workbench.json'
+MARKER = '.vimdesk.json'
+LEGACY_MARKER = '.nvim-workbench.json'
 
 if sys.version_info < (3, 9):
     sys.exit('Python 3.9 or newer is required.')
@@ -52,7 +53,7 @@ def write_launcher(path, appname, config_home):
 
 
 def backup_dir(config_home, appname):
-    parent = config_home / 'nvim-workbench-backups'
+    parent = config_home / 'vimdesk-backups'
     parent.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')
     result = parent / (appname + '-' + stamp)
@@ -90,7 +91,7 @@ def rollback(target, launcher, backup):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', nargs='?', choices=['install', 'doctor', 'uninstall', 'restore'], default='install')
-    parser.add_argument('--appname', default='nvim-workbench', help='separate Neovim profile (default: nvim-workbench)')
+    parser.add_argument('--appname', default='vimdesk', help='separate Neovim profile (default: vimdesk)')
     parser.add_argument('--replace-default', action='store_true', help='required with --appname nvim')
     parser.add_argument('--config-home', type=Path, default=Path(os.environ.get('XDG_CONFIG_HOME') or Path.home() / '.config'))
     parser.add_argument('--bin-dir', type=Path, default=Path.home() / '.local/bin')
@@ -100,14 +101,14 @@ def main():
         return run_doctor()
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*', args.appname):
         parser.error('--appname must be a single directory name containing letters, digits, _ or -')
-    if args.appname in {'nvim-workbench-backups', 'nvim-workbench-temp'}:
+    if args.appname in {'vimdesk-backups', 'vimdesk-temp', 'nvim-workbench-backups', 'nvim-workbench-temp'}:
         parser.error('reserved app name')
     if args.appname == 'nvim' and not args.replace_default:
         parser.error('use --replace-default to explicitly replace your default config (it will be backed up)')
     config_home = args.config_home.expanduser().resolve()
     bin_dir = args.bin_dir.expanduser().resolve()
     target = config_home / args.appname
-    launcher = bin_dir / ('nvim-workbench' if args.appname == 'nvim' else args.appname)
+    launcher = bin_dir / ('vimdesk' if args.appname == 'nvim' else args.appname)
     if target == launcher or target in launcher.parents or launcher in target.parents:
         parser.error('config and launcher paths must not overlap')
     if target == ROOT or target in ROOT.parents or ROOT in target.parents:
@@ -115,9 +116,10 @@ def main():
     config_home.mkdir(parents=True, exist_ok=True)
     bin_dir.mkdir(parents=True, exist_ok=True)
     if args.action == 'uninstall':
-        marker = target / MARKER
+        marker = next((target / name for name in [MARKER, LEGACY_MARKER]
+                       if (target / name).is_file()), target / MARKER)
         if target.is_symlink() or not marker.is_file() or json.loads(marker.read_text()).get('appname') != args.appname:
-            parser.error('refusing to uninstall a config not installed by nvim-workbench')
+            parser.error('refusing to uninstall a config not installed by vimdesk')
         backup = backup_dir(config_home, args.appname)
         move_out(target, launcher, backup)
         print('Uninstalled to backup: ' + str(backup))
@@ -127,8 +129,8 @@ def main():
         if not args.backup:
             parser.error('restore requires --backup DIRECTORY')
         old = args.backup.expanduser().absolute()
-        expected_parent = config_home / 'nvim-workbench-backups'
-        if old.is_symlink() or old.parent.resolve() != expected_parent.resolve() or not old.name.startswith(args.appname + '-'):
+        expected_parents = {config_home / 'vimdesk-backups', config_home / 'nvim-workbench-backups'}
+        if old.is_symlink() or old.parent.resolve() not in expected_parents or not old.name.startswith(args.appname + '-'):
             parser.error('backup must belong to this app under the config backup directory')
         if not exists(old / 'config') and not exists(old / 'launcher'):
             parser.error('backup is empty or has already been restored')
@@ -150,7 +152,7 @@ def main():
         print('Previous installation saved to: ' + str(backup))
         return 0
     # Stage a complete copy before moving anything currently installed.
-    with tempfile.TemporaryDirectory(prefix='nvim-workbench-temp-', dir=config_home) as temp:
+    with tempfile.TemporaryDirectory(prefix='vimdesk-temp-', dir=config_home) as temp:
         staged = Path(temp) / 'config'
         shutil.copytree(ROOT / 'config/nvim', staged)
         (staged / MARKER).write_text(json.dumps({'appname': args.appname, 'format': 1}) + '\n')
@@ -158,7 +160,7 @@ def main():
         write_launcher(staged_launcher, args.appname, config_home)
         backup = backup_dir(config_home, args.appname)
         # The launcher can be on a different filesystem. Stage it in bin_dir for atomic rename.
-        fd, launcher_tmp = tempfile.mkstemp(prefix='.nvim-workbench-', dir=bin_dir)
+        fd, launcher_tmp = tempfile.mkstemp(prefix='.vimdesk-', dir=bin_dir)
         os.close(fd)
         launcher_tmp = Path(launcher_tmp)
         try:

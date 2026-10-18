@@ -1,10 +1,10 @@
-# Neovim Workbench
+# VimDesk
 
 A Neovim workspace for people who work across several Git repositories and want visible, clickable controls alongside Vim motions.
 
 Open the parent folder. Switch repositories in the Git sidebar. Review changes side by side, resolve conflicts in three resizable panes, and draft a commit with your choice of Codex or Claude Code.
 
-**[Website & install guide](https://ardanngrha.github.io/nvim-workbench/)** · [English](docs/getting-started.md) · [Bahasa Indonesia](docs/mulai-dari-nol.md)
+**[Website & install guide](https://ardanngrha.github.io/vimdesk/)** · [English](docs/getting-started.md) · [Bahasa Indonesia](docs/mulai-dari-nol.md)
 
 ![Git sidebar and side-by-side review](docs/images/review.png)
 
@@ -22,21 +22,21 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 
 ## Install
 
-**New to Neovim or starting with a fresh Mac?** Follow the [interactive step-by-step website](https://ardanngrha.github.io/nvim-workbench/?lang=en#install), [English guide](docs/getting-started.md), or [panduan Bahasa Indonesia](docs/mulai-dari-nol.md). They start with opening Terminal and installing Apple tools, Homebrew, and Neovim, then walk through plugins, a two-repo practice workspace, saving and quitting.
+**New to Neovim or starting with a fresh Mac?** Follow the [interactive step-by-step website](https://ardanngrha.github.io/vimdesk/?lang=en#install), [English guide](docs/getting-started.md), or [panduan Bahasa Indonesia](docs/mulai-dari-nol.md). They start with opening Terminal and installing Apple tools, Homebrew, and Neovim, then walk through plugins, a two-repo practice workspace, saving and quitting.
 
 The quick path below is for people who already have Homebrew.
 
 **macOS tested.** POSIX/Linux installation is supported by the installer but has not been validated end to end. Windows is not supported. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. A normal monospace font works; Nerd Fonts are optional.
 
 ```sh
-git clone https://github.com/ardanngrha/nvim-workbench.git
-cd nvim-workbench
+git clone https://github.com/ardanngrha/vimdesk.git
+cd vimdesk
 ./scripts/dependencies.sh core       # optional: install missing macOS tools with Homebrew
 ./install.sh
-~/.local/bin/nvim-workbench /path/to/your/workspace
+~/.local/bin/vimdesk /path/to/your/workspace
 ```
 
-The installer copies the config into `~/.config/nvim-workbench` and creates `~/.local/bin/nvim-workbench`. Your default `~/.config/nvim` stays in place. Add `~/.local/bin` to your shell's PATH to launch with just `nvim-workbench`.
+The installer copies the config into `~/.config/vimdesk` and creates `~/.local/bin/vimdesk`. Your default `~/.config/nvim` stays in place. Add `~/.local/bin` to your shell's PATH to launch with just `vimdesk`.
 
 Plugins download on the first launch. Let Lazy finish, restart, then run `:WorkbenchParsers` to install syntax highlighting parsers. Run `:WorkbenchDoctor` for optional missing tools.
 
@@ -80,7 +80,7 @@ workspace/
 └── tools/         .git/
 ```
 
-Launch `nvim-workbench workspace/`. The workspace directory stays stable while LSP roots, Git actions, and terminals use the relevant child repository. Repository discovery also recognizes Git worktrees. Scans skip dependency/build directories and are bounded to six levels and 20,000 directories; open a narrower folder for very large workspaces.
+Launch `vimdesk workspace/`. The workspace directory stays stable while LSP roots, Git actions, and terminals use the relevant child repository. Repository discovery also recognizes Git worktrees. Scans skip dependency/build directories and are bounded to six levels and 20,000 directories; open a narrower folder for very large workspaces.
 
 ## AI commit drafts
 

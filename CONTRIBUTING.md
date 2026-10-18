@@ -36,7 +36,7 @@ Keep the lockfile in changes affecting plugins. Test updates in the separate wor
 
 ## Website and beginner guides
 
-The buildless website lives in `docs/` and GitHub Pages serves `main` → `/docs`. No custom Actions workflow or hosting service is required. The domain is https://ardanngrha.github.io/nvim-workbench/. All local assets use relative URLs for the project subpath.
+The buildless website lives in `docs/` and GitHub Pages serves `main` → `/docs`. No custom Actions workflow or hosting service is required. The domain is https://ardanngrha.github.io/vimdesk/. All local assets use relative URLs for the project subpath.
 
 Edit `docs/assets/guide.json` for installation steps. The website reads the same data used to generate English and Indonesian Markdown guides:
 

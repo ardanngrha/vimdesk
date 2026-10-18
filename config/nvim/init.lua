@@ -1,4 +1,4 @@
-if vim.fn.has('nvim-0.12') == 0 then error('nvim-workbench requires Neovim 0.12 or newer') end
+if vim.fn.has('nvim-0.12') == 0 then error('vimdesk requires Neovim 0.12 or newer') end
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.loaded_netrw = 1

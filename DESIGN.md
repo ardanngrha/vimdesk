@@ -1,6 +1,6 @@
 # Website direction
 
-This records the owner's instructions: a simple site, direct wording, no promotional copy, and installation instructions for someone starting with an empty Mac. The existing workbench uses TokyoNight Moon. The public name remains Neovim Workbench while naming is being discussed.
+This records the owner's instructions: a simple site, direct wording, no promotional copy, and installation instructions for someone starting with an empty Mac. The existing workbench uses TokyoNight Moon. The owner selected VimDesk as the project name.
 
 - Purpose: help a new user install and open the configuration.
 - Audience: a macOS user who may not have used Terminal or Neovim.

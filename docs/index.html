@@ -8,26 +8,26 @@
       name="description"
       content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS, penggunaan, dan troubleshooting dalam Bahasa Indonesia dan English."
     />
-    <meta property="og:title" content="Neovim Workbench" />
+    <meta property="og:title" content="VimDesk" />
     <meta
       property="og:description"
       content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS dan penggunaan."
     />
     <meta
       property="og:image"
-      content="https://ardanngrha.github.io/nvim-workbench/images/review.png"
+      content="https://ardanngrha.github.io/vimdesk/images/review.png"
     />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://ardanngrha.github.io/nvim-workbench/" />
+    <link rel="canonical" href="https://ardanngrha.github.io/vimdesk/" />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="assets/site.css" />
     <script src="assets/site.js" defer></script>
-    <title>Neovim Workbench</title>
+    <title>VimDesk</title>
   </head>
   <body>
     <a class="skip-link" href="#main" data-i18n="skip">Langsung ke konten</a>
     <header class="site-header">
-      <a class="brand" href="#overview">Neovim Workbench</a>
+      <a class="brand" href="#overview">VimDesk</a>
       <div class="header-controls">
         <label
           ><span class="sr-only">Language / Bahasa</span
@@ -36,7 +36,7 @@
             <option value="en">English</option>
           </select></label
         >
-        <a href="https://github.com/ardanngrha/nvim-workbench">GitHub</a>
+        <a href="https://github.com/ardanngrha/vimdesk">GitHub</a>
       </div>
     </header>
     <div class="document">
@@ -54,19 +54,19 @@
       </aside>
       <main id="main">
         <header id="overview" class="overview">
-          <h1>Neovim Workbench</h1>
+          <h1>VimDesk</h1>
           <p data-i18n="description">
             Konfigurasi Neovim untuk bekerja dengan beberapa repo Git. Termasuk
             sidebar Git, LazyGit, diff, dan search/replace.
           </p>
           <p class="muted" data-i18n="requirements">
             Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+.
-            Config dipasang sebagai profil nvim-workbench, terpisah dari
+            Config dipasang sebagai profil vimdesk, terpisah dari
             ~/.config/nvim.
           </p>
           <a
             id="markdown-guide"
-            href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/mulai-dari-nol.md"
+            href="https://github.com/ardanngrha/vimdesk/blob/main/docs/mulai-dari-nol.md"
             data-i18n="markdownGuide"
             >Panduan Markdown</a
           >
@@ -84,12 +84,12 @@
             ><p>
               JavaScript is off. Read the complete
               <a
-                href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/getting-started.md"
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/getting-started.md"
                 >English guide</a
               >
               or
               <a
-                href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/mulai-dari-nol.md"
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/mulai-dari-nol.md"
                 >panduan Bahasa Indonesia</a
               >.
             </p></noscript
@@ -133,11 +133,11 @@
                   Salin
                 </button>
               </div>
-              <pre><code id="lsp-code">cd "$HOME/Developer/nvim-workbench"
+              <pre><code id="lsp-code">cd "$HOME/Developer/vimdesk"
 ./scripts/dependencies.sh languages</code></pre>
             </div>
             <a
-              href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/installation.md#language-servers"
+              href="https://github.com/ardanngrha/vimdesk/blob/main/docs/installation.md#language-servers"
               data-i18n="lspMore"
               >Detail server dan runtime</a
             >
@@ -167,14 +167,14 @@
             <ul>
               <li>
                 <a
-                  href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/workflow.md"
+                  href="https://github.com/ardanngrha/vimdesk/blob/main/docs/workflow.md"
                   data-i18n="workflow"
                   >Editing, Git, konflik, dan search/replace</a
                 >
               </li>
               <li>
                 <a
-                  href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/installation.md#update-and-restore"
+                  href="https://github.com/ardanngrha/vimdesk/blob/main/docs/installation.md#update-and-restore"
                   data-i18n="maintenance"
                   >Update, restore, dan uninstall</a
                 >
@@ -251,7 +251,7 @@
               Config Neovim lama akan tertimpa?
             </summary>
             <p data-i18n="faqA1">
-              Install default memakai profil nvim-workbench, terpisah dari
+              Install default memakai profil vimdesk, terpisah dari
               ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti
               config default membutuhkan flag khusus di dokumentasi.
             </p>
@@ -266,11 +266,11 @@
           </details>
           <details>
             <summary data-i18n="faqQ3">
-              brew atau nvim-workbench tidak ditemukan
+              brew atau vimdesk tidak ditemukan
             </summary>
             <p data-i18n="faqA3">
               Untuk brew, jalankan Next steps dari installer Homebrew. Untuk
-              workbench, pakai ~/.local/bin/nvim-workbench atau ikuti langkah
+              VimDesk, pakai ~/.local/bin/vimdesk atau ikuti langkah
               PATH. Buka ulang Terminal setelah mengubah konfigurasi shell.
             </p>
           </details>
@@ -296,7 +296,7 @@
           <details>
             <summary data-i18n="faqQ6">Folder sudah ada saat git clone</summary>
             <p data-i18n="faqA6">
-              Buka folder nvim-workbench yang sudah diunduh, simpan perubahan
+              Buka folder vimdesk yang sudah diunduh, simpan perubahan
               lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan
               hapus folder yang berisi pekerjaanmu.
             </p>
@@ -305,10 +305,10 @@
         <footer>
           <a href="https://github.com/ardanngrha">Ardana Nugraha</a
           ><a
-            href="https://github.com/ardanngrha/nvim-workbench/blob/main/LICENSE"
+            href="https://github.com/ardanngrha/vimdesk/blob/main/LICENSE"
             >MIT</a
           ><a
-            href="https://github.com/ardanngrha/nvim-workbench/issues"
+            href="https://github.com/ardanngrha/vimdesk/issues"
             data-i18n="report"
             >Laporkan masalah</a
           >

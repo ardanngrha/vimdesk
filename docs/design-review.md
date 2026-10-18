@@ -79,6 +79,8 @@ Rules: [anti-slop core](https://github.com/miqdadbadjuber/anti-slop/blob/main/sk
 - Mobile contents: opened on tap, and closed after selecting a step.
 - Responsive checks: 320/320, 760/760 and 1280/1280 page/viewport widths; all measured actionable targets were at least 44 by 44 pixels.
 - Website color pairs: body 10.26:1, muted 7.92:1, links/focus 6.66:1, code 11.21:1, selected tab 7.27:1, hovered copy 5.26:1, control boundary 4.08:1.
-- Source checks: JavaScript parses; both static languages cover every translated HTML label; generated Markdown matches shared guide JSON; ten automated installer, AI-adapter and onboarding tests passed.
+- Source checks: JavaScript parses; both static languages cover every translated HTML label; generated Markdown matches shared guide JSON; eleven automated installer, AI-adapter and onboarding tests passed, including managing a legacy profile and its backup after the VimDesk rename.
+
+The renamed `vimdesk` launcher/profile also passed the native Neovim runtime test with three temporary repositories, cached locked plugins, real LazyGit startup, AI draft routing through the new config path, three-pane conflict resolution, local Fetch All, search and selected replacement. Existing user configs were not modified.
 
 External sites were checked by HTTP response, not exhaustively tested as applications. The guide's Homebrew/Apple instructions were checked against their sources; no factory-reset Mac was used for this revision. This review does not claim full Linux, Windows, or provider-CLI compatibility.

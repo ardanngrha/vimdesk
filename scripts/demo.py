@@ -10,7 +10,7 @@ import tempfile
 
 
 def create_demo():
-    parent = Path(tempfile.mkdtemp(prefix='nvim-workbench-demo-')).resolve()
+    parent = Path(tempfile.mkdtemp(prefix='vimdesk-demo-')).resolve()
     for name, filename, before, after in [
         ('backend', 'app.py', 'def greeting():\n    return "Hello"\n', 'def greeting():\n    return "Hello from the backend"\n'),
         ('frontend', 'app.js', 'export const title = "Hello";\n', 'export const title = "Hello from the frontend";\n'),
@@ -34,8 +34,8 @@ def main():
     args = cli.parse_args()
     if not shutil.which('git'):
         cli.error('Install Git first (brew install git).')
-    launcher = Path.home() / '.local/bin/nvim-workbench'
-    executable = str(launcher) if launcher.is_file() else shutil.which('nvim-workbench')
+    launcher = Path.home() / '.local/bin/vimdesk'
+    executable = str(launcher) if launcher.is_file() else shutil.which('vimdesk')
     if not args.print_only and not executable:
         cli.error('Run ./install.sh first, or put your custom launcher on PATH.')
     parent = create_demo()

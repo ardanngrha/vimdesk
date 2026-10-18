@@ -34,7 +34,7 @@ class OnboardingTests(unittest.TestCase):
                                     env=env, text=True, capture_output=True, check=True)
             parent = Path(result.stdout.strip()).resolve()
             self.assertEqual(parent.parent, Path(tempfile.gettempdir()).resolve())
-            self.assertTrue(parent.name.startswith('nvim-workbench-demo-'))
+            self.assertTrue(parent.name.startswith('vimdesk-demo-'))
             try:
                 self.assertEqual(sorted(path.name for path in parent.iterdir()), ['backend', 'frontend'])
                 for repo in parent.iterdir():

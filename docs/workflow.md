@@ -89,7 +89,7 @@ The chosen CLI receives the staged diff through stdin in a temporary working dir
 CLI invocation flags were checked with Codex 0.163.0 and Claude Code 2.1.302. If a newer CLI rejects them, write the subject manually and check Output. The generator only reads Git state and prints a draft. For terminal use:
 
 ```sh
-python3 "$HOME/.config/nvim-workbench/scripts/ai_commit.py" --agent codex
+python3 "$HOME/.config/vimdesk/scripts/ai_commit.py" --agent codex
 ```
 
 There is no default AI binding inside standalone LazyGit. This avoids overriding existing custom commands; the persistent sidebar supplies the agent picker, textbox, and review step.

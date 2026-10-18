@@ -1,6 +1,6 @@
 # Installation and maintenance
 
-**First time?** Start with [Install from a fresh Mac](getting-started.md), [panduan Bahasa Indonesia](mulai-dari-nol.md), or the [interactive website](https://ardanngrha.github.io/nvim-workbench/#install). This page covers reference requirements and maintenance after the beginner walkthrough.
+**First time?** Start with [Install from a fresh Mac](getting-started.md), [panduan Bahasa Indonesia](mulai-dari-nol.md), or the [interactive website](https://ardanngrha.github.io/vimdesk/#install). This page covers reference requirements and maintenance after the beginner walkthrough.
 
 ## Requirements
 
@@ -22,20 +22,20 @@ The dependency helper installs missing formulae only. It does not upgrade existi
 ## Separate profile by default
 
 ```sh
-~/.local/bin/nvim-workbench /path/to/parent-workspace
+~/.local/bin/vimdesk /path/to/parent-workspace
 ```
 
-The launcher sets `NVIM_APPNAME=nvim-workbench` and the installed config location. Neovim therefore uses its own config, data, state, and cache profile through [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME). The installer honors `XDG_CONFIG_HOME`; Neovim honors the other XDG variables at runtime.
+The launcher sets `NVIM_APPNAME=vimdesk` and the installed config location. Neovim therefore uses its own config, data, state, and cache profile through [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME). The installer honors `XDG_CONFIG_HOME`; Neovim honors the other XDG variables at runtime.
 
 Default paths:
 
 | Content | Location |
 | --- | --- |
-| Config | `~/.config/nvim-workbench` |
-| Launcher | `~/.local/bin/nvim-workbench` |
-| Plugins and optional JS tools | `~/.local/share/nvim-workbench` |
-| Sessions and state | `~/.local/state/nvim-workbench` |
-| Backups | `~/.config/nvim-workbench-backups` |
+| Config | `~/.config/vimdesk` |
+| Launcher | `~/.local/bin/vimdesk` |
+| Plugins and optional JS tools | `~/.local/share/vimdesk` |
+| Sessions and state | `~/.local/state/vimdesk` |
+| Backups | `~/.config/vimdesk-backups` |
 
 The source checkout is copied, not symlinked. You can move it after installation. Add `export PATH="$HOME/.local/bin:$PATH"` to your shell configuration if needed.
 
@@ -44,8 +44,8 @@ On first launch, let lazy.nvim finish downloading plugins and restart. The first
 For a scripted bootstrap:
 
 ```sh
-nvim-workbench --headless '+Lazy! restore' +qa
-nvim-workbench --headless "+lua require('nvim-treesitter').install(require('workbench_health').parsers):wait(300000)" +qa
+vimdesk --headless '+Lazy! restore' +qa
+vimdesk --headless "+lua require('nvim-treesitter').install(require('workbench_health').parsers):wait(300000)" +qa
 ```
 
 ## Language servers
@@ -73,6 +73,14 @@ The Git sidebar's Generate button asks which installed agent to use. Standard La
 
 ## Update and restore
 
+### Earlier nvim-workbench installations
+
+VimDesk was previously named nvim-workbench. The default installation now uses `~/.config/vimdesk` and `~/.local/bin/vimdesk`; existing profiles stay in place. Reinstall from the renamed checkout to use VimDesk.
+
+To uninstall or restore an older separate profile, pass `--appname nvim-workbench`. The installer recognizes its previous ownership marker and backup directory. Do not delete an earlier config or backup to perform the rename.
+
+### Current installations
+
 Pull the source checkout, then rerun the installer:
 
 ```sh
@@ -85,7 +93,7 @@ Every install prints a timestamped backup directory. It contains `config` and/or
 Restore a backup using the exact directory printed by the installer:
 
 ```sh
-./install.sh restore --backup "$HOME/.config/nvim-workbench-backups/nvim-workbench-TIMESTAMP"
+./install.sh restore --backup "$HOME/.config/vimdesk-backups/vimdesk-TIMESTAMP"
 ```
 
 Restore moves the current config and launcher to another backup first. It consumes the selected backup's config/launcher by moving them back into place. Plugin data, caches, sessions, and project files are never removed or restored by these operations.
@@ -106,13 +114,13 @@ For people who deliberately want `nvim` to use this config:
 ./install.sh --appname nvim --replace-default
 ```
 
-Your old config is moved to a backup first. Existing default-profile plugin data and state are reused, so the separate profile is the recommended way to try the project. The launcher is still named `nvim-workbench`; the regular `nvim` executable is never overwritten. Use the same two flags when restoring or uninstalling this profile.
+Your old config is moved to a backup first. Existing default-profile plugin data and state are reused, so the separate profile is the recommended way to try the project. The launcher is still named `vimdesk`; the regular `nvim` executable is never overwritten. Use the same two flags when restoring or uninstalling this profile.
 
 Custom locations are available with `--config-home` and `--bin-dir`. Pass the same locations to restore/uninstall. Run `./install.sh --help` for all options.
 
 ## Troubleshooting
 
-- **Command not found:** use `~/.local/bin/nvim-workbench` or add that directory to PATH.
+- **Command not found:** use `~/.local/bin/vimdesk` or add that directory to PATH.
 - **No colors / mouse:** check true color and mouse support in your terminal. `Space` shortcuts remain available even when macOS Command shortcuts are intercepted by the terminal.
 - **Missing completion/diagnostics:** run `:WorkbenchDoctor`, open a real project with its root file (`go.mod`, `package.json`, `Cargo.toml`, etc.), then check `:checkhealth vim.lsp`.
 - **Empty syntax highlighting:** install the parser tools and run `:WorkbenchParsers`. Missing parsers do not block editing.

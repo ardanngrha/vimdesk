@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import importlib.util
+import json
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,26 +39,26 @@ class InstallTests(unittest.TestCase):
 
     def test_isolated_install_quotes_and_update_restore(self):
         self.run_install()
-        target = self.config / 'nvim-workbench'
+        target = self.config / 'vimdesk'
         self.assertEqual((self.default / 'init.lua').read_text(), '-- original\n')
         (target / 'personal.lua').write_text('-- keep me\n')
-        previous_launcher = (self.bin / 'nvim-workbench').read_bytes()
+        previous_launcher = (self.bin / 'vimdesk').read_bytes()
         update = self.run_install()
         backup = self.backup(update)
         self.assertEqual((backup / 'config/personal.lua').read_text(), '-- keep me\n')
         self.assertFalse((target / 'personal.lua').exists())
         self.run_install('restore', '--backup', str(backup))
         self.assertEqual((target / 'personal.lua').read_text(), '-- keep me\n')
-        self.assertEqual((self.bin / 'nvim-workbench').read_bytes(), previous_launcher)
+        self.assertEqual((self.bin / 'vimdesk').read_bytes(), previous_launcher)
         # A fake nvim confirms the shell wrapper passes quoting, flags and profile variables intact.
         fake = self.home / 'fake'; fake.mkdir()
         executable = fake / 'nvim'
         executable.write_text('#!/bin/sh\nprintf "%s\\n" "$NVIM_APPNAME" "$XDG_CONFIG_HOME" "$@"\n')
         executable.chmod(0o755)
         env = {**os.environ, 'PATH': str(fake) + os.pathsep + os.environ['PATH']}
-        result = subprocess.run([str(self.bin / 'nvim-workbench'), 'workspace with spaces', '--headless'],
+        result = subprocess.run([str(self.bin / 'vimdesk'), 'workspace with spaces', '--headless'],
                                 env=env, text=True, capture_output=True, check=True)
-        self.assertEqual(result.stdout.splitlines(), ['nvim-workbench', str(self.config), 'workspace with spaces', '--headless'])
+        self.assertEqual(result.stdout.splitlines(), ['vimdesk', str(self.config), 'workspace with spaces', '--headless'])
 
     def test_default_requires_explicit_flag_and_backs_up(self):
         self.run_install('--appname', 'nvim', ok=False)
@@ -69,7 +70,7 @@ class InstallTests(unittest.TestCase):
         self.assertEqual((self.default / 'init.lua').read_text(), '-- original\n')
 
     def test_symlink_backup_and_uninstall_ownership(self):
-        target = self.config / 'nvim-workbench'
+        target = self.config / 'vimdesk'
         target.symlink_to(self.default, target_is_directory=True)
         self.run_install('uninstall', ok=False)
         result = self.run_install()
@@ -83,22 +84,22 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(target.resolve(), self.default)
 
     def test_unsafe_names_and_external_restore_refused(self):
-        for name in ['../nvim', '.hidden', 'nvim/workbench', 'nvim-workbench-backups']:
+        for name in ['../nvim', '.hidden', 'nvim/workbench', 'vimdesk-backups']:
             self.run_install('--appname', name, ok=False)
         self.run_install('restore', '--backup', str(self.home), ok=False)
 
     def test_failed_config_swap_restores_previous_installation(self):
         self.run_install()
-        target = self.config / 'nvim-workbench'
+        target = self.config / 'vimdesk'
         (target / 'personal.lua').write_text('-- preserved on failure\n')
-        original_launcher = (self.bin / 'nvim-workbench').read_bytes()
+        original_launcher = (self.bin / 'vimdesk').read_bytes()
         spec = importlib.util.spec_from_file_location('installer_under_test', ROOT / 'scripts/install.py')
         installer = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(installer)
         rename = Path.rename
 
         def fail_swap(path, destination):
-            if path.name == 'config' and path.parent.name.startswith('nvim-workbench-temp-'):
+            if path.name == 'config' and path.parent.name.startswith('vimdesk-temp-'):
                 raise OSError('simulated interrupted config swap')
             return rename(path, destination)
 
@@ -107,7 +108,20 @@ class InstallTests(unittest.TestCase):
                 with self.assertRaises(OSError):
                     installer.main()
         self.assertEqual((target / 'personal.lua').read_text(), '-- preserved on failure\n')
-        self.assertEqual((self.bin / 'nvim-workbench').read_bytes(), original_launcher)
+        self.assertEqual((self.bin / 'vimdesk').read_bytes(), original_launcher)
+
+    def test_legacy_profile_and_backup_remain_manageable(self):
+        legacy = self.config / 'nvim-workbench'
+        legacy.mkdir()
+        (legacy / '.nvim-workbench.json').write_text(json.dumps({'appname': 'nvim-workbench', 'format': 1}))
+        (legacy / 'init.lua').write_text('-- previous profile\n')
+        self.run_install('uninstall', '--appname', 'nvim-workbench')
+        self.assertFalse(legacy.exists())
+        old_backup = self.config / 'nvim-workbench-backups/nvim-workbench-previous'
+        (old_backup / 'config').mkdir(parents=True)
+        (old_backup / 'config/init.lua').write_text('-- recovered legacy backup\n')
+        self.run_install('restore', '--appname', 'nvim-workbench', '--backup', str(old_backup))
+        self.assertEqual((legacy / 'init.lua').read_text(), '-- recovered legacy backup\n')
 
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ def main():
     args = cli.parse_args()
     if args.screenshots and not args.font:
         cli.error('--screenshots requires --font /path/to/monospace.ttf')
-    with tempfile.TemporaryDirectory(prefix='nvim-workbench-demo-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='vimdesk-demo-') as temporary:
         temp = Path(temporary).resolve()
         parent = temp / 'Workspace'; parent.mkdir()
         env = dict(os.environ)
@@ -28,10 +28,10 @@ def main():
             env['XDG_' + kind.upper() + '_HOME'] = str(temp / kind)
         if args.data_home:
             env['XDG_DATA_HOME'] = str(args.data_home.resolve())
-        env.update(NVIM_APPNAME='nvim-workbench', GOTOOLCHAIN='local', GOPROXY='off')
+        env.update(NVIM_APPNAME='vimdesk', GOTOOLCHAIN='local', GOPROXY='off')
         subprocess.run([sys.executable, str(ROOT/'scripts/install.py'), '--config-home', str(temp/'config'),
                         '--bin-dir', str(temp/'bin')], capture_output=True, check=True)
-        launcher = str(temp/'bin/nvim-workbench')
+        launcher = str(temp/'bin/vimdesk')
         result = subprocess.run([launcher, '--headless', '+Lazy! restore', '+qa'], env=env,
                                 capture_output=True, text=True, timeout=300)
         assert result.returncode == 0, result.stderr[-3000:]

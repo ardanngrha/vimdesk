@@ -3,7 +3,7 @@
 
 Start here if you have never installed Neovim, Homebrew, or a terminal development tool. Follow the steps in order. No GitHub or AI account is needed for the local practice workspace.
 
-[Interactive guide / Panduan interaktif](https://ardanngrha.github.io/nvim-workbench/?lang=en#install)
+[Interactive guide / Panduan interaktif](https://ardanngrha.github.io/vimdesk/?lang=en#install)
 
 Mac-first guide. Neovim 0.12+ and Python 3.9+ are required. Linux has not been validated end to end; Windows is unsupported.
 
@@ -89,19 +89,19 @@ Neovim is the editor; this repository adds its interface and workflow. The comma
 ```sh
 mkdir -p "$HOME/Developer"
 cd "$HOME/Developer"
-git clone https://github.com/ardanngrha/nvim-workbench.git
-cd nvim-workbench
+git clone https://github.com/ardanngrha/vimdesk.git
+cd vimdesk
 ./install.sh doctor
 ./install.sh
 ```
 
-**Success check:** The installer prints Installed, Backup, and Launch. Its default config is ~/.config/nvim-workbench and its launcher is ~/.local/bin/nvim-workbench. Your existing ~/.config/nvim is preserved.
+**Success check:** The installer prints Installed, Backup, and Launch. Its default config is ~/.config/vimdesk and its launcher is ~/.local/bin/vimdesk. Your existing ~/.config/nvim is preserved.
 
 > Doctor’s [--] next to a language server, codex, or claude is optional. Missing core tools or an unsupported Neovim version must be fixed first. If the checkout folder already exists, use the update instructions below; do not delete your existing folder.
 
 ## 6. Open a two-repo practice workspace
 
-A repository (repo) is a project folder whose history is tracked with Git. From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.
+A repository (repo) is a project folder whose history is tracked with Git. From the vimdesk source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.
 
 **Terminal**
 
@@ -161,23 +161,23 @@ Press Space, release it, then g, then Shift + g. The Git sidebar should list bac
 
 ## 9. Open your own projects
 
-PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.
+PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so vimdesk works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.
 
 **Terminal**
 
 ```sh
 printf '\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$HOME/.zshrc"
 source "$HOME/.zshrc"
-command -v nvim-workbench
+command -v vimdesk
 ```
 
 **Terminal: Open a real parent folder**
 
 ```sh
-nvim-workbench "$HOME/Developer"
+vimdesk "$HOME/Developer"
 ```
 
-**Success check:** command -v prints the launcher path. Neovim opens the selected parent folder. For your own workspace, replace the example path or drag a Finder folder into Terminal after typing nvim-workbench and a space.
+**Success check:** command -v prints the launcher path. Neovim opens the selected parent folder. For your own workspace, replace the example path or drag a Finder folder into Terminal after typing vimdesk and a space.
 
 > Open the parent of your Git repos to see them together. If you just want one repository, opening its folder works too. Language servers, AI and remote Git authentication are separate optional setup steps.
 
@@ -186,7 +186,7 @@ nvim-workbench "$HOME/Developer"
 For completion, diagnostics and formatting, install language servers from the source checkout:
 
 ```sh
-cd "$HOME/Developer/nvim-workbench"
+cd "$HOME/Developer/vimdesk"
 ./scripts/dependencies.sh languages
 ```
 
@@ -199,8 +199,8 @@ The practice repos have no remotes. For real projects, configure a remote and au
 ## If something goes wrong
 
 - **brew: command not found:** Run the exact Next steps printed by the Homebrew installer, then reopen Terminal.
-- **destination path already exists:** The source was already downloaded. Use cd "$HOME/Developer/nvim-workbench", then git pull --ff-only and ./install.sh. Back up local edits first.
-- **nvim-workbench: command not found:** Use ~/.local/bin/nvim-workbench, or complete step 9 to add the launcher to PATH.
+- **destination path already exists:** The source was already downloaded. Use cd "$HOME/Developer/vimdesk", then git pull --ff-only and ./install.sh. Back up local edits first.
+- **vimdesk: command not found:** Use ~/.local/bin/vimdesk, or complete step 9 to add the launcher to PATH.
 - **Cannot type / tidak bisa mengetik:** Press i to enter Insert mode. Press Esc to return to Normal mode before shortcuts or colon commands.
 - **No completion / tidak ada completion:** LSP servers are optional. Install the relevant server and project runtime, open an actual source file, then run :checkhealth vim.lsp.
 - **No author identity / identitas commit belum ada:** For your own repo, configure user.name and user.email following your Git provider’s guide. The demo supplies its own local fixture identity only.
