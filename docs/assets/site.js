@@ -1,190 +1,152 @@
 "use strict";
+
 const strings = {
-  en: {
-    sources: "Official references",
-    skip: "Skip to content",
-    navPreview: "See the UI",
-    navInstall: "Install from zero",
-    heroTitle: "Many repos.<br><span>One workspace.</span>",
-    heroDescription:
-      "Review changes, switch repositories, and resolve conflicts in Neovim. Visible controls, with Vim shortcuts always close by.",
-    start: "Install from zero ↗",
-    viewSource: "View the source ↗",
-    heroNote: "macOS guide · Separate profile · Optional AI",
-    previewTitle: "A workspace you can see.",
-    realUI: "Real UI · practice repositories",
-    tabReview: "Git review",
-    tabConflicts: "Merge conflicts",
-    tabSearch: "Search & replace",
-    featureOne: "Multiple repositories.<br><strong>One Git sidebar.</strong>",
-    featureTwo:
-      "Incoming, Current, Result.<br><strong>Three resizable panes.</strong>",
-    featureThree:
-      "Codex or Claude Code.<br><strong>Draft, review, then commit.</strong>",
-    guideEyebrow: "FROM YOUR FIRST TERMINAL",
-    installTitle: "Start with<br> a fresh Mac.",
+  id: {
+    skip: "Langsung ke konten",
+    contents: "Daftar isi",
+    description:
+      "Konfigurasi Neovim untuk bekerja dengan beberapa repo Git. Termasuk sidebar Git, LazyGit, diff, dan search/replace.",
+    requirements:
+      "Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil nvim-workbench, terpisah dari ~/.config/nvim.",
+    markdownGuide: "Panduan Markdown",
+    installTitle: "Install di macOS",
     installIntro:
-      "Never installed Neovim? Follow the steps in order. Each explains where a command goes, what it does, and what success looks like.",
-    reset: "Reset",
-    progressNote:
-      "Your personal checklist, not automatic detection of your Mac.",
-    markdownGuide: "Read the Markdown guide ↗",
-    loading: "Loading the guide…",
-    copy: "Copy",
-    copied: "Copied",
-    copyError: "Select and copy the command manually.",
+      "Ikuti langkah berurutan. Jika suatu alat sudah terpasang, cek versinya lalu lanjutkan.",
+    loading: "Memuat langkah instalasi…",
+    guideError:
+      "Langkah instalasi gagal dimuat. Buka Panduan Markdown di atas untuk melanjutkan.",
+    guideEmpty:
+      "Langkah instalasi belum tersedia di halaman ini. Buka Panduan Markdown di atas.",
+    sources: "Referensi resmi",
+    terminal: "Terminal",
+    neovim: "Di dalam Neovim",
+    copy: "Salin",
+    copied: "Tersalin",
+    copyError: "Perintah belum tersalin. Pilih teks dan salin secara manual.",
+    success: "Tanda berhasil:",
+    extrasTitle: "Pengaturan tambahan",
+    lspTitle: "Language server (opsional)",
+    lspText:
+      "Language server menyediakan completion, diagnostik, dan formatting. Jalankan dari folder sumber untuk memasang server Go, Rust, JS/TS/React, dan Python. Proyek tetap membutuhkan runtime dan dependensinya sendiri.",
+    lspMore: "Detail server dan runtime",
+    aiTitle: "AI commit message (opsional)",
+    aiText:
+      "Pasang dan login Codex CLI atau Claude Code mengikuti panduan resminya. Simpan file, stage perubahan, klik Generate di sidebar Git, pilih agent, lalu review pesannya sebelum Commit. Staged diff dikirim ke provider memakai akunmu; biaya penggunaan normal berlaku.",
+    workflowTitle: "Pemakaian, update, dan backup",
+    workflow: "Editing, Git, konflik, dan search/replace",
+    maintenance: "Update, restore, dan uninstall",
+    previewTitle: "Tampilan",
+    previewOpen: "Lihat screenshot",
+    realUI: "Screenshot dari Neovim dengan repo latihan lokal.",
+    tabReview: "Git diff",
+    tabConflicts: "Konflik",
+    tabSearch: "Search/replace",
+    faqTitle: "Masalah umum",
+    faqQ1: "Config Neovim lama akan tertimpa?",
+    faqA1:
+      "Install default memakai profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default membutuhkan flag khusus di dokumentasi.",
+    faqQ2: "Perlu akun AI atau GitHub?",
+    faqA2:
+      "Download repo publik dan latihan lokal tidak membutuhkan login. AI opsional. Push ke proyek sungguhan membutuhkan remote, identitas commit, dan autentikasi Git. Repo latihan tidak memiliki remote.",
+    faqQ3: "brew atau nvim-workbench tidak ditemukan",
+    faqA3:
+      "Untuk brew, jalankan Next steps dari installer Homebrew. Untuk workbench, pakai ~/.local/bin/nvim-workbench atau ikuti langkah PATH. Buka ulang Terminal setelah mengubah konfigurasi shell.",
+    faqQ4: "Tidak bisa mengetik atau keluar dari Neovim",
+    faqA4:
+      "Tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode. Ketik :w lalu Enter untuk menyimpan, atau :qa lalu Enter untuk keluar. Space q q membuka konfirmasi jika ada perubahan belum tersimpan.",
+    faqQ5: "Dukungan Linux dan Windows",
+    faqA5:
+      "Panduan ini untuk macOS. Installer POSIX/Linux belum diuji menyeluruh. Windows belum didukung. Untuk Mac Intel atau macOS lama, cek dukungan Homebrew sebelum mulai.",
+    faqQ6: "Folder sudah ada saat git clone",
+    faqA6:
+      "Buka folder nvim-workbench yang sudah diunduh, simpan perubahan lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus folder yang berisi pekerjaanmu.",
+    report: "Laporkan masalah",
+  },
+  en: {
+    skip: "Skip to content",
+    contents: "Contents",
+    description:
+      "Neovim configuration for working across Git repositories. Includes a Git sidebar, LazyGit, diff views, and search/replace.",
+    requirements:
+      "This guide targets macOS. Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate nvim-workbench profile, away from ~/.config/nvim.",
+    markdownGuide: "Markdown guide",
+    installTitle: "Install on macOS",
+    installIntro:
+      "Follow the steps in order. If a tool is already installed, check its version and continue.",
+    loading: "Loading installation steps…",
+    guideError:
+      "Installation steps could not load. Open the Markdown guide above to continue.",
+    guideEmpty:
+      "Installation steps are not available on this page. Open the Markdown guide above.",
+    sources: "Official references",
     terminal: "Terminal",
     neovim: "Inside Neovim",
-    success: "Success check",
-    complete: "I completed this step",
-    progress: "steps marked",
-    extrasEyebrow: "AFTER YOUR FIRST SESSION",
-    extrasTitle: "Add what you need.",
-    extrasIntro:
-      "Start with editing and Git. Completion, diagnostics, and AI can come later.",
+    copy: "Copy",
+    copied: "Copied",
+    copyError:
+      "The command was not copied. Select the text and copy it manually.",
+    success: "Success check:",
+    extrasTitle: "Additional setup",
+    lspTitle: "Language servers (optional)",
     lspText:
-      "Install language servers from the source folder. Projects still need their own runtimes and dependencies.",
-    lspMore: "Server and runtime guide ↗",
-    aiTitle: "AI commits you still review",
+      "Language servers provide completion, diagnostics, and formatting. Run this from the source folder to install servers for Go, Rust, JS/TS/React, and Python. Projects still need their own runtimes and dependencies.",
+    lspMore: "Server and runtime details",
+    aiTitle: "AI commit messages (optional)",
     aiText:
-      "Install and authenticate Codex CLI or Claude Code using its official guide. In Git: save → stage → Generate → choose agent → review → Commit. The staged diff goes to the provider using your account; normal usage costs may apply.",
-    learningTitle: "From first shortcuts to first merge",
-    learningText:
-      "The full workflow guide covers copy/paste, undo, Git, merge conflicts, search/replace, updates, and restoring backups.",
-    workflow: "Workflow guide ↗",
-    maintenance: "Update & restore ↗",
-    faqTitle: "A little more help.",
+      "Install and authenticate Codex CLI or Claude Code using its official guide. Save files, stage changes, click Generate in the Git sidebar, select an agent, and review the message before Commit. The staged diff goes to the provider using your account; normal usage costs apply.",
+    workflowTitle: "Usage, updates, and backups",
+    workflow: "Editing, Git, conflicts, and search/replace",
+    maintenance: "Update, restore, and uninstall",
+    previewTitle: "Screenshots",
+    previewOpen: "Show screenshots",
+    realUI: "Screenshots from Neovim using local practice repositories.",
+    tabReview: "Git diff",
+    tabConflicts: "Conflicts",
+    tabSearch: "Search/replace",
+    faqTitle: "Troubleshooting",
     faqQ1: "Will this overwrite my existing Neovim config?",
     faqA1:
       "The default install uses a separate nvim-workbench profile, away from ~/.config/nvim. Workbench upgrades create backups. Replacing the default config requires an explicit flag described in the docs.",
-    faqQ2: "Can I use it without AI or a GitHub account?",
+    faqQ2: "Do I need an AI or GitHub account?",
     faqA2:
-      "Yes. Downloading the public repo and practicing locally needs no login. AI is optional. Pushing real projects needs a remote, commit identity, and Git authentication; the practice repos have no remotes.",
-    faqQ3: "Why is brew or nvim-workbench not found?",
+      "Downloading the public repo and practicing locally needs no login. AI is optional. Pushing real projects needs a remote, commit identity, and Git authentication. Practice repositories have no remotes.",
+    faqQ3: "brew or nvim-workbench is not found",
     faqA3:
-      "For brew, follow the Homebrew installer’s Next steps. For the launcher, use ~/.local/bin/nvim-workbench or complete the PATH step above. Open a new Terminal window after changing shell configuration.",
-    faqQ4: "Why can’t I type or quit?",
+      "For brew, follow the Homebrew installer’s Next steps. For workbench, use ~/.local/bin/nvim-workbench or complete the PATH step. Reopen Terminal after changing shell configuration.",
+    faqQ4: "Cannot type or quit Neovim",
     faqA4:
-      "Press i to type. Press Esc to return to Normal mode. Then :w and Enter saves, :qa and Enter quits. Space q q offers a quit confirmation when there are unsaved changes.",
-    faqQ5: "Does it work on Linux or Windows?",
+      "Press i to type, then Esc to return to Normal mode. Type :w and Enter to save, or :qa and Enter to quit. Space q q offers a confirmation when changes are unsaved.",
+    faqQ5: "Linux and Windows support",
     faqA5:
-      "This guide targets macOS. A POSIX/Linux installer is available but has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.",
-    faqQ6: "What if the nvim-workbench folder already exists?",
+      "This guide targets macOS. The POSIX/Linux installer has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.",
+    faqQ6: "The folder already exists during git clone",
     faqA6:
-      "The source has already been downloaded. Open that folder, preserve your local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
-    closingTitle: "One step at a time.",
-    closingText: "Start with Terminal. Your first workspace is in the guide.",
-    backInstall: "Start installing ↑",
-    report: "Report an issue ↗",
-    verification: "Verification notes ↗",
-    credits:
-      "Built on Neovim, LazyGit, Diffview, and open-source plugins. A static site on GitHub Pages.",
-    guideError:
-      "The guide could not load. Use the Markdown guide link to continue.",
-  },
-  id: {
-    sources: "Referensi resmi",
-    skip: "Langsung ke konten",
-    navPreview: "Lihat UI",
-    navInstall: "Mulai dari nol",
-    heroTitle: "Semua repo.<br><span>Satu tempat kerja.</span>",
-    heroDescription:
-      "Review perubahan, pindah repo, dan bereskan konflik di Neovim. Kontrolnya terlihat. Shortcut-nya tetap ada.",
-    start: "Install dari nol ↗",
-    viewSource: "Lihat source ↗",
-    heroNote: "Panduan macOS · Profil terpisah · AI opsional",
-    previewTitle: "Ruang kerja yang bisa kamu lihat.",
-    realUI: "UI asli · repo latihan",
-    tabReview: "Review Git",
-    tabConflicts: "Merge konflik",
-    tabSearch: "Search & replace",
-    featureOne: "Beberapa repo.<br><strong>Satu sidebar Git.</strong>",
-    featureTwo:
-      "Incoming, Current, Result.<br><strong>Tiga panel yang bisa di-resize.</strong>",
-    featureThree:
-      "Codex atau Claude Code.<br><strong>Draft dulu, review, baru commit.</strong>",
-    guideEyebrow: "DARI TERMINAL PERTAMA",
-    installTitle: "Mulai dari<br> Mac yang kosong.",
-    installIntro:
-      "Belum punya Neovim? Ikuti urutannya. Tiap langkah menjelaskan perintahnya dijalankan di mana, apa fungsinya, dan tanda berhasilnya.",
-    reset: "Reset",
-    progressNote: "Checklist ini catatanmu, bukan deteksi otomatis Mac.",
-    markdownGuide: "Baca versi Markdown ↗",
-    loading: "Memuat panduan…",
-    copy: "Salin",
-    copied: "Tersalin",
-    copyError: "Pilih dan salin perintah secara manual.",
-    terminal: "Terminal",
-    neovim: "Di dalam Neovim",
-    success: "Tanda berhasil",
-    complete: "Saya sudah menyelesaikan langkah ini",
-    progress: "langkah ditandai",
-    extrasEyebrow: "SETELAH BERHASIL JALAN",
-    extrasTitle: "Tambahkan sesuai kebutuhan.",
-    extrasIntro:
-      "Mulai dengan edit dan Git. Completion, diagnostik, dan AI bisa dipasang belakangan.",
-    lspText:
-      "Pasang language server dari folder source. Proyek tetap butuh runtime dan dependensinya sendiri.",
-    lspMore: "Panduan server dan runtime ↗",
-    aiTitle: "AI commit yang tetap kamu review",
-    aiText:
-      "Pasang dan login Codex CLI atau Claude Code dari panduan resminya. Di Git: simpan file → stage → Generate → pilih agent → review → Commit. Staged diff dikirim ke provider melalui akunmu; penggunaan normal bisa berbiaya.",
-    learningTitle: "Shortcut pertama, sampai merge pertama",
-    learningText:
-      "Panduan lanjutan membahas copy/paste, undo, Git, merge konflik, search/replace, update, dan restore backup.",
-    workflow: "Panduan pemakaian ↗",
-    maintenance: "Update & restore ↗",
-    faqTitle: "Kalau masih bingung.",
-    faqQ1: "Config Neovim yang sudah ada bakal tertimpa?",
-    faqA1:
-      "Install default menggunakan profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default perlu flag khusus yang dijelaskan di dokumentasi.",
-    faqQ2: "Bisa pakai tanpa AI atau akun GitHub?",
-    faqA2:
-      "Bisa. Download repo publik dan latihan lokal tidak butuh login. AI opsional. Push ke remote sungguhan memerlukan remote, identitas commit, dan autentikasi Git yang sesuai; demo tidak punya remote.",
-    faqQ3: "Kenapa brew atau nvim-workbench tidak ditemukan?",
-    faqA3:
-      "Untuk brew, jalankan Next steps dari installer Homebrew. Untuk launcher, pakai ~/.local/bin/nvim-workbench atau selesaikan langkah PATH di atas. Buka jendela Terminal baru setelah mengubah konfigurasi shell.",
-    faqQ4: "Kok tidak bisa mengetik atau keluar?",
-    faqA4:
-      "Tekan i untuk mengetik. Tekan Esc untuk kembali ke Normal mode. Lalu :w dan Enter untuk menyimpan, :qa dan Enter untuk keluar. Space q q membuka konfirmasi keluar jika ada perubahan belum disimpan.",
-    faqQ5: "Linux dan Windows bisa?",
-    faqA5:
-      "Panduan ini untuk macOS. Installer POSIX/Linux tersedia tetapi belum diuji menyeluruh. Windows belum didukung. Untuk Homebrew di Mac Intel atau macOS lama, cek persyaratan dukungan Homebrew sebelum mulai.",
-    faqQ6: "Folder nvim-workbench sudah ada saat git clone?",
-    faqA6:
-      "Berarti sumbernya sudah diunduh. Buka folder itu, simpan perubahan lokal milikmu, lalu jalankan git pull --ff-only dan ./install.sh. Jangan menghapus folder yang sudah berisi pekerjaanmu.",
-    closingTitle: "Pelan-pelan. Satu langkah dulu.",
-    closingText:
-      "Mulai dari Terminal. Workspace pertamamu sudah ada di panduan.",
-    backInstall: "Mulai install ↑",
-    report: "Laporkan masalah ↗",
-    verification: "Catatan pengujian ↗",
-    credits:
-      "Dibangun di atas Neovim, LazyGit, Diffview, dan plugin open source. Website statis di GitHub Pages.",
-    guideError:
-      "Panduan gagal dimuat. Gunakan tautan versi Markdown untuk melanjutkan.",
+      "Open the existing nvim-workbench folder, preserve local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
+    report: "Report an issue",
   },
 };
+
 const views = {
   review: {
     image: "images/review.png",
-    alt: "Three-repository Git sidebar and side-by-side Before / After review",
-    id: "Klik repo untuk berpindah. Klik file untuk melihat Before / After. Tarik pembatas untuk mengatur ruang.",
-    en: "Click a repository to switch. Click a file for Before / After. Drag the dividers to make room.",
+    alt: "Git sidebar and Before / After review",
+    id: "Sidebar Git dan perbandingan Before / After.",
+    en: "Git sidebar and Before / After comparison.",
   },
   conflicts: {
     image: "images/conflicts.png",
-    alt: "Incoming on the left, Current on the right, editable Result below",
-    id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah. Review hasilnya, simpan, lalu stage.",
-    en: "Incoming left, Current right, editable Result below. Review the result, save, then stage.",
+    alt: "Incoming left, Current right, editable Result below",
+    id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah.",
+    en: "Incoming on the left, Current on the right, editable Result below.",
   },
   search: {
     image: "images/search.png",
-    alt: "Persistent search and replace fields with selected-file replacement preview",
-    id: "Search dan Replace ada di sidebar. Preview dulu, pilih file, lalu terapkan. Menyimpan tetap keputusanmu.",
-    en: "Search and Replace stay in the sidebar. Preview first, choose files, then apply. Saving remains explicit.",
+    alt: "Search and replace fields with a replacement preview",
+    id: "Kolom Search dan Replace, dengan preview perubahan per file.",
+    en: "Search and Replace fields, with per-file replacement previews.",
   },
 };
+
 const storage = {
   get(key, fallback) {
     try {
@@ -197,52 +159,36 @@ const storage = {
     try {
       localStorage.setItem(key, value);
     } catch {
-      /* The guide also works without storage. */
+      /* Language selection also works without persistence. */
     }
   },
 };
-const queryLang = new URLSearchParams(location.search).get("lang");
-let language = ["id", "en"].includes(queryLang)
-  ? queryLang
+const queryLanguage = new URLSearchParams(location.search).get("lang");
+let language = ["id", "en"].includes(queryLanguage)
+  ? queryLanguage
   : storage.get("workbench-language", "id");
 if (!strings[language]) language = "id";
-let completed = [];
-try {
-  const saved = JSON.parse(storage.get("workbench-checklist", "[]"));
-  if (Array.isArray(saved))
-    completed = saved.filter((value) => typeof value === "string");
-} catch {
-  /* Start with an empty checklist. */
-}
-let guide = null,
-  selectedView = "review",
-  announceTimer;
+let guide = null;
+let guideState = "loading";
+let selectedView = "review";
+let announcementTimer;
 const tr = (key) => strings[language][key] || key;
 const element = (tag, className, text) => {
-  const el = document.createElement(tag);
-  if (className) el.className = className;
-  if (text !== undefined) el.textContent = text;
-  return el;
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
 };
+
 function announce(message) {
   const box = document.getElementById("announcement");
   box.textContent = message;
-  box.classList.add("visible");
-  clearTimeout(announceTimer);
-  announceTimer = setTimeout(() => box.classList.remove("visible"), 2500);
+  clearTimeout(announcementTimer);
+  announcementTimer = setTimeout(() => {
+    box.textContent = "";
+  }, 2500);
 }
-function progress() {
-  const total = guide?.steps.length || 9;
-  const count = guide
-    ? guide.steps.filter((step) => completed.includes(step.id)).length
-    : 0;
-  document.getElementById("progress-text").textContent =
-    `${count} / ${total} ${tr("progress")}`;
-  const bar = document.getElementById("progress");
-  bar.max = total;
-  bar.value = count;
-  bar.setAttribute("aria-label", `${count} / ${total} ${tr("progress")}`);
-}
+
 function renderView() {
   const view = views[selectedView];
   const image = document.getElementById("preview-image");
@@ -258,103 +204,88 @@ function renderView() {
     button.tabIndex = active ? 0 : -1;
   });
 }
-function codeBlock(block, index) {
-  const container = element("div", "code-block"),
-    toolbar = element("div", "code-toolbar");
+
+function codeBlock(block, id) {
+  const container = element("div", "code-block");
+  const toolbar = element("div", "code-toolbar");
   const label = element(
     "span",
-    block.where === "neovim" ? "vim-label" : "",
-    tr(block.where) + (block.label ? ` · ${block.label[language]}` : ""),
+    "",
+    tr(block.where) + (block.label ? `: ${block.label[language]}` : ""),
   );
   const button = element("button", "", tr("copy"));
   button.type = "button";
-  button.dataset.copyTarget = index;
+  button.dataset.copyTarget = id;
   button.setAttribute("aria-label", `${tr("copy")}: ${tr(block.where)}`);
-  toolbar.append(label, button);
-  const pre = element("pre"),
-    code = element("code", "", block.code);
-  code.id = index;
+  const pre = element("pre");
+  const code = element("code", "", block.code);
+  code.id = id;
   pre.append(code);
+  toolbar.append(label, button);
   container.append(toolbar, pre);
   return container;
 }
+
 function renderGuide() {
-  if (!guide) return;
-  const host = document.getElementById("guide-steps"),
-    nav = document.getElementById("step-nav");
+  const host = document.getElementById("guide-steps");
+  const navigation = document.getElementById("step-nav");
   host.replaceChildren();
-  nav.replaceChildren();
+  navigation.replaceChildren();
+  if (guideState !== "ready") {
+    const key = {
+      loading: "loading",
+      empty: "guideEmpty",
+      error: "guideError",
+    }[guideState];
+    const message = element("p", "muted", tr(key));
+    message.setAttribute("role", guideState === "error" ? "alert" : "status");
+    host.append(message);
+    return;
+  }
   guide.steps.forEach((step, index) => {
     const section = element("article", "guide-step");
     section.id = `step-${step.id}`;
-    section.dataset.complete = String(completed.includes(step.id));
     const heading = element("div", "step-heading");
     const title = element("h3", "", step.title[language]);
     title.id = `title-${step.id}`;
     section.setAttribute("aria-labelledby", title.id);
-    heading.append(
-      element("span", "", String(index + 1).padStart(2, "0")),
-      title,
-    );
+    heading.append(element("span", "", String(index + 1)), title);
     section.append(heading, element("p", "step-intro", step.intro[language]));
-    step.blocks.forEach((block, blockIndex) =>
-      section.append(codeBlock(block, `code-${step.id}-${blockIndex}`)),
-    );
+    step.blocks.forEach((block, blockIndex) => {
+      section.append(codeBlock(block, `code-${step.id}-${blockIndex}`));
+    });
     const check = element("p", "step-check");
     check.append(
-      element("strong", "", tr("success")),
+      element("strong", "", tr("success") + " "),
       document.createTextNode(step.expected[language]),
     );
     section.append(check);
     if (step.note)
       section.append(element("p", "step-note", step.note[language]));
-    const label = element("label", "complete-label");
-    const checkbox = element("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = completed.includes(step.id);
-    checkbox.addEventListener("change", () => {
-      completed = completed.filter((id) => id !== step.id);
-      if (checkbox.checked) completed.push(step.id);
-      storage.set("workbench-checklist", JSON.stringify(completed));
-      section.dataset.complete = String(checkbox.checked);
-      progress();
-    });
-    label.append(checkbox, document.createTextNode(tr("complete")));
-    section.append(label);
     host.append(section);
     const link = element("a");
     link.href = `#step-${step.id}`;
     link.append(
-      element("span", "", String(index + 1).padStart(2, "0")),
+      element("span", "", String(index + 1)),
       document.createTextNode(step.title[language]),
     );
-    nav.append(link);
+    navigation.append(link);
   });
-  progress();
 }
+
 function translate() {
   document.documentElement.lang = language;
   document.getElementById("language").value = language;
   document.querySelectorAll("[data-i18n]").forEach((node) => {
-    const value = tr(node.dataset.i18n);
-    if (
-      [
-        "heroTitle",
-        "featureOne",
-        "featureTwo",
-        "featureThree",
-        "installTitle",
-      ].includes(node.dataset.i18n)
-    )
-      node.innerHTML = value;
-    else node.textContent = value;
+    node.textContent = tr(node.dataset.i18n);
   });
+  const filename = language === "id" ? "mulai-dari-nol" : "getting-started";
   document.getElementById("markdown-guide").href =
-    `https://github.com/ardanngrha/nvim-workbench/blob/main/docs/${language === "id" ? "mulai-dari-nol" : "getting-started"}.md`;
+    `https://github.com/ardanngrha/nvim-workbench/blob/main/docs/${filename}.md`;
   renderView();
   renderGuide();
-  progress();
 }
+
 document.getElementById("language").addEventListener("change", (event) => {
   language = event.target.value;
   storage.set("workbench-language", language);
@@ -363,17 +294,17 @@ document.getElementById("language").addEventListener("change", (event) => {
   history.replaceState(null, "", url);
   translate();
 });
-document.getElementById("reset-progress").addEventListener("click", () => {
-  completed = [];
-  storage.set("workbench-checklist", "[]");
-  document
-    .querySelectorAll(".complete-label input")
-    .forEach((input) => (input.checked = false));
-  document
-    .querySelectorAll(".guide-step")
-    .forEach((step) => (step.dataset.complete = "false"));
-  progress();
+
+const contents = document.getElementById("contents");
+const wideLayout = window.matchMedia("(min-width: 980px)");
+contents.open = wideLayout.matches;
+wideLayout.addEventListener("change", (event) => {
+  contents.open = event.matches;
 });
+contents.addEventListener("click", (event) => {
+  if (event.target.closest("a") && !wideLayout.matches) contents.open = false;
+});
+
 document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () => {
     selectedView = button.dataset.view;
@@ -394,6 +325,7 @@ document.querySelectorAll("[data-view]").forEach((button) => {
     buttons[index].focus();
   });
 });
+
 document.addEventListener("click", async (event) => {
   const button = event.target.closest("[data-copy-target]");
   if (!button) return;
@@ -412,7 +344,7 @@ document.addEventListener("click", async (event) => {
     try {
       copied = document.execCommand("copy");
     } catch {
-      /* Keep manual copy available. */
+      /* The original code block remains available for manual copying. */
     }
     input.remove();
     button.focus();
@@ -425,6 +357,7 @@ document.addEventListener("click", async (event) => {
     }, 1800);
   } else announce(tr("copyError"));
 });
+
 translate();
 fetch("assets/guide.json")
   .then((response) => {
@@ -432,11 +365,15 @@ fetch("assets/guide.json")
     return response.json();
   })
   .then((data) => {
+    if (!Array.isArray(data.steps)) throw new Error("Invalid guide");
     guide = data;
+    guideState = data.steps.length ? "ready" : "empty";
     renderGuide();
-    if (location.hash.startsWith("#step-"))
+    if (location.hash.startsWith("#step-")) {
       document.getElementById(location.hash.slice(1))?.scrollIntoView();
+    }
   })
   .catch(() => {
-    document.getElementById("guide-steps").textContent = tr("guideError");
+    guideState = "error";
+    renderGuide();
   });

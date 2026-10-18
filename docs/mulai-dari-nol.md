@@ -159,7 +159,7 @@ Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend
 
 > Shortcut Space ditekan berurutan, bukan bersamaan. Ctrl berarti Control, bukan Command. Di dalam LazyGit, q menutup tampilan Git tersebut; tekan ? di sana untuk melihat shortcut-nya.
 
-## 9. Buka proyek sendiri dengan mudah
+## 9. Buka proyek sendiri
 
 PATH adalah daftar folder tempat Terminal mencari aplikasi. Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut.
 

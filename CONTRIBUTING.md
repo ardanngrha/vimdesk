@@ -47,4 +47,4 @@ python3 -m unittest discover -s tests -v
 python3 -m http.server 8766 --directory docs
 ```
 
-Preview http://127.0.0.1:8766/. Check both languages, screenshot tabs, code-copy controls, checklist persistence/reset, keyboard navigation, and a narrow viewport. The checklist records user input locally; it does not inspect the visitor’s machine. There are no analytics, accounts, external fonts, or automatic installation actions. `scripts/demo.sh` creates a new temporary local practice workspace; it never changes global Git identity or existing repos.
+Preview http://127.0.0.1:8766/. Check both languages, the contents disclosure, screenshot tabs, code-copy controls, keyboard navigation, and narrow/intermediate/wide layouts. Test the guide's loading, empty and error states as well as the normal page. There are no analytics, accounts, external fonts, or automatic installation actions. `scripts/demo.sh` creates a new temporary local practice workspace; it never changes global Git identity or existing repos. Website direction is recorded in `DESIGN.md`.

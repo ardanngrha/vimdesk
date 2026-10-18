@@ -159,7 +159,7 @@ Press Space, release it, then g, then Shift + g. The Git sidebar should list bac
 
 > Space shortcuts are sequential, not simultaneous. Ctrl means Control, not Command. Inside LazyGit, q exits that Git view; press ? there to see its own bindings.
 
-## 9. Make it easy to open your own projects
+## 9. Open your own projects
 
 PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.
 

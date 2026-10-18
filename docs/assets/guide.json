@@ -247,8 +247,8 @@
     {
       "id": "daily",
       "title": {
-        "en": "Make it easy to open your own projects",
-        "id": "Buka proyek sendiri dengan mudah"
+        "en": "Open your own projects",
+        "id": "Buka proyek sendiri"
       },
       "intro": {
         "en": "PATH is the list of folders Terminal searches for applications. Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
