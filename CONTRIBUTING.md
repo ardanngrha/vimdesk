@@ -33,3 +33,18 @@ Optional screenshot capture requires Pillow and a local monospace font:
 For visual review, check Files / Search / Git spacing at narrow and wide widths, click different repositories, drag both review dividers, inspect conflict controls, and quit with an unsaved file. Screenshots in `docs/images` come from Neovim's actual rendered UI grid using fictional demo repos; they are not concept mockups.
 
 Keep the lockfile in changes affecting plugins. Test updates in the separate workbench profile first. Record the operating system, Neovim version, and which checks passed in a pull request. Do not claim Linux or terminal compatibility without running it.
+
+## Website and beginner guides
+
+The buildless website lives in `docs/` and GitHub Pages serves `main` → `/docs`. No custom Actions workflow or hosting service is required. The domain is https://ardanngrha.github.io/nvim-workbench/. All local assets use relative URLs for the project subpath.
+
+Edit `docs/assets/guide.json` for installation steps. The website reads the same data used to generate English and Indonesian Markdown guides:
+
+```sh
+python3 scripts/build_guide.py
+python3 scripts/build_guide.py --check
+python3 -m unittest discover -s tests -v
+python3 -m http.server 8766 --directory docs
+```
+
+Preview http://127.0.0.1:8766/. Check both languages, screenshot tabs, code-copy controls, checklist persistence/reset, keyboard navigation, and a narrow viewport. The checklist records user input locally; it does not inspect the visitor’s machine. There are no analytics, accounts, external fonts, or automatic installation actions. `scripts/demo.sh` creates a new temporary local practice workspace; it never changes global Git identity or existing repos.

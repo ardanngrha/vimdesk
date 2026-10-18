@@ -1,0 +1,299 @@
+{
+  "steps": [
+    {
+      "id": "terminal",
+      "title": {
+        "en": "Open Terminal",
+        "id": "Buka Terminal"
+      },
+      "intro": {
+        "en": "Press Command + Space, type Terminal, then press Enter. This guide uses the default macOS zsh shell. Paste a command with Command + V, then press Enter. Copy only the command, without a $ prompt.",
+        "id": "Tekan Command + Space, ketik Terminal, lalu Enter. Panduan ini memakai zsh, shell bawaan macOS. Tempel perintah dengan Command + V, lalu Enter. Salin perintahnya saja, tanpa tanda $."
+      },
+      "blocks": [],
+      "expected": {
+        "en": "A Terminal window is open. Internet access is available; you can install apps on this Mac.",
+        "id": "Jendela Terminal terbuka. Internet tersedia dan kamu boleh memasang aplikasi di Mac ini."
+      },
+      "note": {
+        "en": "Start with a currently supported macOS version. Check Homebrew’s requirements for your Mac; Intel support is more limited. Existing installations can skip completed steps after checking their versions.",
+        "id": "Gunakan macOS yang masih didukung. Cek persyaratan Homebrew untuk Mac kamu; dukungan Intel lebih terbatas. Jika sudah punya sebagian alatnya, cek versinya lalu lewati langkah yang selesai."
+      }
+    },
+    {
+      "id": "developer-tools",
+      "title": {
+        "en": "Install Apple developer tools",
+        "id": "Pasang developer tools Apple"
+      },
+      "intro": {
+        "en": "These tools supply Git and the compiler used for syntax highlighting. Run the first command, complete the macOS Install dialog, and wait for it to finish before running the checks. The full Xcode app is not required.",
+        "id": "Alat ini menyediakan Git dan compiler untuk syntax highlighting. Jalankan perintah pertama, ikuti dialog Install dari macOS, lalu tunggu sampai selesai sebelum menjalankan pengecekan. Tidak perlu memasang aplikasi Xcode penuh."
+      },
+      "blocks": [
+        {
+          "code": "xcode-select --install",
+          "where": "terminal"
+        },
+        {
+          "code": "xcode-select -p\ncc --version",
+          "where": "terminal",
+          "label": {
+            "en": "Check after the installer finishes",
+            "id": "Cek setelah instalasi selesai"
+          }
+        }
+      ],
+      "expected": {
+        "en": "A developer-tools path and a compiler version appear. “Command line tools are already installed” means you can continue.",
+        "id": "Muncul lokasi developer tools dan versi compiler. Pesan “Command line tools are already installed” berarti kamu bisa lanjut."
+      },
+      "note": ""
+    },
+    {
+      "id": "homebrew",
+      "title": {
+        "en": "Install Homebrew",
+        "id": "Pasang Homebrew"
+      },
+      "intro": {
+        "en": "Homebrew installs command-line apps. The command below is from brew.sh. Read its prompts, press Enter when asked, and enter your Mac login password if requested. Password typing is invisible; this is normal.",
+        "id": "Homebrew dipakai untuk memasang aplikasi lewat Terminal. Perintah di bawah berasal dari brew.sh. Baca instruksinya, tekan Enter jika diminta, dan masukkan password login Mac jika diminta. Ketikan password memang tidak terlihat."
+      },
+      "blocks": [
+        {
+          "code": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+          "where": "terminal"
+        },
+        {
+          "code": "brew --version",
+          "where": "terminal",
+          "label": {
+            "en": "Check after completing Homebrew’s Next steps",
+            "id": "Cek setelah mengikuti Next steps Homebrew"
+          }
+        }
+      ],
+      "expected": {
+        "en": "The output starts with Homebrew and a version number. Follow every “Next steps” command printed by its installer; those make brew work in new Terminal windows.",
+        "id": "Output diawali Homebrew dan nomor versi. Jalankan semua perintah “Next steps” yang dicetak installer; langkah itu membuat brew dikenali di jendela Terminal berikutnya."
+      },
+      "note": {
+        "en": "If brew is not found, return to the installer’s Next steps instead of reinstalling it. Apple Silicon commonly uses /opt/homebrew; Intel commonly uses /usr/local. Use the instructions printed for your own machine.",
+        "id": "Kalau brew tidak ditemukan, kembali ke Next steps dari installer, tidak perlu langsung install ulang. Apple Silicon umumnya memakai /opt/homebrew; Intel memakai /usr/local. Ikuti perintah yang dicetak untuk Mac kamu."
+      }
+    },
+    {
+      "id": "neovim",
+      "title": {
+        "en": "Install Neovim and the core tools",
+        "id": "Pasang Neovim dan alat utama"
+      },
+      "intro": {
+        "en": "Install the editor, Git UI, file-search tools, Python, and parser builder. These are the apps the workbench uses. Wait until Homebrew returns to the Terminal prompt.",
+        "id": "Pasang editor, tampilan Git, alat pencarian file, Python, dan pembangun parser. Semua ini dipakai workbench. Tunggu sampai Homebrew selesai dan prompt Terminal muncul lagi."
+      },
+      "blocks": [
+        {
+          "code": "brew install neovim git lazygit ripgrep fd python tree-sitter",
+          "where": "terminal"
+        },
+        {
+          "code": "nvim --version\ngit --version\nlazygit --version\nrg --version\nfd --version\npython3 --version\ntree-sitter --version",
+          "where": "terminal",
+          "label": {
+            "en": "Check the installed tools",
+            "id": "Cek alat yang terpasang"
+          }
+        }
+      ],
+      "expected": {
+        "en": "Neovim is 0.12 or newer, Python is 3.9 or newer, and tree-sitter is at least 0.26.1. Each other command prints a version instead of “command not found”.",
+        "id": "Neovim versi 0.12 atau lebih baru, Python minimal 3.9, dan tree-sitter minimal 0.26.1. Semua perintah lain menampilkan versi, bukan “command not found”."
+      },
+      "note": {
+        "en": "If Neovim was already installed but is too old, run brew upgrade neovim. Do the same for an outdated python or tree-sitter formula. You do not need to upgrade every app on the Mac.",
+        "id": "Jika Neovim sudah ada tetapi terlalu lama, jalankan brew upgrade neovim. Lakukan hal serupa untuk formula python atau tree-sitter yang terlalu lama. Tidak perlu meng-upgrade seluruh aplikasi di Mac."
+      }
+    },
+    {
+      "id": "workbench",
+      "title": {
+        "en": "Download and install the workbench",
+        "id": "Unduh dan pasang workbench"
+      },
+      "intro": {
+        "en": "Neovim is the editor; this repository adds its interface and workflow. The commands create a Developer folder in your home directory, download the source, check dependencies, and install a separate workbench profile. No GitHub account is needed to download it.",
+        "id": "Neovim adalah editornya; repo ini menambahkan tampilan dan alur kerjanya. Perintah ini membuat folder Developer di home, mengunduh sumber, mengecek dependensi, lalu memasang profil workbench terpisah. Tidak perlu akun GitHub untuk mengunduhnya."
+      },
+      "blocks": [
+        {
+          "code": "mkdir -p \"$HOME/Developer\"\ncd \"$HOME/Developer\"\ngit clone https://github.com/ardanngrha/nvim-workbench.git\ncd nvim-workbench\n./install.sh doctor\n./install.sh",
+          "where": "terminal"
+        }
+      ],
+      "expected": {
+        "en": "The installer prints Installed, Backup, and Launch. Its default config is ~/.config/nvim-workbench and its launcher is ~/.local/bin/nvim-workbench. Your existing ~/.config/nvim is preserved.",
+        "id": "Installer mencetak Installed, Backup, dan Launch. Config default-nya ada di ~/.config/nvim-workbench dan launcher di ~/.local/bin/nvim-workbench. Folder ~/.config/nvim yang sudah ada tetap tersimpan."
+      },
+      "note": {
+        "en": "Doctor’s [--] next to a language server, codex, or claude is optional. Missing core tools or an unsupported Neovim version must be fixed first. If the checkout folder already exists, use the update instructions below; do not delete your existing folder.",
+        "id": "Tanda [--] di Doctor untuk language server, codex, atau claude bersifat opsional. Alat utama yang hilang atau versi Neovim yang terlalu lama perlu diperbaiki dulu. Jika folder checkout sudah ada, pakai panduan update di bawah; jangan hapus folder yang sudah ada."
+      }
+    },
+    {
+      "id": "first-launch",
+      "title": {
+        "en": "Open a two-repo practice workspace",
+        "id": "Buka workspace latihan dengan dua repo"
+      },
+      "intro": {
+        "en": "From the nvim-workbench source folder, run the demo below. It creates a new temporary folder with backend and frontend Git repositories, then opens your installed workbench. Each repo has a small change to review.",
+        "id": "Dari folder sumber nvim-workbench, jalankan demo di bawah. Demo membuat folder sementara baru dengan repo Git backend dan frontend, lalu membuka workbench yang terpasang. Masing-masing repo punya perubahan kecil untuk direview."
+      },
+      "blocks": [
+        {
+          "code": "./scripts/demo.sh",
+          "where": "terminal"
+        }
+      ],
+      "expected": {
+        "en": "Neovim opens and lazy.nvim may download plugins on its first run. Wait for downloads to finish. If the plugin window stays open after completion, press q to close it.",
+        "id": "Neovim terbuka dan lazy.nvim mungkin mengunduh plugin saat pertama dijalankan. Tunggu sampai unduhan selesai. Jika jendela plugin masih terbuka setelah selesai, tekan q untuk menutupnya."
+      },
+      "note": {
+        "en": "The practice repositories are local only: no remote, GitHub login, push, or real project is involved. Their path is printed in Terminal and may be cleaned by macOS later. Keep important work in your own project folder.",
+        "id": "Repo latihan hanya lokal: tidak punya remote, tidak butuh login GitHub, dan tidak dipakai untuk push. Lokasinya dicetak di Terminal dan bisa dibersihkan macOS nanti. Simpan pekerjaan penting di folder proyekmu sendiri."
+      }
+    },
+    {
+      "id": "plugins",
+      "title": {
+        "en": "Finish plugins and syntax highlighting",
+        "id": "Selesaikan plugin dan syntax highlighting"
+      },
+      "intro": {
+        "en": "The following commands go inside Neovim, not Terminal. Press Esc first, type the command including its leading colon, then Enter. Restore the locked plugin versions and wait until it finishes. Quit with :qa, then run ./scripts/demo.sh again in Terminal to restart.",
+        "id": "Perintah berikut dijalankan di dalam Neovim, bukan Terminal. Tekan Esc dulu, ketik perintah termasuk titik dua di depan, lalu Enter. Pulihkan versi plugin dari lockfile dan tunggu sampai selesai. Keluar dengan :qa, lalu jalankan ./scripts/demo.sh lagi di Terminal untuk restart."
+      },
+      "blocks": [
+        {
+          "code": ":Lazy restore",
+          "where": "neovim"
+        },
+        {
+          "code": ":WorkbenchParsers",
+          "where": "neovim",
+          "label": {
+            "en": "After restarting Neovim",
+            "id": "Setelah restart Neovim"
+          }
+        },
+        {
+          "code": ":WorkbenchDoctor",
+          "where": "neovim",
+          "label": {
+            "en": "Check the workbench",
+            "id": "Cek workbench"
+          }
+        }
+      ],
+      "expected": {
+        "en": "Parser downloads and compilation complete, then source files gain syntax highlighting. :messages shows parser progress/errors. Doctor lists installed tools. Optional language servers can still be missing.",
+        "id": "Unduhan dan kompilasi parser selesai, lalu kode mendapat syntax highlighting. :messages menampilkan progres/error parser. Doctor menampilkan daftar alat. Language server opsional masih boleh belum terpasang."
+      },
+      "note": {
+        "en": "Do not close Neovim while parsers are compiling. If installation fails, check internet, cc --version and tree-sitter --version in Terminal, then retry :WorkbenchParsers.",
+        "id": "Jangan tutup Neovim saat parser sedang dikompilasi. Jika gagal, cek internet, cc --version dan tree-sitter --version di Terminal, lalu ulangi :WorkbenchParsers."
+      }
+    },
+    {
+      "id": "first-edit",
+      "title": {
+        "en": "Try your first edit, review and quit",
+        "id": "Coba edit, review, dan keluar"
+      },
+      "intro": {
+        "en": "Press Space, release it, then g, then Shift + g. The Git sidebar should list backend and frontend. Click a repo, then a changed file to see Before / After. For editing, open a file from Files, press i to type, then Esc to return to Normal mode.",
+        "id": "Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend dan frontend. Klik repo, lalu file yang berubah untuk melihat Before / After. Untuk mengedit, buka file dari Files, tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode."
+      },
+      "blocks": [
+        {
+          "code": ":w",
+          "where": "neovim",
+          "label": {
+            "en": "Save the current file",
+            "id": "Simpan file saat ini"
+          }
+        },
+        {
+          "code": ":qa",
+          "where": "neovim",
+          "label": {
+            "en": "Quit all windows",
+            "id": "Keluar dari semua jendela"
+          }
+        }
+      ],
+      "expected": {
+        "en": "The file saves with :w. :qa exits when no changes are pending. If there are unsaved edits, save first or use Space q q for a confirmation prompt. Press u in Normal mode to undo; Ctrl + r redoes.",
+        "id": "File tersimpan dengan :w. :qa keluar jika tidak ada perubahan yang belum disimpan. Jika ada, simpan dulu atau gunakan Space q q untuk dialog konfirmasi. Tekan u di Normal mode untuk undo; Ctrl + r untuk redo."
+      },
+      "note": {
+        "en": "Space shortcuts are sequential, not simultaneous. Ctrl means Control, not Command. Inside LazyGit, q exits that Git view; press ? there to see its own bindings.",
+        "id": "Shortcut Space ditekan berurutan, bukan bersamaan. Ctrl berarti Control, bukan Command. Di dalam LazyGit, q menutup tampilan Git tersebut; tekan ? di sana untuk melihat shortcut-nya."
+      }
+    },
+    {
+      "id": "daily",
+      "title": {
+        "en": "Make it easy to open your own projects",
+        "id": "Buka proyek sendiri dengan mudah"
+      },
+      "intro": {
+        "en": "Back in Terminal, add the launcher folder to PATH so nvim-workbench works by name. Run this once for the default macOS zsh shell. If you use another shell, add ~/.local/bin to that shell’s PATH instead.",
+        "id": "Kembali ke Terminal, tambahkan folder launcher ke PATH agar nvim-workbench bisa dipanggil langsung. Jalankan sekali untuk zsh bawaan macOS. Jika memakai shell lain, tambahkan ~/.local/bin ke PATH shell tersebut."
+      },
+      "blocks": [
+        {
+          "code": "printf '\\nexport PATH=\"$HOME/.local/bin:$PATH\"\\n' >> \"$HOME/.zshrc\"\nsource \"$HOME/.zshrc\"\ncommand -v nvim-workbench",
+          "where": "terminal"
+        },
+        {
+          "code": "nvim-workbench \"$HOME/Developer\"",
+          "where": "terminal",
+          "label": {
+            "en": "Open a real parent folder",
+            "id": "Buka folder induk sungguhan"
+          }
+        }
+      ],
+      "expected": {
+        "en": "command -v prints the launcher path. Neovim opens the selected parent folder. For your own workspace, replace the example path or drag a Finder folder into Terminal after typing nvim-workbench and a space.",
+        "id": "command -v mencetak lokasi launcher. Neovim membuka folder induk yang dipilih. Untuk workspace milikmu, ganti path contoh atau tarik folder dari Finder ke Terminal setelah mengetik nvim-workbench dan satu spasi."
+      },
+      "note": {
+        "en": "Open the parent of your Git repos to see them together. If you just want one repository, opening its folder works too. Language servers, AI and remote Git authentication are separate optional setup steps.",
+        "id": "Buka folder induk dari beberapa repo Git untuk melihat semuanya. Jika hanya ingin satu repo, buka folder repo itu langsung. Language server, AI, dan autentikasi Git remote adalah pengaturan tambahan terpisah."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "title": "Homebrew installation and Next steps",
+      "url": "https://docs.brew.sh/Installation"
+    },
+    {
+      "title": "Homebrew official installer",
+      "url": "https://brew.sh/"
+    },
+    {
+      "title": "Neovim installation",
+      "url": "https://github.com/neovim/neovim/blob/master/INSTALL.md"
+    },
+    {
+      "title": "Pinned Treesitter requirements",
+      "url": "https://github.com/nvim-treesitter/nvim-treesitter/blob/910fdf6f49e9dee7e7257c7d11a76b040fdfb9de/README.md#requirements"
+    }
+  ]
+}

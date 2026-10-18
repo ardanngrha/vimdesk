@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#191b29">
+  <meta name="description" content="Neovim Workbench: a multi-repo workspace with visible Git controls. A beginner-friendly macOS installation guide, from Terminal to your first review.">
+  <meta property="og:title" content="Neovim Workbench — many repos, one workspace">
+  <meta property="og:description" content="Clickable Git controls. Side-by-side review. A guide that starts with opening Terminal.">
+  <meta property="og:image" content="https://ardanngrha.github.io/nvim-workbench/images/review.png">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://ardanngrha.github.io/nvim-workbench/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+  <title>Neovim Workbench — many repos, one workspace</title>
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="skip">Langsung ke konten</a>
+<header class="site-header">
+  <a class="brand" href="#" aria-label="Neovim Workbench home"><img src="assets/favicon.svg" width="32" height="32" alt=""><span>nvim<span class="muted">/</span>workbench</span></a>
+  <nav aria-label="Main navigation"><a href="#preview" data-i18n="navPreview">Lihat UI</a><a href="#install" data-i18n="navInstall">Mulai dari nol</a><a href="#faq">FAQ</a></nav>
+  <label class="language"><span class="sr-only">Language / Bahasa</span><select id="language"><option value="id">Bahasa ID</option><option value="en">English</option></select></label>
+  <a class="header-github" href="https://github.com/ardanngrha/nvim-workbench">GitHub <span aria-hidden="true">↗</span></a>
+</header>
+<main id="main">
+  <section class="hero wrap">
+    <p class="eyebrow"><span class="status-dot"></span> OPEN SOURCE · NEOVIM 0.12+</p>
+    <h1 data-i18n="heroTitle">Semua repo.<br><span>Satu tempat kerja.</span></h1>
+    <p class="hero-description" data-i18n="heroDescription">Review perubahan, pindah repo, dan bereskan konflik di Neovim. Kontrolnya terlihat. Shortcut-nya tetap ada.</p>
+    <div class="hero-actions"><a class="button primary" href="#install" data-i18n="start">Install dari nol <span aria-hidden="true">↗</span></a><a class="button secondary" href="https://github.com/ardanngrha/nvim-workbench" data-i18n="viewSource">Lihat source <span aria-hidden="true">↗</span></a></div>
+    <p class="hero-note" data-i18n="heroNote">Panduan macOS · Profil terpisah · AI opsional</p>
+  </section>
+  <section class="preview wrap" id="preview" aria-labelledby="preview-title">
+    <div class="section-line"><h2 id="preview-title" data-i18n="previewTitle">Ruang kerja yang bisa kamu lihat.</h2><span class="mono muted" data-i18n="realUI">UI asli · repo latihan</span></div>
+    <div class="preview-frame">
+      <div class="preview-toolbar"><span class="workspace-label"><span aria-hidden="true">⌘</span> workspace/</span><div class="preview-tabs" role="tablist" aria-label="Workbench views"><button role="tab" id="tab-review" aria-selected="true" aria-controls="preview-panel" data-view="review" data-i18n="tabReview">Review Git</button><button role="tab" id="tab-conflicts" aria-selected="false" aria-controls="preview-panel" tabindex="-1" data-view="conflicts" data-i18n="tabConflicts">Merge konflik</button><button role="tab" id="tab-search" aria-selected="false" aria-controls="preview-panel" tabindex="-1" data-view="search" data-i18n="tabSearch">Search & replace</button></div><span class="toolbar-dot" aria-hidden="true"></span></div>
+      <div id="preview-panel" role="tabpanel" aria-labelledby="tab-review"><img id="preview-image" src="images/review.png" width="1544" height="1044" alt="Git sidebar with three repositories and side-by-side Before / After code review" fetchpriority="high"></div>
+    </div>
+    <p id="preview-caption" class="preview-caption">Klik repo untuk berpindah. Klik file untuk melihat Before / After. Tarik pembatas untuk mengatur ruang.</p>
+    <div class="feature-strip"><div><span class="feature-number">01</span><p data-i18n="featureOne">Beberapa repo.<br><strong>Satu sidebar Git.</strong></p></div><div><span class="feature-number">02</span><p data-i18n="featureTwo">Incoming, Current, Result.<br><strong>Tiga panel yang bisa di-resize.</strong></p></div><div><span class="feature-number">03</span><p data-i18n="featureThree">Codex atau Claude Code.<br><strong>Draft dulu, review, baru commit.</strong></p></div></div>
+  </section>
+  <section class="install-section wrap" id="install" aria-labelledby="install-title">
+    <div class="install-intro"><p class="eyebrow" data-i18n="guideEyebrow">DARI TERMINAL PERTAMA</p><h2 id="install-title" data-i18n="installTitle">Mulai dari<br> Mac yang kosong.</h2><p data-i18n="installIntro">Belum punya Neovim? Ikuti urutannya. Tiap langkah menjelaskan perintahnya dijalankan di mana, apa fungsinya, dan tanda berhasilnya.</p><div class="progress-summary"><span id="progress-text" role="status">0 / 9 langkah ditandai</span><button id="reset-progress" type="button" data-i18n="reset">Reset</button><progress id="progress" value="0" max="9" aria-label="Your installation checklist"></progress><small data-i18n="progressNote">Checklist ini catatanmu, bukan deteksi otomatis Mac.</small></div><nav id="step-nav" class="step-nav" aria-label="Installation steps"></nav><div class="official-sources"><p data-i18n="sources">Referensi resmi</p><a href="https://brew.sh/">Homebrew ↗</a><a href="https://docs.brew.sh/Installation">Homebrew: Next steps ↗</a><a href="https://github.com/neovim/neovim/blob/master/INSTALL.md">Neovim ↗</a></div><a class="text-link" id="markdown-guide" href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/mulai-dari-nol.md" data-i18n="markdownGuide">Baca versi Markdown ↗</a></div>
+    <div id="guide-steps" class="guide-steps"><p class="loading" data-i18n="loading">Memuat panduan…</p></div>
+    <noscript><p>JavaScript is off. <a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/getting-started.md">Read the full installation guide in English</a> or <a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/mulai-dari-nol.md">Bahasa Indonesia</a>.</p></noscript>
+  </section>
+  <section class="extras wrap" id="next" aria-labelledby="extras-title"><div><p class="eyebrow" data-i18n="extrasEyebrow">SETELAH BERHASIL JALAN</p><h2 id="extras-title" data-i18n="extrasTitle">Tambahkan sesuai kebutuhan.</h2><p data-i18n="extrasIntro">Mulai dengan edit dan Git. Completion, diagnostik, dan AI bisa dipasang belakangan.</p></div><div class="extras-details"><article><h3>Go · Rust · JS/TS · React · Python</h3><p data-i18n="lspText">Pasang language server dari folder source. Proyek tetap butuh runtime dan dependensinya sendiri.</p><div class="code-block"><div class="code-toolbar"><span>Terminal</span><button type="button" data-copy-target="lsp-code" data-i18n="copy">Salin</button></div><pre><code id="lsp-code">cd "$HOME/Developer/nvim-workbench"
+./scripts/dependencies.sh languages</code></pre></div><a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/installation.md#language-servers" class="text-link" data-i18n="lspMore">Panduan server dan runtime ↗</a></article><article><h3 data-i18n="aiTitle">AI commit yang tetap kamu review</h3><p data-i18n="aiText">Pasang dan login Codex CLI atau Claude Code dari panduan resminya. Di Git: simpan file → stage → Generate → pilih agent → review → Commit. Staged diff dikirim ke provider melalui akunmu; penggunaan normal bisa berbiaya.</p><div class="inline-links"><a href="https://github.com/openai/codex">Codex CLI ↗</a><a href="https://code.claude.com/docs/en/overview">Claude Code ↗</a></div></article><article><h3 data-i18n="learningTitle">Shortcut pertama, sampai merge pertama</h3><p data-i18n="learningText">Panduan lanjutan membahas copy/paste, undo, Git, merge konflik, search/replace, update, dan restore backup.</p><div class="inline-links"><a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/workflow.md" data-i18n="workflow">Panduan pemakaian ↗</a><a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/installation.md#update-and-restore" data-i18n="maintenance">Update & restore ↗</a></div></article></div></section>
+  <section class="faq wrap" id="faq" aria-labelledby="faq-title"><div><p class="eyebrow">FAQ</p><h2 id="faq-title" data-i18n="faqTitle">Kalau masih bingung.</h2></div><div id="faq-items">
+    <details><summary data-i18n="faqQ1">Config Neovim yang sudah ada bakal tertimpa?</summary><p data-i18n="faqA1">Install default menggunakan profil nvim-workbench, terpisah dari ~/.config/nvim. Upgrade profil workbench membuat backup. Mengganti config default perlu flag khusus yang dijelaskan di dokumentasi.</p></details>
+    <details><summary data-i18n="faqQ2">Bisa pakai tanpa AI atau akun GitHub?</summary><p data-i18n="faqA2">Bisa. Download repo publik dan latihan lokal tidak butuh login. AI opsional. Push ke remote sungguhan memerlukan remote, identitas commit, dan autentikasi Git yang sesuai; demo tidak punya remote.</p></details>
+    <details><summary data-i18n="faqQ3">Kenapa brew atau nvim-workbench tidak ditemukan?</summary><p data-i18n="faqA3">Untuk brew, jalankan Next steps dari installer Homebrew. Untuk launcher, pakai ~/.local/bin/nvim-workbench atau selesaikan langkah PATH di atas. Buka jendela Terminal baru setelah mengubah konfigurasi shell.</p></details>
+    <details><summary data-i18n="faqQ4">Kok tidak bisa mengetik atau keluar?</summary><p data-i18n="faqA4">Tekan i untuk mengetik. Tekan Esc untuk kembali ke Normal mode. Lalu :w dan Enter untuk menyimpan, :qa dan Enter untuk keluar. Space q q membuka konfirmasi keluar jika ada perubahan belum disimpan.</p></details>
+    <details><summary data-i18n="faqQ5">Linux dan Windows bisa?</summary><p data-i18n="faqA5">Panduan ini untuk macOS. Installer POSIX/Linux tersedia tetapi belum diuji menyeluruh. Windows belum didukung. Untuk Homebrew di Mac Intel atau macOS lama, cek persyaratan dukungan Homebrew sebelum mulai.</p></details>
+    <details><summary data-i18n="faqQ6">Folder nvim-workbench sudah ada saat git clone?</summary><p data-i18n="faqA6">Berarti sumbernya sudah diunduh. Buka folder itu, simpan perubahan lokal milikmu, lalu jalankan git pull --ff-only dan ./install.sh. Jangan menghapus folder yang sudah berisi pekerjaanmu.</p></details>
+  </div></section>
+  <section class="closing wrap"><div><h2 data-i18n="closingTitle">Pelan-pelan. Satu langkah dulu.</h2><p data-i18n="closingText">Mulai dari Terminal. Workspace pertamamu sudah ada di panduan.</p></div><a class="button primary" href="#install" data-i18n="backInstall">Mulai install <span aria-hidden="true">↑</span></a></section>
+</main>
+<footer class="wrap"><p>Neovim Workbench <span class="muted">by</span> <a href="https://github.com/ardanngrha">Ardana Nugraha</a></p><div><a href="https://github.com/ardanngrha/nvim-workbench/blob/main/LICENSE">MIT</a><a href="https://github.com/ardanngrha/nvim-workbench/issues" data-i18n="report">Laporkan masalah ↗</a><a href="https://github.com/ardanngrha/nvim-workbench/blob/main/docs/verification.md" data-i18n="verification">Catatan pengujian ↗</a></div><p class="footer-note" data-i18n="credits">Dibangun di atas Neovim, LazyGit, Diffview, dan plugin open source. Website statis di GitHub Pages.</p></footer>
+<div id="announcement" class="announcement" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # Installation and maintenance
 
+**First time?** Start with [Install from a fresh Mac](getting-started.md), [panduan Bahasa Indonesia](mulai-dari-nol.md), or the [interactive website](https://ardanngrha.github.io/nvim-workbench/#install). This page covers reference requirements and maintenance after the beginner walkthrough.
+
 ## Requirements
 
 - macOS: tested with Neovim 0.12.5. Linux: installer uses POSIX paths, but the complete UI/toolchain is untested there. Windows is unsupported.

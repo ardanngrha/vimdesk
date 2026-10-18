@@ -20,6 +20,10 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 
 ## Install
 
+**New to Neovim or starting with a fresh Mac?** Follow the [interactive step-by-step website](https://ardanngrha.github.io/nvim-workbench/?lang=en#install), [English guide](docs/getting-started.md), or [panduan Bahasa Indonesia](docs/mulai-dari-nol.md). They start with opening Terminal and installing Apple tools, Homebrew, and Neovim, then walk through plugins, a two-repo practice workspace, saving and quitting.
+
+The quick path below is for people who already have Homebrew.
+
 **macOS tested.** POSIX/Linux installation is supported by the installer but has not been validated end to end. Windows is not supported. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. A normal monospace font works; Nerd Fonts are optional.
 
 ```sh
@@ -63,7 +67,7 @@ Language runtimes and project dependencies still belong to your projects. AI gen
 
 Inside LazyGit, use `?` for its own shortcuts. AI generation lives in the **Git sidebar → Generate**; this distribution does not override your global LazyGit configuration or bind Ctrl+G.
 
-[Workflow and beginner guide →](docs/workflow.md) · [Architecture →](docs/architecture.md) · [Contributing and verification →](CONTRIBUTING.md)
+[Workflow and editing guide →](docs/workflow.md) · [Architecture →](docs/architecture.md) · [Contributing and verification →](CONTRIBUTING.md)
 
 ## Designed for sibling repositories
 
