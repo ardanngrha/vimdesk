@@ -127,3 +127,18 @@ The owner requested that macOS, Linux, and Windows appear in the left table of c
 - Purpose gate PASS: the selected link uses the existing accent and a left border to identify the active guide. This is a navigation state, not decoration. All three choices remain together above the numbered steps.
 - Liveliness PASS: ENERGY 1 / RHYTHM 1 / MOTION 1 is unchanged; the existing reading column, typography, and command-context labels remain.
 - Craftsmanship PASS, scoped: no guide data, installation command, fallback, or editor configuration changed. The previously recorded item-by-item gate applies to the retained components. English destinations were checked, the mobile selection worked, and the normal-page browser error log was empty.
+
+## Desktop contents and compact mobile navigation
+
+The owner requested non-collapsible desktop contents, then asked for the most usable mobile treatment. The overall contents now use a plain heading and navigation. Desktop always displays the numbered steps with no collapse control. Mobile always shows all three OS links; only the numbered installation steps use a native disclosure. Section links wrap to keep the mobile navigation compact.
+
+- Hard gate PASS, scoped: no new assets, claims, or destinations were added. Existing OS links and guide commands are retained.
+- R-03 PASS: at 320px all three OS links occupy the same row, each is 44px high, and page width equals viewport width. The guide overview remains visible below the compact navigation.
+- R-24 / R-26 / R-35 PASS: the mobile step disclosure opened; choosing its first numbered link reached the correct step hash and closed only that disclosure. All OS links remained rendered. Enter activated the Linux OS link on desktop.
+- R-25 / R-32 PASS, scoped: retained colors and focus styles are unchanged; the disclosure is native keyboard-operable HTML.
+- R-23 / R-37 PASS: the desktop behavior follows the owner's explicit instruction; the mobile refinement follows the owner's request for the most usable narrow-screen approach. DESIGN.md records both.
+- R-33 PASS: the implementation is directly in HTML, CSS, and JavaScript; no rewriting script implements the feature.
+- R-34 / R-38 PASS, scoped: the fixed theme, real content, and existing OS support limits are unchanged.
+- Purpose gate PASS: the mobile disclosure contains only the long numbered list, keeping OS choices visible while reducing the distance to the guide. Desktop hides that disclosure control and expands its content.
+- Liveliness PASS: ENERGY 1 / RHYTHM 1 / MOTION 1 remains; no new animation or decorative treatment was added.
+- Craftsmanship PASS, scoped: desktop breakpoint verification waited for the steps to become visible, then confirmed the details element was open and its summary hidden. Both languages render the step label. Existing guide synchronization and JavaScript syntax checks pass. This extends the retained item-by-item gate above.

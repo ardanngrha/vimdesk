@@ -4,6 +4,7 @@ const strings = {
   id: {
     skip: "Langsung ke konten",
     contents: "Daftar isi",
+    stepContents: "Langkah instalasi",
     description:
       "Konfigurasi Neovim untuk bekerja dengan beberapa repo Git. Termasuk sidebar Git, LazyGit, diff, dan search/replace.",
     requirements:
@@ -66,6 +67,7 @@ const strings = {
   en: {
     skip: "Skip to content",
     contents: "Contents",
+    stepContents: "Installation steps",
     description:
       "Neovim configuration for working across Git repositories. Includes a Git sidebar, LazyGit, diff views, and search/replace.",
     requirements:
@@ -350,7 +352,7 @@ document.getElementById("platform-nav").addEventListener("click", (event) => {
   platform = link.dataset.platform;
   history.pushState(null, "", link.href);
   translate();
-  if (!wideLayout.matches) contents.open = false;
+  if (!wideContents.matches) stepContents.open = false;
   document.getElementById("install").scrollIntoView();
   announce(
     platformGuides?.platforms[platform].title[language] || tr("installTitle"),
@@ -366,14 +368,15 @@ window.addEventListener("popstate", () => {
   translate();
 });
 
-const contents = document.getElementById("contents");
-const wideLayout = window.matchMedia("(min-width: 980px)");
-contents.open = wideLayout.matches;
-wideLayout.addEventListener("change", (event) => {
-  contents.open = event.matches;
+const stepContents = document.getElementById("step-contents");
+const wideContents = window.matchMedia("(min-width: 980px)");
+stepContents.open = wideContents.matches;
+wideContents.addEventListener("change", (event) => {
+  stepContents.open = event.matches;
 });
-contents.addEventListener("click", (event) => {
-  if (event.target.closest("a") && !wideLayout.matches) contents.open = false;
+stepContents.addEventListener("click", (event) => {
+  if (event.target.closest("a") && !wideContents.matches)
+    stepContents.open = false;
 });
 
 document.querySelectorAll("[data-view]").forEach((button) => {

@@ -162,11 +162,10 @@ p {
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
-.sidebar summary {
+.contents-title {
   font-size: 0.9rem;
-}
-.sidebar details {
-  border: 0;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 .sidebar nav {
   padding: 4px 0;
@@ -181,6 +180,12 @@ p {
 }
 #step-nav {
   padding: 0 0 12px 10px;
+}
+#step-contents {
+  border: 0;
+}
+#step-contents > summary {
+  font-size: 0.86rem;
 }
 #platform-nav {
   margin: 0 0 12px;
@@ -472,15 +477,36 @@ footer a {
     border: 0;
     padding: 33px 5px 20px 0;
   }
-  .sidebar summary {
-    cursor: pointer;
+  .contents-title {
     font-size: 0.85rem;
+  }
+  #step-contents > summary {
+    display: none;
   }
   main {
     padding-top: 48px;
   }
   .overview {
     padding-bottom: 38px;
+  }
+}
+@media (max-width: 979px) {
+  #contents > a[href="#install"],
+  .platform-detail {
+    display: none;
+  }
+  #platform-nav,
+  .section-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+  }
+  #platform-nav {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  #platform-nav a {
+    gap: 0;
   }
 }
 @media (max-width: 390px) {
