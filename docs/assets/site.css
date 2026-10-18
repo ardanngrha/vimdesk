@@ -116,6 +116,7 @@ p {
   display: flex;
   gap: 18px;
   align-items: center;
+  font-size: 0.9rem;
 }
 .header-controls > a {
   display: inline-flex;
@@ -123,14 +124,35 @@ p {
   min-width: 44px;
   min-height: 44px;
 }
-select {
+.language-control {
+  position: relative;
+  display: inline-flex;
+  color: var(--text);
+}
+.language-control::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: calc(50% - 5px);
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+.language-control select {
+  -webkit-appearance: none;
+  appearance: none;
   min-height: 44px;
   background: var(--bg);
   color: var(--text);
   border: 1px solid var(--control);
   border-radius: 3px;
-  padding: 7px 9px;
-  font-size: 0.85rem;
+  padding: 8px 38px 8px 12px;
+  font-size: inherit;
+  line-height: 1.4;
+  cursor: pointer;
 }
 .document {
   width: min(1080px, calc(100% - 40px));

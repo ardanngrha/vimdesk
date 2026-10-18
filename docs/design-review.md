@@ -84,3 +84,9 @@ Rules: [anti-slop core](https://github.com/miqdadbadjuber/anti-slop/blob/main/sk
 The renamed `vimdesk` launcher/profile also passed the native Neovim runtime test with three temporary repositories, cached locked plugins, real LazyGit startup, AI draft routing through the new config path, three-pane conflict resolution, local Fetch All, search and selected replacement. Existing user configs were not modified.
 
 External sites were checked by HTTP response, not exhaustively tested as applications. The guide's Homebrew/Apple instructions were checked against their sources; no factory-reset Mac was used for this revision. This review does not claim full Linux, Windows, or provider-CLI compatibility.
+
+## Header control correction
+
+The owner reported the language arrow sitting against the right border. The native select remains in use, with its browser decoration replaced by a CSS chevron inset 15px from the edge. Reserved right padding separates the label from the arrow. The language control and GitHub link now share a 14.4px font size and 44px minimum height.
+
+Browser verification passed for Indonesian and English selection, visible keyboard focus, and 320px and 1280px viewport widths without horizontal overflow. This is a scoped header correction; the installation guide and Neovim configuration are unchanged.
