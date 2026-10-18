@@ -158,6 +158,21 @@ p {
   width: min(1080px, calc(100% - 40px));
   margin: 0 auto;
 }
+.platform-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+.platform-picker .language-control {
+  max-width: 100%;
+}
+.platform-picker select {
+  width: 100%;
+  min-width: 0;
+}
 .sidebar {
   padding: 20px 0;
   border-bottom: 1px solid var(--line);

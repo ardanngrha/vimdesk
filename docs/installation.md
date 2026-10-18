@@ -1,10 +1,18 @@
 # Installation and maintenance
 
-**First time?** Start with [Install from a fresh Mac](getting-started.md), [panduan Bahasa Indonesia](mulai-dari-nol.md), or the [interactive website](https://ardanngrha.github.io/vimdesk/#install). This page covers reference requirements and maintenance after the beginner walkthrough.
+**First time?** Choose your platform on the [interactive website](https://ardanngrha.github.io/vimdesk/#install), or use a Markdown guide:
+
+| Platform | English | Bahasa Indonesia |
+| --- | --- | --- |
+| macOS | [Install](getting-started.md) | [Panduan](mulai-dari-nol.md) |
+| Linux (Ubuntu/Debian) | [Install](getting-started-linux.md) | [Panduan](mulai-dari-nol-linux.md) |
+| Windows (WSL 2 + Ubuntu) | [Install](getting-started-windows.md) | [Panduan](mulai-dari-nol-windows.md) |
+
+This page covers reference requirements and maintenance after the beginner walkthrough.
 
 ## Requirements
 
-- macOS: tested with Neovim 0.12.5. Linux: installer uses POSIX paths, but the complete UI/toolchain is untested there. Windows is unsupported.
+- macOS: tested with Neovim 0.12.5. Linux: installer uses POSIX paths, but the complete UI/toolchain is untested there. Windows: use the Linux instructions inside WSL 2; this path is documented but untested end to end. Native Windows is unsupported.
 - Required: Neovim **0.12+**, Git, LazyGit, ripgrep (`rg`), fd (`fd`), Python **3.9+**.
 - Syntax parsers: `tar`, `curl`, a C compiler, and tree-sitter CLI **0.26.1+**, installed through your package manager. These requirements follow the [pinned Treesitter revision](https://github.com/nvim-treesitter/nvim-treesitter/blob/910fdf6f49e9dee7e7257c7d11a76b040fdfb9de/README.md#requirements).
 - Any modern terminal with true color and mouse reporting. No special font is required. On macOS the system clipboard works; Linux may need `wl-clipboard` or `xclip`.
@@ -18,6 +26,8 @@ For macOS with Homebrew already installed:
 ```
 
 The dependency helper installs missing formulae only. It does not upgrade existing versions. If Doctor reports an old Neovim, upgrade it explicitly with `brew upgrade neovim`. If a compiler is missing on macOS, install Apple's command line tools with `xcode-select --install`.
+
+On Linux or WSL 2, install the distribution build tools and Homebrew first using the linked beginner guide, then run the same helper inside Linux. Keep all tools, project runtimes, Git authentication, and optional AI CLIs in that Linux environment. Do not use macOS's `xcode-select` command there. A Windows PowerShell installation of a tool does not replace its Linux counterpart.
 
 ## Separate profile by default
 

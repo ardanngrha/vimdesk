@@ -7,9 +7,10 @@ const strings = {
     description:
       "Konfigurasi Neovim untuk bekerja dengan beberapa repo Git. Termasuk sidebar Git, LazyGit, diff, dan search/replace.",
     requirements:
-      "Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil vimdesk, terpisah dari ~/.config/nvim.",
+      "Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai profil vimdesk, terpisah dari ~/.config/nvim. Pilih panduan sesuai sistem operasi; Windows memakai WSL 2.",
     markdownGuide: "Panduan Markdown",
-    installTitle: "Install di macOS",
+    installTitle: "Install",
+    platform: "Sistem operasi",
     installIntro:
       "Ikuti langkah berurutan. Jika suatu alat sudah terpasang, cek versinya lalu lanjutkan.",
     loading: "Memuat langkah instalasi…",
@@ -19,6 +20,7 @@ const strings = {
       "Langkah instalasi belum tersedia di halaman ini. Buka Panduan Markdown di atas.",
     sources: "Referensi resmi",
     terminal: "Terminal",
+    powershell: "PowerShell Windows",
     neovim: "Di dalam Neovim",
     copy: "Salin",
     copied: "Tersalin",
@@ -56,7 +58,7 @@ const strings = {
       "Tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode. Ketik :w lalu Enter untuk menyimpan, atau :qa lalu Enter untuk keluar. Space q q membuka konfirmasi jika ada perubahan belum tersimpan.",
     faqQ5: "Dukungan Linux dan Windows",
     faqA5:
-      "Panduan ini untuk macOS. Installer POSIX/Linux belum diuji menyeluruh. Windows belum didukung. Untuk Mac Intel atau macOS lama, cek dukungan Homebrew sebelum mulai.",
+      "Pilih Linux untuk panduan Ubuntu/Debian, atau Windows untuk WSL 2 + Ubuntu. Instalasi Windows native belum didukung. Linux dan WSL belum diuji menyeluruh; pengujian runtime VimDesk saat ini dilakukan di macOS.",
     faqQ6: "Folder sudah ada saat git clone",
     faqA6:
       "Buka folder vimdesk yang sudah diunduh, simpan perubahan lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus folder yang berisi pekerjaanmu.",
@@ -68,9 +70,10 @@ const strings = {
     description:
       "Neovim configuration for working across Git repositories. Includes a Git sidebar, LazyGit, diff views, and search/replace.",
     requirements:
-      "This guide targets macOS. Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate vimdesk profile, away from ~/.config/nvim.",
+      "Requires Neovim 0.12+ and Python 3.9+. The config installs as a separate vimdesk profile, away from ~/.config/nvim. Choose your operating-system guide; Windows uses WSL 2.",
     markdownGuide: "Markdown guide",
-    installTitle: "Install on macOS",
+    installTitle: "Install",
+    platform: "Operating system",
     installIntro:
       "Follow the steps in order. If a tool is already installed, check its version and continue.",
     loading: "Loading installation steps…",
@@ -80,6 +83,7 @@ const strings = {
       "Installation steps are not available on this page. Open the Markdown guide above.",
     sources: "Official references",
     terminal: "Terminal",
+    powershell: "Windows PowerShell",
     neovim: "Inside Neovim",
     copy: "Copy",
     copied: "Copied",
@@ -118,7 +122,7 @@ const strings = {
       "Press i to type, then Esc to return to Normal mode. Type :w and Enter to save, or :qa and Enter to quit. Space q q offers a confirmation when changes are unsaved.",
     faqQ5: "Linux and Windows support",
     faqA5:
-      "This guide targets macOS. The POSIX/Linux installer has not been validated end to end. Windows is unsupported. For Intel Macs or older macOS, check Homebrew’s support requirements first.",
+      "Choose Linux for Ubuntu/Debian instructions, or Windows for WSL 2 + Ubuntu. Native Windows is unsupported. Linux and WSL have not been tested end to end; VimDesk runtime verification currently uses macOS.",
     faqQ6: "The folder already exists during git clone",
     faqA6:
       "Open the existing vimdesk folder, preserve local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
@@ -169,6 +173,11 @@ let language = ["id", "en"].includes(queryLanguage)
   : storage.get("workbench-language", "id");
 if (!strings[language]) language = "id";
 let guide = null;
+let platformGuides = null;
+const queryPlatform = new URLSearchParams(location.search).get("os");
+let platform = ["macos", "linux", "windows"].includes(queryPlatform)
+  ? queryPlatform
+  : "macos";
 let guideState = "loading";
 let selectedView = "review";
 let announcementTimer;
@@ -242,34 +251,55 @@ function renderGuide() {
     host.append(message);
     return;
   }
-  guide.steps.forEach((step, index) => {
-    const section = element("article", "guide-step");
-    section.id = `step-${step.id}`;
-    const heading = element("div", "step-heading");
-    const title = element("h3", "", step.title[language]);
-    title.id = `title-${step.id}`;
-    section.setAttribute("aria-labelledby", title.id);
-    heading.append(element("span", "", String(index + 1)), title);
-    section.append(heading, element("p", "step-intro", step.intro[language]));
-    step.blocks.forEach((block, blockIndex) => {
-      section.append(codeBlock(block, `code-${step.id}-${blockIndex}`));
+  const selected = platformGuides.platforms[platform];
+  document.getElementById("install-title").textContent =
+    selected.title[language];
+  document.getElementById("platform-note").textContent =
+    selected.intro[language];
+  document.getElementById("platform-notes").textContent =
+    selected.notes[language];
+  const steps = new Map(
+    [...guide.steps, ...platformGuides.steps].map((step) => [step.id, step]),
+  );
+  selected.stepIds
+    .map((id) => steps.get(id))
+    .forEach((step, index) => {
+      const section = element("article", "guide-step");
+      section.id = `step-${step.id}`;
+      const heading = element("div", "step-heading");
+      const title = element("h3", "", step.title[language]);
+      title.id = `title-${step.id}`;
+      section.setAttribute("aria-labelledby", title.id);
+      heading.append(element("span", "", String(index + 1)), title);
+      section.append(heading, element("p", "step-intro", step.intro[language]));
+      step.blocks.forEach((block, blockIndex) => {
+        section.append(codeBlock(block, `code-${step.id}-${blockIndex}`));
+      });
+      const check = element("p", "step-check");
+      check.append(
+        element("strong", "", tr("success") + " "),
+        document.createTextNode(step.expected[language]),
+      );
+      section.append(check);
+      if (step.note)
+        section.append(element("p", "step-note", step.note[language]));
+      host.append(section);
+      const link = element("a");
+      link.href = `#step-${step.id}`;
+      link.append(
+        element("span", "", String(index + 1)),
+        document.createTextNode(step.title[language]),
+      );
+      navigation.append(link);
     });
-    const check = element("p", "step-check");
-    check.append(
-      element("strong", "", tr("success") + " "),
-      document.createTextNode(step.expected[language]),
-    );
-    section.append(check);
-    if (step.note)
-      section.append(element("p", "step-note", step.note[language]));
-    host.append(section);
-    const link = element("a");
-    link.href = `#step-${step.id}`;
-    link.append(
-      element("span", "", String(index + 1)),
-      document.createTextNode(step.title[language]),
-    );
-    navigation.append(link);
+  const sources = document.getElementById("install-sources");
+  sources.replaceChildren();
+  [...guide.sources, ...selected.sources].forEach((source) => {
+    const item = element("li");
+    const link = element("a", "", source.title);
+    link.href = source.url;
+    item.append(link);
+    sources.append(item);
   });
 }
 
@@ -279,7 +309,10 @@ function translate() {
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = tr(node.dataset.i18n);
   });
-  const filename = language === "id" ? "mulai-dari-nol" : "getting-started";
+  document.getElementById("platform").value = platform;
+  const filename =
+    (language === "id" ? "mulai-dari-nol" : "getting-started") +
+    (platform === "macos" ? "" : `-${platform}`);
   document.getElementById("markdown-guide").href =
     `https://github.com/ardanngrha/vimdesk/blob/main/docs/${filename}.md`;
   renderView();
@@ -293,6 +326,18 @@ document.getElementById("language").addEventListener("change", (event) => {
   url.searchParams.set("lang", language);
   history.replaceState(null, "", url);
   translate();
+});
+
+document.getElementById("platform").addEventListener("change", (event) => {
+  platform = event.target.value;
+  const url = new URL(location.href);
+  url.searchParams.set("os", platform);
+  if (url.hash.startsWith("#step-")) url.hash = "install";
+  history.replaceState(null, "", url);
+  translate();
+  announce(
+    platformGuides?.platforms[platform].title[language] || tr("installTitle"),
+  );
 });
 
 const contents = document.getElementById("contents");
@@ -359,14 +404,34 @@ document.addEventListener("click", async (event) => {
 });
 
 translate();
-fetch("assets/guide.json")
-  .then((response) => {
+Promise.all(
+  ["assets/guide.json", "assets/platform-guides.json"].map(async (path) => {
+    const response = await fetch(path);
     if (!response.ok) throw new Error("Guide unavailable");
     return response.json();
-  })
-  .then((data) => {
+  }),
+)
+  .then(([data, platforms]) => {
     if (!Array.isArray(data.steps)) throw new Error("Invalid guide");
+    if (!data.steps.length) {
+      guideState = "empty";
+      renderGuide();
+      return;
+    }
+    const ids = new Set(
+      [...data.steps, ...platforms.steps].map((step) => step.id),
+    );
+    for (const key of ["macos", "linux", "windows"]) {
+      const selected = platforms.platforms[key];
+      if (
+        !selected ||
+        !Array.isArray(selected.stepIds) ||
+        selected.stepIds.some((id) => !ids.has(id))
+      )
+        throw new Error("Invalid platform guide");
+    }
     guide = data;
+    platformGuides = platforms;
     guideState = data.steps.length ? "ready" : "empty";
     renderGuide();
     if (location.hash.startsWith("#step-")) {

@@ -90,3 +90,26 @@ External sites were checked by HTTP response, not exhaustively tested as applica
 The owner reported the language arrow sitting against the right border. The native select remains in use, with its browser decoration replaced by a CSS chevron inset 15px from the edge. Reserved right padding separates the label from the arrow. The language control and GitHub link now share a 14.4px font size and 44px minimum height.
 
 Browser verification passed for Indonesian and English selection, visible keyboard focus, and 320px and 1280px viewport widths without horizontal overflow. This is a scoped header correction; the installation guide and Neovim configuration are unchanged.
+
+## Linux and Windows installation guides
+
+The owner requested beginner installation tutorials for Linux and Windows. A native operating-system selector now changes the existing numbered guide, contents, references, and Markdown destination. Linux covers Ubuntu/Debian with Bash and Homebrew. Windows uses Ubuntu in WSL 2, with Windows PowerShell explicitly labelled before switching to Ubuntu. The page and guides state that these are documented paths without end-to-end VimDesk runtime validation. Native Windows remains unsupported.
+
+The existing item-by-item gate above applies to the retained components and visual system. The following evidence covers the extension:
+
+- Hard gate PASS, scoped: no identity asset or statistic was invented; official Homebrew and Microsoft documentation supports the new platform instructions. No native-Windows or Linux-runtime compatibility claim was added.
+- R-03 PASS: 320px and 1280px page widths matched their viewport widths. The new select is 44px high and stays within the narrow reading column.
+- R-23 / R-37 PASS: the owner explicitly requested both platform tutorials. The selector reuses the existing native select and chevron treatment; its role and URL behavior are recorded in DESIGN.md.
+- R-24 / R-26 / R-35 PASS: 9 macOS, 9 Linux, and 10 Windows contents links each reached their step hash. All 15 macOS, 16 Linux, and 18 Windows guide copy buttons displayed Copied feedback. This is browser-feedback verification, not verification of every OS clipboard transport.
+- R-25 / R-29 PASS, scoped: the selector uses the same previously measured TokyoNight text, background, border, and focus colors; no new color pair was introduced.
+- R-27 PASS: separate local fixtures returned an empty guide and an unavailable platform file. The page displayed its empty/error message and retained the correct Linux/Windows Markdown fallback. Normal steps were restored afterwards. These fixtures did not alter published source files.
+- R-32 PASS: Tab from the OS select reached the first copy control, with the existing visible 2px focus outline.
+- R-33 PASS: HTML, CSS, JavaScript, shared JSON, and generator changes were edited directly. Only the established Markdown generator and formatter produced derived output.
+- R-34 / R-38 PASS, scoped: the retained fixed theme and real content remain in use. Neither Linux nor WSL installation was executed on this Mac; no such execution is claimed.
+- Purpose gate PASS: one selector prevents mixing commands across operating systems. The same reading column, step structure, source list, and copy controls serve all platforms without adding decorative components.
+- Liveliness PASS: ENERGY 1 / RHYTHM 1 / MOTION 1 is retained. Terminal / Windows PowerShell / Inside Neovim labels identify the context for each instruction.
+- Craftsmanship and copy checklist PASS, scoped: all six OS/language combinations rendered the expected localized heading, matching contents count, and Markdown link. No macOS xcode-select command appeared in Linux or Windows steps. Native Windows limits, WSL file locations, provider environment, and clipboard boundaries are explicit.
+- Source checks PASS: all eleven automated tests passed, including extended guide synchronization, shared step references, shell syntax checks, and WSL command-context checks. Six Markdown files match the shared data; JavaScript parses; git diff whitespace check passed.
+- Reload PASS: the selected Linux OS and Indonesian language survived reloading the shareable URL.
+
+Sources checked: [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux), [Homebrew support tiers](https://docs.brew.sh/Support-Tiers), [current Neovim formula](https://formulae.brew.sh/formula/neovim), [Microsoft WSL installation](https://learn.microsoft.com/en-us/windows/wsl/install), [WSL file storage](https://learn.microsoft.com/en-us/windows/wsl/filesystems), and [WSL troubleshooting](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting). The new guides link directly to their relevant references.

@@ -6,6 +6,8 @@ Open the parent folder. Switch repositories in the Git sidebar. Review changes s
 
 **[Website & install guide](https://ardanngrha.github.io/vimdesk/)** · [English](docs/getting-started.md) · [Bahasa Indonesia](docs/mulai-dari-nol.md)
 
+Install guides: [macOS](https://ardanngrha.github.io/vimdesk/?lang=en&os=macos#install) · [Linux](https://ardanngrha.github.io/vimdesk/?lang=en&os=linux#install) · [Windows via WSL 2](https://ardanngrha.github.io/vimdesk/?lang=en&os=windows#install).
+
 ![Git sidebar and side-by-side review](docs/images/review.png)
 
 Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: an agent edits the code, this workbench handles reviewing, Git, search, and the final commit. Orca is an optional coding companion; the workbench works independently.
@@ -26,7 +28,7 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 
 The quick path below is for people who already have Homebrew.
 
-**macOS tested.** POSIX/Linux installation is supported by the installer but has not been validated end to end. Windows is not supported. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. A normal monospace font works; Nerd Fonts are optional.
+**macOS tested.** [Linux instructions](docs/getting-started-linux.md) cover Ubuntu/Debian with Homebrew. [Windows instructions](docs/getting-started-windows.md) use Ubuntu in WSL 2; native Windows is unsupported. Linux and WSL have not been validated end to end. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. A normal monospace font works; Nerd Fonts are optional.
 
 ```sh
 git clone https://github.com/ardanngrha/vimdesk.git

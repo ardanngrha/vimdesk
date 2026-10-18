@@ -1,0 +1,271 @@
+{
+  "platforms": {
+    "macos": {
+      "title": { "en": "Install on macOS", "id": "Install di macOS" },
+      "intro": {
+        "en": "Start with Terminal, Apple developer tools, and Homebrew. This is the platform used for VimDesk runtime verification.",
+        "id": "Mulai dari Terminal, developer tools Apple, dan Homebrew. Platform ini dipakai untuk pengujian runtime VimDesk."
+      },
+      "filename": { "en": "getting-started", "id": "mulai-dari-nol" },
+      "notes": {
+        "en": "The optional Homebrew language-server helper runs in Terminal. Keep each project's language runtimes and dependencies separate. The macOS system clipboard is available to Neovim.",
+        "id": "Helper Homebrew untuk language server opsional dijalankan di Terminal. Runtime dan dependensi bahasa tetap mengikuti masing-masing proyek. Clipboard sistem macOS tersedia untuk Neovim."
+      },
+      "stepIds": [
+        "terminal",
+        "developer-tools",
+        "homebrew",
+        "neovim",
+        "workbench",
+        "first-launch",
+        "plugins",
+        "first-edit",
+        "daily"
+      ],
+      "sources": []
+    },
+    "linux": {
+      "title": { "en": "Install on Linux", "id": "Install di Linux" },
+      "intro": {
+        "en": "Ubuntu/Debian with Bash and Homebrew. Start with a supported 64-bit distribution; Ubuntu 24.04 or newer is a practical starting point. These instructions were checked against official documentation, but VimDesk has not been tested end to end on Linux.",
+        "id": "Ubuntu/Debian dengan Bash dan Homebrew. Gunakan distro 64-bit yang masih didukung; Ubuntu 24.04 atau lebih baru bisa jadi titik awal. Langkah ini diperiksa dengan dokumentasi resmi, tetapi VimDesk belum diuji menyeluruh di Linux."
+      },
+      "filename": {
+        "en": "getting-started-linux",
+        "id": "mulai-dari-nol-linux"
+      },
+      "notes": {
+        "en": "For desktop clipboard integration, install wl-clipboard for Wayland or xclip for X11 using your distribution's package manager. Run :checkhealth vim.provider if copying between Neovim and other apps fails. Terminal text selection/copy is separate from Neovim registers. The optional Homebrew language-server helper below also runs inside Linux.",
+        "id": "Untuk integrasi clipboard desktop, pasang wl-clipboard di Wayland atau xclip di X11 lewat package manager distro. Jalankan :checkhealth vim.provider jika copy antara Neovim dan aplikasi lain gagal. Seleksi/copy terminal berbeda dari register Neovim. Helper Homebrew untuk language server opsional di bawah juga dijalankan di Linux."
+      },
+      "stepIds": [
+        "linux-terminal",
+        "linux-tools",
+        "linux-homebrew",
+        "neovim",
+        "workbench",
+        "first-launch",
+        "plugins",
+        "first-edit",
+        "linux-daily"
+      ],
+      "sources": [
+        {
+          "title": "Homebrew on Linux",
+          "url": "https://docs.brew.sh/Homebrew-on-Linux"
+        },
+        {
+          "title": "Homebrew support requirements",
+          "url": "https://docs.brew.sh/Support-Tiers"
+        }
+      ]
+    },
+    "windows": {
+      "title": {
+        "en": "Install on Windows with WSL 2",
+        "id": "Install di Windows lewat WSL 2"
+      },
+      "intro": {
+        "en": "Use Ubuntu inside WSL 2. This runs the Linux version of VimDesk; native Windows, PowerShell-only, and Git Bash installations are not supported. Windows 11 or Windows 10 version 2004 (build 19041) or newer is needed for the WSL commands below. VimDesk has not been tested end to end on WSL.",
+        "id": "Gunakan Ubuntu di dalam WSL 2. Jalur ini menjalankan VimDesk versi Linux; instalasi Windows native, hanya PowerShell, dan Git Bash belum didukung. Perintah WSL di bawah membutuhkan Windows 11 atau Windows 10 versi 2004 (build 19041) atau lebih baru. VimDesk belum diuji menyeluruh di WSL."
+      },
+      "filename": {
+        "en": "getting-started-windows",
+        "id": "mulai-dari-nol-windows"
+      },
+      "notes": {
+        "en": "Install language servers, project runtimes, Git credentials, and optional AI CLIs inside Ubuntu. Windows-side tools and accounts are separate. Run :checkhealth vim.provider to inspect clipboard support; Windows Terminal selection/copy is separate from Neovim registers. Store projects under ~/Developer in Ubuntu; Microsoft recommends the Linux file system for Linux tools.",
+        "id": "Pasang language server, runtime proyek, kredensial Git, dan CLI AI opsional di dalam Ubuntu. Alat dan akun di sisi Windows terpisah. Jalankan :checkhealth vim.provider untuk memeriksa clipboard; seleksi/copy Windows Terminal berbeda dari register Neovim. Simpan proyek di ~/Developer dalam Ubuntu; Microsoft menyarankan file system Linux untuk alat Linux."
+      },
+      "stepIds": [
+        "windows-wsl",
+        "windows-ubuntu",
+        "linux-tools",
+        "linux-homebrew",
+        "neovim",
+        "workbench",
+        "first-launch",
+        "plugins",
+        "first-edit",
+        "linux-daily"
+      ],
+      "sources": [
+        {
+          "title": "Microsoft: install WSL",
+          "url": "https://learn.microsoft.com/en-us/windows/wsl/install"
+        },
+        {
+          "title": "Microsoft: WSL files and performance",
+          "url": "https://learn.microsoft.com/en-us/windows/wsl/filesystems"
+        },
+        {
+          "title": "Microsoft: WSL troubleshooting",
+          "url": "https://learn.microsoft.com/en-us/windows/wsl/troubleshooting"
+        },
+        {
+          "title": "Homebrew on Linux and WSL 2",
+          "url": "https://docs.brew.sh/Homebrew-on-Linux"
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "id": "linux-terminal",
+      "title": { "en": "Open a Linux terminal", "id": "Buka terminal Linux" },
+      "intro": {
+        "en": "Open your distribution's Terminal app. On Ubuntu, Ctrl + Alt + T usually opens it. This walkthrough uses Bash. Paste commands with Ctrl + Shift + V, then press Enter; copy the commands without a $ prompt.",
+        "id": "Buka aplikasi Terminal dari distro kamu. Di Ubuntu biasanya bisa lewat Ctrl + Alt + T. Panduan ini memakai Bash. Tempel perintah dengan Ctrl + Shift + V, lalu Enter; salin perintah tanpa tanda prompt $."
+      },
+      "blocks": [
+        {
+          "where": "terminal",
+          "code": "cat /etc/os-release\nuname -m\necho \"$SHELL\""
+        }
+      ],
+      "expected": {
+        "en": "You can identify the distribution and architecture. Use a regular user with sudo access, not a root login. The commands below are for Ubuntu/Debian.",
+        "id": "Nama distro dan arsitektur terlihat. Pakai user biasa yang bisa sudo, bukan login root. Perintah berikut khusus Ubuntu/Debian."
+      },
+      "note": {
+        "en": "For Fedora, Arch, or another distribution, use its own development-tool installation commands from the Homebrew on Linux reference. Check Homebrew's architecture and system requirements before continuing.",
+        "id": "Untuk Fedora, Arch, atau distro lain, gunakan perintah pemasangan development tools milik distro tersebut dari referensi Homebrew on Linux. Cek persyaratan sistem dan arsitektur Homebrew sebelum lanjut."
+      }
+    },
+    {
+      "id": "linux-tools",
+      "title": {
+        "en": "Install Linux build tools",
+        "id": "Pasang build tools Linux"
+      },
+      "intro": {
+        "en": "Run these commands in the Ubuntu/Debian terminal, including when using Ubuntu in WSL. sudo may ask for your Linux user's password. The password does not appear while typing. These packages provide Git, downloads, Python, and the compiler needed for plugin parsers.",
+        "id": "Jalankan di terminal Ubuntu/Debian, termasuk Ubuntu di WSL. sudo bisa meminta password user Linux. Ketikan password memang tidak terlihat. Paket ini menyediakan Git, alat download, Python, dan compiler untuk parser plugin."
+      },
+      "blocks": [
+        {
+          "where": "terminal",
+          "code": "sudo apt-get update\nsudo apt-get install -y build-essential procps curl file git ca-certificates python3 unzip"
+        },
+        {
+          "where": "terminal",
+          "code": "git --version\npython3 --version\ncc --version"
+        }
+      ],
+      "expected": {
+        "en": "Installation finishes and each check prints a version. Wait for the terminal prompt before continuing.",
+        "id": "Instalasi selesai dan setiap pengecekan menampilkan versi. Tunggu sampai prompt terminal muncul sebelum lanjut."
+      },
+      "note": {
+        "en": "These apt commands do not apply to Fedora or Arch. If sudo is unavailable or your account cannot install packages, ask the machine's administrator to install the prerequisites.",
+        "id": "Perintah apt ini tidak berlaku di Fedora atau Arch. Jika sudo tidak tersedia atau akun kamu tidak boleh memasang paket, minta administrator mesin memasang prasyaratnya."
+      }
+    },
+    {
+      "id": "linux-homebrew",
+      "title": {
+        "en": "Install Homebrew inside Linux",
+        "id": "Pasang Homebrew di dalam Linux"
+      },
+      "intro": {
+        "en": "This guide uses Homebrew to obtain the required Neovim and tool versions. Run the official installer as your regular Linux user and follow its prompts. In WSL, run it inside Ubuntu, not PowerShell. If brew already exists and works, skip its installation.",
+        "id": "Panduan ini memakai Homebrew untuk mendapatkan versi Neovim dan alat yang dibutuhkan. Jalankan installer resmi sebagai user Linux biasa dan ikuti instruksinya. Di WSL, jalankan di Ubuntu, bukan PowerShell. Jika brew sudah terpasang dan berfungsi, lewati instalasinya."
+      },
+      "blocks": [
+        {
+          "where": "terminal",
+          "code": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+        },
+        {
+          "where": "terminal",
+          "label": {
+            "en": "For the standard Linux prefix and Bash",
+            "id": "Untuk lokasi standar Linux dan Bash"
+          },
+          "code": "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"\nprintf '\\neval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"\\n' >> \"$HOME/.bashrc\"\nbrew --version"
+        }
+      ],
+      "expected": {
+        "en": "brew prints a version. Follow the installer's exact Next steps if its prefix or shell differs from this example.",
+        "id": "brew menampilkan versi. Ikuti Next steps persis dari installer jika lokasi atau shell kamu berbeda dari contoh ini."
+      },
+      "note": {
+        "en": "Add shellenv only once. For zsh use ~/.zshrc instead of ~/.bashrc. Do not run brew or the VimDesk installer with sudo. A distribution's older Neovim package may not meet VimDesk's minimum version.",
+        "id": "Tambahkan shellenv cukup sekali. Untuk zsh gunakan ~/.zshrc, bukan ~/.bashrc. Jangan jalankan brew atau installer VimDesk dengan sudo. Paket Neovim lama dari distro bisa belum memenuhi versi minimum VimDesk."
+      }
+    },
+    {
+      "id": "windows-wsl",
+      "title": {
+        "en": "Install WSL 2 and Ubuntu",
+        "id": "Pasang WSL 2 dan Ubuntu"
+      },
+      "intro": {
+        "en": "In Windows, search for PowerShell, right-click it, and choose Run as administrator. Run the command below, let installation finish, and restart Windows when prompted. WSL provides a Linux environment alongside Windows.",
+        "id": "Di Windows, cari PowerShell, klik kanan, lalu pilih Run as administrator. Jalankan perintah di bawah, tunggu instalasi selesai, lalu restart Windows jika diminta. WSL menyediakan lingkungan Linux di Windows."
+      },
+      "blocks": [{ "where": "powershell", "code": "wsl --install -d Ubuntu" }],
+      "expected": {
+        "en": "Ubuntu is installed. After restarting, open Ubuntu from Start or choose its profile in Windows Terminal.",
+        "id": "Ubuntu terpasang. Setelah restart, buka Ubuntu dari Start atau pilih profil Ubuntu di Windows Terminal."
+      },
+      "note": {
+        "en": "If you already have Ubuntu in WSL 2, keep it and continue. For a virtualization error such as 0x80370102, follow Microsoft's WSL troubleshooting guide and your PC manufacturer's instructions. Do not unregister an existing distribution; that deletes its files.",
+        "id": "Jika sudah punya Ubuntu di WSL 2, pertahankan lalu lanjut. Untuk error virtualisasi seperti 0x80370102, ikuti panduan troubleshooting WSL Microsoft dan petunjuk produsen PC. Jangan unregister distro yang sudah ada karena itu menghapus file di dalamnya."
+      }
+    },
+    {
+      "id": "windows-ubuntu",
+      "title": {
+        "en": "Create a Linux user and open Ubuntu",
+        "id": "Buat user Linux dan buka Ubuntu"
+      },
+      "intro": {
+        "en": "On Ubuntu's first launch, create a Linux username and password. This is separate from your Windows login; the password is invisible while typing. In PowerShell, check that Ubuntu uses WSL version 2, then open Ubuntu from Start. All remaining Terminal blocks run in Ubuntu using Bash.",
+        "id": "Saat Ubuntu pertama dibuka, buat username dan password Linux. Ini terpisah dari login Windows; ketikan password tidak terlihat. Di PowerShell, cek bahwa Ubuntu memakai WSL versi 2, lalu buka Ubuntu dari Start. Semua blok Terminal berikutnya dijalankan di Ubuntu dengan Bash."
+      },
+      "blocks": [
+        { "where": "powershell", "code": "wsl --list --verbose" },
+        {
+          "where": "terminal",
+          "label": { "en": "Inside Ubuntu", "id": "Di dalam Ubuntu" },
+          "code": "cd ~\ncat /etc/os-release\nuname -m"
+        }
+      ],
+      "expected": {
+        "en": "The PowerShell list shows VERSION 2 for Ubuntu. The Ubuntu terminal shows a Linux home directory and distribution information. If it lists VERSION 1, use Microsoft's documented wsl --set-version command before continuing.",
+        "id": "Daftar di PowerShell menunjukkan VERSION 2 untuk Ubuntu. Terminal Ubuntu menampilkan direktori home Linux dan informasi distro. Jika masih VERSION 1, gunakan perintah wsl --set-version dari dokumentasi Microsoft sebelum lanjut."
+      },
+      "note": {
+        "en": "Keep projects under ~/Developer inside Ubuntu for Linux file-system behavior and performance. This guide does not move or delete Windows projects. Install Git, Neovim, language servers, and optional AI CLIs inside this same Ubuntu environment. Paste with Ctrl + Shift + V in Windows Terminal.",
+        "id": "Simpan proyek di ~/Developer dalam Ubuntu untuk perilaku dan performa file system Linux. Panduan ini tidak memindahkan atau menghapus proyek Windows. Pasang Git, Neovim, language server, dan CLI AI opsional di lingkungan Ubuntu yang sama. Tempel teks dengan Ctrl + Shift + V di Windows Terminal."
+      }
+    },
+    {
+      "id": "linux-daily",
+      "title": {
+        "en": "Add the launcher to Bash and open projects",
+        "id": "Tambahkan launcher ke Bash dan buka proyek"
+      },
+      "intro": {
+        "en": "After quitting Neovim, run these commands in the same Linux or Ubuntu terminal. PATH tells the shell where to find programs. Add the launcher's folder once so vimdesk works by name in new Bash sessions.",
+        "id": "Setelah keluar dari Neovim, jalankan perintah ini di terminal Linux atau Ubuntu yang sama. PATH memberi tahu shell tempat mencari aplikasi. Tambahkan folder launcher cukup sekali agar vimdesk bisa dipanggil di sesi Bash baru."
+      },
+      "blocks": [
+        {
+          "where": "terminal",
+          "code": "printf '\\nexport PATH=\"$HOME/.local/bin:$PATH\"\\n' >> \"$HOME/.bashrc\"\nsource \"$HOME/.bashrc\"\ncommand -v vimdesk"
+        },
+        { "where": "terminal", "code": "vimdesk \"$HOME/Developer\"" }
+      ],
+      "expected": {
+        "en": "command -v prints ~/.local/bin/vimdesk's full path and Neovim opens your parent workspace. Opening a single repository also works.",
+        "id": "command -v menampilkan path lengkap ~/.local/bin/vimdesk dan Neovim membuka workspace induk. Membuka satu repo langsung juga bisa."
+      },
+      "note": {
+        "en": "For zsh use ~/.zshrc. In Windows, reopen the Ubuntu profile to run VimDesk; it is not a PowerShell command. Clipboard integration depends on the terminal and Linux display environment; see the platform notes below if copying between Neovim and other apps fails.",
+        "id": "Untuk zsh gunakan ~/.zshrc. Di Windows, buka profil Ubuntu untuk menjalankan VimDesk; ini bukan perintah PowerShell. Integrasi clipboard tergantung terminal dan lingkungan display Linux; lihat catatan platform di bawah jika copy antara Neovim dan aplikasi lain gagal."
+      }
+    }
+  ]
+}

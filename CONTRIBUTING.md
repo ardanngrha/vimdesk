@@ -38,7 +38,7 @@ Keep the lockfile in changes affecting plugins. Test updates in the separate wor
 
 The buildless website lives in `docs/` and GitHub Pages serves `main` → `/docs`. No custom Actions workflow or hosting service is required. The domain is https://ardanngrha.github.io/vimdesk/. All local assets use relative URLs for the project subpath.
 
-Edit `docs/assets/guide.json` for installation steps. The website reads the same data used to generate English and Indonesian Markdown guides:
+Edit `docs/assets/guide.json` for shared installation steps and `docs/assets/platform-guides.json` for OS metadata, Linux/WSL steps, and their order. The website reads the same data used to generate six Markdown guides: macOS, Linux, and Windows via WSL 2, each in English and Indonesian. Terminal blocks are shell syntax-checked without executing installs; PowerShell blocks are checked as WSL commands, not executed on macOS.
 
 ```sh
 python3 scripts/build_guide.py

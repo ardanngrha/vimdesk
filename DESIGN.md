@@ -3,7 +3,7 @@
 This records the owner's instructions: a simple site, direct wording, no promotional copy, and installation instructions for someone starting with an empty Mac. The existing workbench uses TokyoNight Moon. The owner selected VimDesk as the project name.
 
 - Purpose: help a new user install and open the configuration.
-- Audience: a macOS user who may not have used Terminal or Neovim.
+- Audience: a macOS, Ubuntu/Debian, or Windows WSL 2 user who may not have used Terminal or Neovim. The owner requested beginner guides for Linux and Windows as well as macOS.
 - Voice: plain instructions in Indonesian and English. Name the tool, command, expected result, and recovery action.
 - Layout: documentation with a contents list and one reading column. Installation precedes optional language servers and screenshots.
 - Palette: TokyoNight surfaces and text, with blue for links and keyboard focus. This connects the documentation to the configured editor.
@@ -15,5 +15,6 @@ This records the owner's instructions: a simple site, direct wording, no promoti
 - Responsive behavior: collapsible contents above the reading column on narrow screens; contents alongside the document when both columns fit.
 - ENERGY 1 / RHYTHM 1 / MOTION 1: quiet documentation, regular step structure, and no scripted animation or smooth scrolling.
 - Identity motif: consistent Terminal / Inside Neovim labels tie each instruction to the place where it is run.
+- Platform guidance: one native OS selector changes the existing numbered guide, contents, source references, and Markdown link. PowerShell blocks are explicitly labelled before the Windows guide switches to Ubuntu. No automatic OS detection; the selected OS is shareable in the URL. Linux and WSL are documented paths, not claimed runtime-verified platforms.
 
 Anti-slop core, UI, copywriting, and mobile-layout rules are applied in DURING mode, selected by the owner for this session. The skill is read from its supplied source without installing global settings or changing agent entry files.

@@ -162,8 +162,8 @@
         "id": "Neovim terbuka dan lazy.nvim mungkin mengunduh plugin saat pertama dijalankan. Tunggu sampai unduhan selesai. Jika jendela plugin masih terbuka setelah selesai, tekan q untuk menutupnya."
       },
       "note": {
-        "en": "The practice repositories are local only: no remote, GitHub login, push, or real project is involved. Their path is printed in Terminal and may be cleaned by macOS later. Keep important work in your own project folder.",
-        "id": "Repo latihan hanya lokal: tidak punya remote, tidak butuh login GitHub, dan tidak dipakai untuk push. Lokasinya dicetak di Terminal dan bisa dibersihkan macOS nanti. Simpan pekerjaan penting di folder proyekmu sendiri."
+        "en": "The practice repositories are local only: no remote, GitHub login, push, or real project is involved. Their temporary path is printed in Terminal and may be cleaned by the operating system later. Keep important work in your own project folder.",
+        "id": "Repo latihan hanya lokal: tidak punya remote, tidak butuh login GitHub, dan tidak dipakai untuk push. Lokasi sementaranya dicetak di Terminal dan bisa dibersihkan sistem operasi nanti. Simpan pekerjaan penting di folder proyekmu sendiri."
       }
     },
     {

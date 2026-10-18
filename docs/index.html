@@ -6,12 +6,12 @@
     <meta name="theme-color" content="#222436" />
     <meta
       name="description"
-      content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS, penggunaan, dan troubleshooting dalam Bahasa Indonesia dan English."
+      content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS, Linux, dan Windows lewat WSL 2, dalam Bahasa Indonesia dan English."
     />
     <meta property="og:title" content="VimDesk" />
     <meta
       property="og:description"
-      content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS dan penggunaan."
+      content="Konfigurasi Neovim untuk beberapa repo Git. Panduan install macOS, Linux, dan Windows lewat WSL 2."
     />
     <meta
       property="og:image"
@@ -20,8 +20,8 @@
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://ardanngrha.github.io/vimdesk/" />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="assets/site.css?v=2" />
-    <script src="assets/site.js" defer></script>
+    <link rel="stylesheet" href="assets/site.css?v=3" />
+    <script src="assets/site.js?v=3" defer></script>
     <title>VimDesk</title>
   </head>
   <body>
@@ -44,7 +44,7 @@
         <details id="contents">
           <summary data-i18n="contents">Daftar isi</summary>
           <nav aria-label="Documentation">
-            <a href="#install" data-i18n="installTitle">Install di macOS</a>
+            <a href="#install" data-i18n="installTitle">Install</a>
             <div id="step-nav"></div>
             <a href="#next" data-i18n="extrasTitle">Pengaturan tambahan</a>
             <a href="#preview" data-i18n="previewTitle">Tampilan</a>
@@ -60,9 +60,9 @@
             sidebar Git, LazyGit, diff, dan search/replace.
           </p>
           <p class="muted" data-i18n="requirements">
-            Panduan ini untuk macOS. Membutuhkan Neovim 0.12+ dan Python 3.9+.
-            Config dipasang sebagai profil vimdesk, terpisah dari
-            ~/.config/nvim.
+            Membutuhkan Neovim 0.12+ dan Python 3.9+. Config dipasang sebagai
+            profil vimdesk, terpisah dari ~/.config/nvim. Pilih panduan sesuai
+            sistem operasi; Windows memakai WSL 2.
           </p>
           <a
             id="markdown-guide"
@@ -72,7 +72,18 @@
           >
         </header>
         <section id="install" aria-labelledby="install-title">
-          <h2 id="install-title" data-i18n="installTitle">Install di macOS</h2>
+          <div class="platform-picker">
+            <label for="platform" data-i18n="platform">Sistem operasi</label>
+            <span class="language-control">
+              <select id="platform">
+                <option value="macos">macOS</option>
+                <option value="linux">Linux (Ubuntu / Debian)</option>
+                <option value="windows">Windows (WSL 2)</option>
+              </select>
+            </span>
+          </div>
+          <h2 id="install-title" data-i18n="installTitle">Install</h2>
+          <p id="platform-note" class="muted"></p>
           <p data-i18n="installIntro">
             Ikuti langkah berurutan. Jika suatu alat sudah terpasang, cek
             versinya lalu lanjutkan.
@@ -80,9 +91,10 @@
           <div id="guide-steps">
             <p role="status" data-i18n="loading">Memuat langkah instalasi…</p>
           </div>
+          <p id="platform-notes" class="muted"></p>
           <noscript
             ><p>
-              JavaScript is off. Read the complete
+              JavaScript is off. Read the macOS
               <a
                 href="https://github.com/ardanngrha/vimdesk/blob/main/docs/getting-started.md"
                 >English guide</a
@@ -91,12 +103,30 @@
               <a
                 href="https://github.com/ardanngrha/vimdesk/blob/main/docs/mulai-dari-nol.md"
                 >panduan Bahasa Indonesia</a
+              >. Linux:
+              <a
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/getting-started-linux.md"
+                >English</a
+              >
+              /
+              <a
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/mulai-dari-nol-linux.md"
+                >Bahasa Indonesia</a
+              >. Windows (WSL 2):
+              <a
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/getting-started-windows.md"
+                >English</a
+              >
+              /
+              <a
+                href="https://github.com/ardanngrha/vimdesk/blob/main/docs/mulai-dari-nol-windows.md"
+                >Bahasa Indonesia</a
               >.
             </p></noscript
           >
           <div class="references">
             <h3 data-i18n="sources">Referensi resmi</h3>
-            <ul>
+            <ul id="install-sources">
               <li><a href="https://brew.sh/">Homebrew</a></li>
               <li>
                 <a href="https://docs.brew.sh/Installation"
@@ -270,8 +300,8 @@
             </summary>
             <p data-i18n="faqA3">
               Untuk brew, jalankan Next steps dari installer Homebrew. Untuk
-              VimDesk, pakai ~/.local/bin/vimdesk atau ikuti langkah
-              PATH. Buka ulang Terminal setelah mengubah konfigurasi shell.
+              VimDesk, pakai ~/.local/bin/vimdesk atau ikuti langkah PATH. Buka
+              ulang Terminal setelah mengubah konfigurasi shell.
             </p>
           </details>
           <details>
@@ -288,24 +318,24 @@
           <details>
             <summary data-i18n="faqQ5">Dukungan Linux dan Windows</summary>
             <p data-i18n="faqA5">
-              Panduan ini untuk macOS. Installer POSIX/Linux belum diuji
-              menyeluruh. Windows belum didukung. Untuk Mac Intel atau macOS
-              lama, cek dukungan Homebrew sebelum mulai.
+              Pilih Linux untuk panduan Ubuntu/Debian, atau Windows untuk WSL 2
+              + Ubuntu. Instalasi Windows native belum didukung. Linux dan WSL
+              belum diuji menyeluruh; pengujian runtime VimDesk saat ini
+              dilakukan di macOS.
             </p>
           </details>
           <details>
             <summary data-i18n="faqQ6">Folder sudah ada saat git clone</summary>
             <p data-i18n="faqA6">
-              Buka folder vimdesk yang sudah diunduh, simpan perubahan
-              lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan
-              hapus folder yang berisi pekerjaanmu.
+              Buka folder vimdesk yang sudah diunduh, simpan perubahan lokal,
+              lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus
+              folder yang berisi pekerjaanmu.
             </p>
           </details>
         </section>
         <footer>
           <a href="https://github.com/ardanngrha">Ardana Nugraha</a
-          ><a
-            href="https://github.com/ardanngrha/vimdesk/blob/main/LICENSE"
+          ><a href="https://github.com/ardanngrha/vimdesk/blob/main/LICENSE"
             >MIT</a
           ><a
             href="https://github.com/ardanngrha/vimdesk/issues"
