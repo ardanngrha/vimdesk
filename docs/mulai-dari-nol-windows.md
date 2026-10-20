@@ -177,7 +177,7 @@ Perintah berikut dijalankan di dalam Neovim, bukan Terminal. Tekan Esc dulu, ket
 
 ## 9. Coba edit, review, dan keluar
 
-Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend dan frontend. Klik repo, lalu file yang berubah untuk melihat Before / After. Untuk mengedit, buka file dari Files, tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode.
+Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend dan frontend. Klik nama repo untuk menampilkan Changes, lalu file yang berubah untuk melihat Before / After. Klik label branch di samping repo untuk memilih branch; commit atau stash perubahan sebelum pindah. Graph di bawah Changes bisa dibuka untuk melihat commit dan file-nya. Untuk mengedit, buka file dari Files, tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode.
 
 **Di dalam Neovim: Simpan file saat ini**
 
@@ -234,7 +234,7 @@ Ini memasang server untuk Go, JavaScript/TypeScript/React, Rust, dan Python. Pro
 
 AI bersifat opsional. Pasang dan login [Codex CLI](https://github.com/openai/codex) atau [Claude Code](https://code.claude.com/docs/en/overview) mengikuti panduan resminya. Simpan file, stage perubahan, klik Generate di Git, pilih agent, lalu review subject sebelum klik Commit. Staged diff dikirim ke provider pilihan memakai akunmu. Batas penggunaan/biaya normal berlaku.
 
-Repo latihan tidak memiliki remote. Untuk proyek sungguhan, siapkan remote dan login ke penyedia Git sebelum Push/Publish. Identitas penulis commit dan login remote adalah dua pengaturan berbeda. Lihat [setup Git pertama kali](https://docs.github.com/en/get-started/git-basics/set-up-git).
+Repo latihan tidak memiliki remote. Untuk proyek sungguhan, siapkan remote dan login ke penyedia Git sebelum Push. Identitas penulis commit dan login remote adalah dua pengaturan berbeda. Lihat [setup Git pertama kali](https://docs.github.com/en/get-started/git-basics/set-up-git).
 
 ## Kalau mentok
 

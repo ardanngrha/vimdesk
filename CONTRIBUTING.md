@@ -23,6 +23,17 @@ python3 -m venv .venv
 
 It creates and deletes its own temporary Git fixtures, local remotes and isolated Neovim profile. It downloads pinned plugins if absent. It checks multi-repo detection, LazyGit startup, AI draft routing with a mocked provider, Before/After review, Incoming/Current/Result resolution, Fetch All, search, and replacement. It never calls a real AI provider. Neovim children have a bounded lifetime and are closed on failure.
 
+To reuse an existing plugin cache without downloading or updating it, pass `--plugins-dir /path/to/lazy` to the runtime test. Use the committed plugin revisions when validating a release.
+
+The Git sidebar and scroll regressions also require an existing plugin directory:
+
+```sh
+.venv/bin/python tests/git_sidebar.py --plugins-dir /path/to/lazy
+.venv/bin/python tests/scrolling.py --plugins-dir /path/to/lazy
+```
+
+They create 17 disposable sibling repositories and an isolated profile. The Git test exercises actual branch-popup checkout, toolbar mouse regions at narrow/wide widths, graph expansion, staged/working/history snapshots, stable window identities and conflict resolution. Push/Pull/Fetch toolbar routing is checked with mocked actions; the runtime test above separately exercises Fetch All against local remotes. The scroll test checks bounded viewports, anchored input fields, preserved drafts and redraw isolation. Neither test downloads plugins or accesses real project repositories. Pass `--source /path/to/config` to verify a copied installation instead of the checkout.
+
 Optional screenshot capture requires Pillow and a local monospace font:
 
 ```sh

@@ -14,11 +14,14 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 
 ## What you get
 
-- **Multiple repositories, one workspace.** Persistent repository list, current-buffer Git detection, branch/ahead/behind/conflict status, and Fetch All. Click a repository to open its LazyGit session.
-- **A visible Git workflow.** Staged/unstaged changes, Stage All, commit textbox, Generate → Codex / Claude Code, Commit, Push/Publish, Pull, and a Git log.
-- **Review without losing context.** Click a changed file for Before / After. Conflicts open Incoming on the left, Current on the right, and an editable Result below. Drag native dividers to resize.
+- **Multiple repositories, one workspace.** Click a repository to select it and show its Changes. Click its branch badge, such as `[staging ↑2 ↓1]`, to switch branches. LazyGit is available under More; `Space gg` opens it for the current file's repository.
+- **A visible Git workflow.** Staged/unstaged changes, commit textbox, Generate → Codex / Claude Code, Commit, and `[Push] [Pull] [Fetch] [Fetch All] [More]`. Use `[+]` beside Changes to stage all, or `[−]` beside Staged Changes to unstage all. Controls wrap when the sidebar is narrow.
+- **Commit history below Changes.** Graph shows branch lanes and commit subjects. Click a commit to expand its details and files, then click a file to review that revision. Load more history when needed.
+- **Review without losing context.** Changed files and historical revisions reuse the same Before / After panes. Conflicts open Incoming on the left, Current on the right, and an editable Result below. Drag native dividers to resize; `Space gc` closes the review.
 - **Search in the sidebar.** Search and replace fields, all-repo or active-repo scope, include/exclude filters, ignored-file toggle, and unsaved-buffer search. Preview replacements before applying selected files; saving remains explicit.
 - **Daily editing essentials.** TokyoNight Moon, completion, Go / Rust / JS / TS / React / Python LSP configuration, per-repository terminals, outline, Problems, Save All, and workspace sessions.
+
+Files, Search and Git share the sidebar width. Commit/search inputs move with the content and hide when scrolled out of view; ordinary file reviews reuse the same Before / After windows.
 
 ![Three-pane conflict resolution](docs/images/conflicts.png)
 

@@ -143,7 +143,7 @@ The following commands go inside Neovim, not Terminal. Press Esc first, type the
 
 ## 8. Try your first edit, review and quit
 
-Press Space, release it, then g, then Shift + g. The Git sidebar should list backend and frontend. Click a repo, then a changed file to see Before / After. For editing, open a file from Files, press i to type, then Esc to return to Normal mode.
+Press Space, release it, then g, then Shift + g. The Git sidebar should list backend and frontend. Click a repo name to show its Changes, then a changed file to see Before / After. Click the branch badge beside a repo to choose a branch; commit or stash changes before switching. Graph below Changes lets you expand commits and review their files. For editing, open a file from Files, press i to type, then Esc to return to Normal mode.
 
 **Inside Neovim: Save the current file**
 
@@ -200,7 +200,7 @@ This installs servers for Go, JavaScript/TypeScript/React, Rust and Python. Proj
 
 AI is optional. Install and authenticate [Codex CLI](https://github.com/openai/codex) or [Claude Code](https://code.claude.com/docs/en/overview) using their official guides. Save files, stage the changes, click Generate in Git, select an agent, and review the subject before clicking Commit. The staged diff is sent to the selected provider using your account. Normal usage limits/costs apply.
 
-The practice repos have no remotes. For real projects, configure a remote and authenticate with that Git hosting provider before Push/Publish. Git commit identity and remote login are different settings. See [GitHub’s first-time Git setup](https://docs.github.com/en/get-started/git-basics/set-up-git).
+The practice repos have no remotes. For real projects, configure a remote and authenticate with that Git hosting provider before pushing. Git commit identity and remote login are different settings. See [GitHub’s first-time Git setup](https://docs.github.com/en/get-started/git-basics/set-up-git).
 
 ## If something goes wrong
 

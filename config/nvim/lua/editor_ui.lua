@@ -20,18 +20,45 @@ function M.close_buffer(buf)
     end)
   else Snacks.bufdelete(buf) end
 end
+local tabs, names = {}, {}
+local function refresh_tab(buf)
+  local old=tabs[buf]
+  if old and old.counted then names[old.base]=math.max(0,(names[old.base] or 1)-1) end
+  tabs[buf]=nil
+  if not api.nvim_buf_is_valid(buf) then return end
+  local path=api.nvim_buf_get_name(buf)
+  local meta={path=path,base=vim.fs.basename(path),editable=vim.bo[buf].buftype=='',modified=vim.bo[buf].modified,listed=vim.bo[buf].buflisted}
+  meta.editable=meta.editable and (path=='' or vim.fn.isdirectory(path)~=1)
+  meta.counted=meta.editable and meta.listed and path~=''
+  if meta.counted then names[meta.base]=(names[meta.base] or 0)+1 end
+  tabs[buf]=meta
+end
+local function tab_info(buf)
+  if not tabs[buf] then refresh_tab(buf) end
+  return tabs[buf]
+end
 function M.tab_name(buffer)
-  local path,id=buffer.path or buffer.name,buffer.bufnr or buffer.id
-  if not path or path=='' then return '[Untitled]' end
-  local name=vim.fn.fnamemodify(path,':t')
-  for _,buf in ipairs(api.nvim_list_bufs()) do
-    if buf~=id and vim.bo[buf].buflisted and vim.bo[buf].buftype=='' and vim.fn.fnamemodify(api.nvim_buf_get_name(buf),':t')==name then
-      return vim.fs.relpath(vim.fn.getcwd(-1,0),path) or vim.fn.fnamemodify(path,':~')
-    end
-  end
-  return name
+  local meta=tab_info(buffer.bufnr or buffer.id)
+  if not meta or meta.path=='' then return '[Untitled]' end
+  if (names[meta.base] or 0)>1 then return vim.fs.relpath(vim.fn.getcwd(-1,0),meta.path) or vim.fn.fnamemodify(meta.path,':~') end
+  return meta.base
+end
+function M.filter_tab(buf)
+  local meta=tab_info(buf)
+  return meta and meta.editable and (meta.path~='' or meta.modified or vim.b[buf].workbench_explicit_blank) or false
 end
 function M.setup_tabs()
+  -- Buffer metadata belongs to buffer events, not the tabline's redraw loop.
+  tabs,names={},{}
+  local group=api.nvim_create_augroup('WorkbenchTabMetadata',{clear=true})
+  api.nvim_create_autocmd({'BufAdd','BufEnter','BufFilePost','BufModifiedSet','FileType'},{group=group,callback=function(event) refresh_tab(event.buf) end})
+  api.nvim_create_autocmd('OptionSet',{group=group,pattern={'buftype','buflisted'},callback=function(event) refresh_tab(event.buf) end})
+  api.nvim_create_autocmd('BufDelete',{group=group,callback=function(event)
+    local old=tabs[event.buf]
+    if old and old.counted then names[old.base]=math.max(0,(names[old.base] or 1)-1) end
+    tabs[event.buf]=nil
+  end})
+  for _,buf in ipairs(api.nvim_list_bufs()) do refresh_tab(buf) end
   require('bufferline').setup({ options={
     name_formatter=M.tab_name,show_duplicate_prefix=false,max_name_length=32,tab_size=24,
     mode='buffers', show_buffer_icons=false, show_close_icon=false, buffer_close_icon='×', modified_icon='●',
@@ -42,11 +69,7 @@ function M.setup_tabs()
     offsets={ { filetype='workbench_sidebar', text=function() return require('workbench').nav_text() end,
       text_align='left', padding=2, separator=true },
       { filetype='snacks_layout_box', text=function() return require('workbench').nav_text() end, text_align='left', padding=2, separator=true } },
-    custom_filter=function(buf)
-      local name=vim.api.nvim_buf_get_name(buf)
-      return vim.bo[buf].buftype=='' and vim.fn.isdirectory(name)~=1
-        and (name~='' or vim.bo[buf].modified or vim.b[buf].workbench_explicit_blank)
-    end,
+    custom_filter=M.filter_tab,
   }, highlights=require('workbench_theme').tabs() })
 end
 function M.breadcrumb()
@@ -109,6 +132,5 @@ function M.setup()
     if lib and lib.get_current_view() then return end
     vim.wo.winbar='%!v:lua.WorkspaceUI.breadcrumb()'
   end })
-  api.nvim_create_autocmd('CursorMoved', { callback=function() vim.cmd('redrawstatus') end })
 end
 return M

@@ -41,7 +41,7 @@ function M.selected()
 end
 
 function M.select(root)
-  local s = state(); s.active = root
+  local s = state();require('commit_box').flush();s.active = root
   M.render(s)
 end
 
@@ -71,7 +71,9 @@ function M.run(root, args, label, done)
       s.busy[root] = nil
       local output = vim.trim((result.stdout or '') .. '\n' .. (result.stderr or ''))
       wb().log(vim.fs.basename(root) .. ': ' .. label, output, true)
+      s.review_refresh=root
       require('repo_panel').update_status(s)
+      require('git_graph').refresh(root)
       vim.cmd.checktime()
       if result.code ~= 0 then
         vim.notify(label .. ' failed; check Git Log. Conflicts appear in Source Control.', vim.log.levels.WARN)
@@ -133,7 +135,6 @@ function M.diff(item)
   item = item or node()
   local root = item and item.root or M.selected()
   if not root then return end
-  require('repo_panel').hide_lazygit()
   require('multi_repo').diff(item and item.staged or false, root, item and item.file and item.file.path)
 end
 
@@ -257,8 +258,8 @@ local function clean_repo(root)
   return true
 end
 
-function M.branches(merge)
-  local root = M.selected(); if not root then return end
+function M.branches(merge,root)
+  root = root or M.selected(); if not root then return end
   vim.system({ 'git', '-C', root, 'for-each-ref', '--format=%(refname:short)', 'refs/heads',
     merge and 'refs/heads' or 'refs/remotes' }, { text=true }, function(result)
       vim.schedule(function()

@@ -51,9 +51,9 @@ def generate(language, data, platform_data, platform):
                'AI bersifat opsional. Pasang dan login [Codex CLI](https://github.com/openai/codex) atau [Claude Code](https://code.claude.com/docs/en/overview) '
                'mengikuti panduan resminya. Simpan file, stage perubahan, klik Generate di Git, pilih agent, lalu review subject sebelum klik Commit. '
                'Staged diff dikirim ke provider pilihan memakai akunmu. Batas penggunaan/biaya normal berlaku.'), '',
-              ('The practice repos have no remotes. For real projects, configure a remote and authenticate with that Git hosting provider before Push/Publish. '
+              ('The practice repos have no remotes. For real projects, configure a remote and authenticate with that Git hosting provider before pushing. '
                'Git commit identity and remote login are different settings. See [GitHub’s first-time Git setup](https://docs.github.com/en/get-started/git-basics/set-up-git).' if en else
-               'Repo latihan tidak memiliki remote. Untuk proyek sungguhan, siapkan remote dan login ke penyedia Git sebelum Push/Publish. '
+               'Repo latihan tidak memiliki remote. Untuk proyek sungguhan, siapkan remote dan login ke penyedia Git sebelum Push. '
                'Identitas penulis commit dan login remote adalah dua pengaturan berbeda. Lihat [setup Git pertama kali](https://docs.github.com/en/get-started/git-basics/set-up-git).'), '',
               '## ' + ('If something goes wrong' if en else 'Kalau mentok'), '']
     faqs = [

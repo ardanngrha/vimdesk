@@ -11,7 +11,9 @@ config/nvim/lua/
   multi_repo.lua                 Buffer roots and bounded repository discovery
   repo_panel.lua / repo_list.lua  Repository state, fetch queue, LazyGit sessions
   scm.lua / commit_box.lua        Git actions, drafts, staged-snapshot guards
-  git_review.lua                 Diffview integration and conflict controls
+  git_graph.lua                  Cached commit graph and expanded file lists
+  git_diff.lua                   Reusable native file/history review windows
+  git_review.lua                 Diffview overview and three-pane merge controls
   workspace_search.lua           Search UI state, scope and filters
   search_engine.lua              Bounded ripgrep search and buffer overlays
   search_box.lua                 Persistent search/replace inputs
@@ -26,10 +28,11 @@ scripts/install.py               Profile installation, backups, restore
 
 ## Decisions
 
-- **Native splits for review.** Diffview supplies Git snapshots and conflict actions. Native windows provide drag resizing and an editable merge result without rebuilding a Git engine.
+- **Reusable splits for file review.** Git supplies index/commit blobs asynchronously; ordinary and historical file review swap buffers in the same Before/After windows. Stale results cannot replace a newer selection. The editable working side uses the actual file buffer. Diffview supplies the repository overview and three-pane conflict actions.
+- **Stable sidebar geometry.** Files, Search and Git share a native sidebar split. Explorer floats inside it. Input floats anchor to buffer rows and hide outside the viewport. Viewport events update only that sidebar's fields; unchanged content does not rewrite its buffer. Tab metadata is cached on buffer events rather than recomputed during scrolling.
 - **Stable workspace directory.** Repository state is keyed by the global workspace cwd; file/LSP roots and Git subprocess cwd are resolved separately. Switching repos does not change the parent workspace.
 - **One state per workspace, drafts per repo.** Async AI results return to the originating repo and cannot overwrite a subsequently edited message. Git's staged tree is checked again before using a generated subject.
-- **Bounded work.** Discovery yields between chunks, skips dependency directories, and caps depth/directory count. Fetch/status subprocess concurrency is limited to three. Search caps its output and rejects unsafe partial replacement previews.
+- **Bounded work.** Discovery yields between chunks, skips dependency directories, and caps depth/directory count. Fetch/status subprocess concurrency is limited to three. Graph initially requests 30 commits, caps expanded history at 200 and displays up to 200 changed files per expanded commit; immutable file lists are cached by hash. Inline file review caps blob size at 2 MB. Search caps its output and rejects unsafe partial replacement previews.
 - **Independent installation.** `NVIM_APPNAME` keeps the trial profile away from the default config. Config and launcher updates are staged first, and existing copies are moved to timestamped backups. Plugin cache/state remain separate from source control.
 - **Small dependencies at the application layer.** Custom behavior is Lua; the installer and AI adapter use Python's standard library. Third-party plugins are referenced and locked, not vendored.
 

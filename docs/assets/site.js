@@ -132,19 +132,19 @@ const strings = {
 
 const views = {
   review: {
-    image: "images/review.png",
-    alt: "Git sidebar and Before / After review",
-    id: "Sidebar Git dan perbandingan Before / After.",
-    en: "Git sidebar and Before / After comparison.",
+    image: "images/review.png?v=20261020",
+    alt: "Git sidebar with commit graph and Before / After review",
+    id: "Sidebar Git, Graph commit, dan perbandingan Before / After.",
+    en: "Git sidebar, commit graph, and Before / After comparison.",
   },
   conflicts: {
-    image: "images/conflicts.png",
+    image: "images/conflicts.png?v=20261020",
     alt: "Incoming left, Current right, editable Result below",
     id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah.",
     en: "Incoming on the left, Current on the right, editable Result below.",
   },
   search: {
-    image: "images/search.png",
+    image: "images/search.png?v=20261020",
     alt: "Search and replace fields with a replacement preview",
     id: "Kolom Search dan Replace, dengan preview perubahan per file.",
     en: "Search and Replace fields, with per-file replacement previews.",

@@ -1,14 +1,40 @@
 local M = {}
 local spaces, terminals = {}, {}
 local api, uv = vim.api, vim.uv
+local workspace_cwd, workspace_parent
 function M.state()
   -- Workspace identity ignores window-local cwd used internally by pickers.
   local cwd=vim.fn.getcwd(-1,0)
-  local parent = uv.fs_realpath(cwd) or cwd
+  if cwd~=workspace_cwd then workspace_cwd,workspace_parent=cwd,uv.fs_realpath(cwd) or cwd end
+  local parent = workspace_parent
   if not spaces[parent] then spaces[parent] = { parent=parent, repos={}, rows={}, info={}, fetched={}, loaded=false, drafts={}, busy={} } end
   return spaces[parent]
 end
-function M.render(s) require('scm').render(s or M.state()); vim.cmd('redraw!') end
+local pending_render={}
+function M.render(s)
+  s=s or M.state()
+  if pending_render[s] then return end
+  pending_render[s]=true
+  vim.schedule(function() pending_render[s]=nil;require('scm').render(s) end)
+end
+function M.select(root)
+  if not root then return end
+  require('scm').select(root)
+  require('git_graph').load(root)
+  if vim.g.workbench_repo_lazygit==true then M.open_lazygit(root) end
+end
+function M.more()
+  local s=M.state()
+  local items={
+    {'Open LazyGit',function() M.open_lazygit(s.active) end},
+    {'Fetch all repositories',function() M.fetch(true) end},
+    {'Refresh status and graph',function() M.refresh();require('git_graph').refresh(s.active) end},
+    {'Unstage all',function() require('scm').stage_all(false) end},
+    {'Git Log',M.log},
+    {'Branches',function() require('scm').branches(false) end},
+  }
+  vim.ui.select(items,{prompt='Repository actions',format_item=function(item) return item[1] end},function(item) if item then item[2]() end end)
+end
 function M.selected_root() return require('scm').selected() end
 function M.visible() return require('workbench').mode == 'git' and require('workbench').side_win() ~= nil end
 function M.show(focus) return require('workbench').sidebar('git', focus) end
@@ -48,7 +74,11 @@ function M.update_status(s)
       end)
   end, function()
     s.reading = false
-    if s.pending_status then s.pending_status = nil; M.update_status(s) end
+    if s.pending_status then s.pending_status = nil; M.update_status(s)
+    elseif s.review_refresh then
+      local root=s.review_refresh;s.review_refresh=nil
+      local diff=package.loaded.git_diff;if diff then diff.refresh(root) end
+    end
   end)
 end
 
@@ -59,7 +89,7 @@ function M.refresh(s)
   require('multi_repo').discover(s.parent, function(repos, truncated)
     s.repos, s.loaded, s.scanning = repos, true, false
     if not vim.tbl_contains(repos, s.active) then s.active = repos[1] end
-    M.render(s); M.update_status(s)
+    M.render(s); M.update_status(s);require('git_graph').refresh(s.active)
     if truncated then vim.notify('Repo scan reached its limit; use a narrower workspace.', vim.log.levels.WARN) end
     if s.after_scan then local fn=s.after_scan; s.after_scan=nil; fn() end
   end)
@@ -117,7 +147,7 @@ end
 function M.open_lazygit(root)
   if not root then return end
   require('commit_box').flush()
-  require('git_review').close()
+  require('git_review').close_merge()
   local s=M.state(); s.active=root
   local w=require('workbench')
   if not w.side_win() or w.mode~='git' then w.sidebar('git',false) end
@@ -128,17 +158,29 @@ function M.open_lazygit(root)
   if terminal and terminal:valid() then terminal:focus(); vim.cmd.startinsert(); M.transitioning=false; return terminal end
   w.focus_editor()
   local function editor() return w.main() end
-  local function pos() return api.nvim_win_get_position(editor()) end
+  local function bounds()
+    local diff=require('git_diff')
+    if diff.active() then
+      local s=diff.state
+      return s.left,api.nvim_win_get_width(s.left)+api.nvim_win_get_width(s.right)+1
+    end
+    return editor(),api.nvim_win_get_width(editor())
+  end
+  local function pos() local win=bounds();return api.nvim_win_get_position(win) end
   local branch=(s.info[root] and s.info[root].branch or ''):gsub('%.%.%..*$','')
   terminal=Snacks.lazygit({ cwd=root, win={ position='float', relative='editor',
     col=function() return pos()[2] end,row=function() return pos()[1]+1 end,
-    width=function() return math.max(20,api.nvim_win_get_width(editor())-2) end,
+    width=function() local _,width=bounds();return math.max(20,width-2) end,
     height=function() return math.max(8,api.nvim_win_get_height(editor())-2) end,
     border='single', backdrop=false, title=' '..vim.fs.basename(root)..' · '..branch..' ',
     on_buf=function(self) vim.b[self.buf].workspace_repo_root=root end,
     on_close=function(self)
       local restore=not M.transitioning and api.nvim_get_current_win()==self.win
-      vim.schedule(function() M.update_status(); if restore then w.focus_editor() end end)
+      vim.schedule(function()
+        M.update_status();require('git_graph').invalidate(root)
+        if M.state().active==root and w.mode=='git' then require('git_graph').load(root) end
+        if restore then w.focus_editor() end
+      end)
     end,
     keys={ repo_panel={ '<C-\\><C-r>', function() M.hide_lazygit(); M.show(true) end, mode={'n','t'} },
       repo_mouse={ '<LeftMouse>', function(self)
@@ -158,7 +200,7 @@ function M.cycle(direction)
   if not s.loaded or s.scanning then s.after_scan=function() M.cycle(direction) end; return end
   if #s.repos==0 then return end
   local index=1; for i, root in ipairs(s.repos) do if root==s.active then index=i; break end end
-  M.open_lazygit(s.repos[((index-1+direction)%#s.repos)+1])
+  M.select(s.repos[((index-1+direction)%#s.repos)+1])
 end
 function M.setup()
   vim.keymap.set('n', '<leader>gR', M.toggle, { desc='Toggle Source Control' })
@@ -166,6 +208,8 @@ function M.setup()
   vim.keymap.set('n', '<leader>gn', function() M.cycle(1) end, { desc='Next repository' })
   vim.keymap.set('n', '<leader>gp', function() M.cycle(-1) end, { desc='Previous repository' })
   api.nvim_create_user_command('GitFetchAll', function() M.show(false); M.fetch(true) end, {})
-  api.nvim_create_autocmd('FocusGained', { callback=function() if M.visible() then M.update_status() end end })
+  api.nvim_create_autocmd('FocusGained', { callback=function() if M.visible() then
+    M.update_status();require('git_graph').refresh(M.state().active)
+  end end })
 end
 return M

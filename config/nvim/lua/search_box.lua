@@ -22,7 +22,7 @@ function M.hide()
 end
 function M.focus(key)
   local field=M.fields[key or 'query']
-  if field and field.win and api.nvim_win_is_valid(field.win) then
+  if field and field.win and api.nvim_win_is_valid(field.win) and not api.nvim_win_get_config(field.win).hide then
     api.nvim_set_current_win(field.win);vim.cmd.startinsert();return true
   end
 end
@@ -68,18 +68,25 @@ function M.show(side,rows)
       if field.win and api.nvim_win_is_valid(field.win) then api.nvim_win_close(field.win,true) end
       field.win=nil
     else
-      if field.win and api.nvim_win_is_valid(field.win) then config.noautocmd=nil;api.nvim_win_set_config(field.win,config)
-      else field.win=api.nvim_open_win(field.buf,false,config) end
-      vim.wo[field.win].wrap=false;vim.wo[field.win].scrolloff=0
-      require('sidebar_ui').field_style(field.win)
+      if field.win and api.nvim_win_is_valid(field.win) then require('sidebar_ui').place_field(field.win,config)
+      else
+        field.win=api.nvim_open_win(field.buf,false,config)
+        vim.wo[field.win].wrap=false
+        require('sidebar_ui').field_style(field.win)
+      end
+    end
+  end
+end
+function M.reposition(side)
+  for key,row in pairs(M.rows or {}) do
+    local field=M.fields[key]
+    if field and field.win and api.nvim_win_is_valid(field.win) then
+      local config=require('sidebar_ui').field_config(side,row,1,({query='Search',replacement='Replace',include='Files to include',exclude='Files to exclude'})[key])
+      if config then require('sidebar_ui').place_field(field.win,config) end
     end
   end
 end
 function M.setup()
-  api.nvim_create_autocmd({'WinScrolled','WinResized'},{group=api.nvim_create_augroup('WorkbenchSearchFields',{clear=true}),callback=function()
-    vim.schedule(function()
-      local w=require('workbench');if w.mode=='search' and w.side_win() and M.rows then M.show(w.side_win(),M.rows) else M.hide() end
-    end)
-  end})
+  api.nvim_create_augroup('WorkbenchSearchFields',{clear=true})
 end
 return M

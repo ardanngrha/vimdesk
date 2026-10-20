@@ -70,24 +70,25 @@ function M.show(s,side,row)
     M.win=nil;return
   end
   if M.win and api.nvim_win_is_valid(M.win) then
-    config.noautocmd=nil; api.nvim_win_set_config(M.win,config)
+    require('sidebar_ui').place_field(M.win,config)
     if api.nvim_win_get_buf(M.win)~=field.buf then api.nvim_win_set_buf(M.win,field.buf) end
-  else M.win=api.nvim_open_win(field.buf,false,config) end
-  vim.wo[M.win].wrap=true; vim.wo[M.win].cursorline=false; vim.wo[M.win].scrolloff=0
-  vim.wo[M.win].linebreak=true
-  require('sidebar_ui').field_style(M.win)
+  else
+    M.win=api.nvim_open_win(field.buf,false,config)
+    vim.wo[M.win].wrap=true;vim.wo[M.win].linebreak=true
+    require('sidebar_ui').field_style(M.win)
+  end
+end
+function M.reposition(side)
+  if not M.win or not api.nvim_win_is_valid(M.win) then return end
+  local config=require('sidebar_ui').field_config(side,M.row,3,'Commit message')
+  if config then require('sidebar_ui').place_field(M.win,config) end
 end
 function M.focus(root)
-  if M.field and M.field.root==root and M.win and api.nvim_win_is_valid(M.win) then
+  if M.field and M.field.root==root and M.win and api.nvim_win_is_valid(M.win) and not api.nvim_win_get_config(M.win).hide then
     api.nvim_set_current_win(M.win); vim.cmd.startinsert(); return true
   end
 end
 function M.setup()
-  api.nvim_create_autocmd('WinScrolled',{group=api.nvim_create_augroup('WorkbenchCommitScroll',{clear=true}),callback=function()
-    vim.schedule(function()
-      local w=require('workbench'); local side=w.side_win()
-      if M.field and side and w.mode=='git' then M.show(M.field.state,side,M.row) else M.hide() end
-    end)
-  end})
+  api.nvim_create_augroup('WorkbenchCommitScroll',{clear=true})
 end
 return M

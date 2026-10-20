@@ -214,8 +214,8 @@
         "id": "Coba edit, review, dan keluar"
       },
       "intro": {
-        "en": "Press Space, release it, then g, then Shift + g. The Git sidebar should list backend and frontend. Click a repo, then a changed file to see Before / After. For editing, open a file from Files, press i to type, then Esc to return to Normal mode.",
-        "id": "Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend dan frontend. Klik repo, lalu file yang berubah untuk melihat Before / After. Untuk mengedit, buka file dari Files, tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode."
+        "en": "Press Space, release it, then g, then Shift + g. The Git sidebar should list backend and frontend. Click a repo name to show its Changes, then a changed file to see Before / After. Click the branch badge beside a repo to choose a branch; commit or stash changes before switching. Graph below Changes lets you expand commits and review their files. For editing, open a file from Files, press i to type, then Esc to return to Normal mode.",
+        "id": "Tekan Space, lepas, lalu g, lalu Shift + g. Sidebar Git akan menampilkan backend dan frontend. Klik nama repo untuk menampilkan Changes, lalu file yang berubah untuk melihat Before / After. Klik label branch di samping repo untuk memilih branch; commit atau stash perubahan sebelum pindah. Graph di bawah Changes bisa dibuka untuk melihat commit dan file-nya. Untuk mengedit, buka file dari Files, tekan i untuk mengetik, lalu Esc untuk kembali ke Normal mode."
       },
       "blocks": [
         {

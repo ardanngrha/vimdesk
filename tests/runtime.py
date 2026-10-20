@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--data-home', type=Path, help='optional reusable TEST plugin data directory')
+    cli.add_argument('--plugins-dir', type=Path, help='reuse installed plugins read-only; skip downloads and updates')
     cli.add_argument('--screenshots', type=Path, help='PNG directory; requires Pillow')
     cli.add_argument('--font', type=Path, help='monospace TTF for screenshots')
     args = cli.parse_args()
@@ -32,9 +33,14 @@ def main():
         subprocess.run([sys.executable, str(ROOT/'scripts/install.py'), '--config-home', str(temp/'config'),
                         '--bin-dir', str(temp/'bin')], capture_output=True, check=True)
         launcher = str(temp/'bin/vimdesk')
-        result = subprocess.run([launcher, '--headless', '+Lazy! restore', '+qa'], env=env,
-                                capture_output=True, text=True, timeout=300)
-        assert result.returncode == 0, result.stderr[-3000:]
+        if args.plugins_dir:
+            plugin_data = Path(env['XDG_DATA_HOME'])/'vimdesk'
+            plugin_data.mkdir(parents=True, exist_ok=True)
+            (plugin_data/'lazy').symlink_to(args.plugins_dir.expanduser().resolve())
+        else:
+            result = subprocess.run([launcher, '--headless', '+Lazy! restore', '+qa'], env=env,
+                                    capture_output=True, text=True, timeout=300)
+            assert result.returncode == 0, result.stderr[-3000:]
 
         def git(path, *options, check=True):
             return subprocess.run(['git','-C',str(path),*options], check=check, capture_output=True, text=True).stdout.strip()
@@ -115,7 +121,12 @@ func main() {
                 ui.save(args.screenshots/name,args.font)
 
         def view():
-            return nvim.exec_lua('''local v=require('diffview.lib').get_current_view();if not v or not v.cur_entry then return nil end
+            return nvim.exec_lua('''local d=require('git_diff');if d.active() then
+              local s=d.state;local out={root=s.root,path=s.path,panes={}}
+              for symbol,win in pairs({a=s.left,b=s.right}) do
+                out.panes[symbol]={id=win,pos=vim.api.nvim_win_get_position(win),label=vim.wo[win].winbar,
+                  lines=vim.api.nvim_buf_get_lines(vim.api.nvim_win_get_buf(win),0,-1,false)} end;return out end
+              local v=require('diffview.lib').get_current_view();if not v or not v.cur_entry then return nil end
               local out={root=v.adapter.ctx.toplevel,path=v.cur_entry.path,panes={}}
               for _,w in ipairs(v.cur_layout.windows) do if w:is_valid() then
                 out.panes[w.file.symbol]={id=w.id,pos=vim.api.nvim_win_get_position(w.id),label=vim.wo[w.id].winbar,
@@ -143,10 +154,13 @@ func main() {
             nvim.exec_lua('require("workbench").open_file(...)',str(frontend/'app.tsx'))
             assert nvim.exec_lua('return require("multi_repo").current_root()')==str(frontend)
             click('repo',backend)
+            assert nvim.exec_lua('return require("repo_panel").state().active')==str(backend)
+            assert nvim.exec_lua('return vim.bo.filetype')!='snacks_terminal'
+            nvim.exec_lua('require("repo_panel").open_lazygit(...)',str(backend))
             wait('vim.bo.filetype=="snacks_terminal"')
             assert nvim.exec_lua('return vim.b.workspace_repo_root')==str(backend)
             wait('table.concat(vim.api.nvim_buf_get_lines(0,0,-1,false)," "):find("Files")~=nil')
-            print('PASS multi-repo discovery, buffer detection and click → running LazyGit',flush=True)
+            print('PASS multi-repo discovery, buffer detection, context-only selection and explicit LazyGit',flush=True)
             click('file',backend,'main.go');wait('require("git_review").active()~=nil')
             v=view();assert v['root']==str(backend)
             assert 'Retries: 1,' in '\n'.join(v['panes']['a']['lines']) and 'Retries: 3,' in '\n'.join(v['panes']['b']['lines'])

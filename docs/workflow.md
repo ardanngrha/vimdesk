@@ -23,15 +23,23 @@ Clipboard copying uses the system clipboard when your OS has a Neovim clipboard 
 
 ## Git across repositories
 
-`Space gG` opens/focuses the Git sidebar. Click a repository to select it and open its LazyGit session. `Space gP` provides a searchable repo picker; `Space gn` / `Space gp` cycle repositories. Opening a single repository displays its directory name, not `.`.
+`Space gG` opens/focuses the Git sidebar. Click a repository's name to select it and display its Changes. Click its branch badge, such as `[staging ↑2 ↓1]`, to open the branch picker for that repository. The arrows show commits ahead of / behind its upstream. Save and commit or stash outstanding changes before switching branches. `Space gP` provides a searchable repo picker; `Space gn` / `Space gp` cycle repositories. Opening a single repository displays its directory name, not `.`.
 
 `Space gg` resolves the current buffer's repository, so it may differ from a previously selected repo. The workspace's parent directory stays unchanged. `:GitRepo` prints the detected root.
 
 1. Review changed files in the Git sidebar. Clicking one opens Before / After.
-2. Save your intended file edits. Use the visible Stage All control, or stage individual files/hunks. Stage All includes untracked files except ignored ones; review the list first.
+2. Save your intended file edits. Click `[+]` in the Changes header to stage all, or `[+]` beside one file to stage it. `[−]` unstages files. Stage All includes untracked files except ignored ones; review the list first. Use LazyGit or Gitsigns for individual hunks.
 3. Type a subject in the commit textbox, or Generate a draft. Click Commit when ready.
-4. Push/Publish sends the selected repository's current branch to its remote. Pull updates the selected repository. Neither action applies to every repo.
-5. Fetch All (`Space gF`) fetches each repository's remotes, grouping linked worktrees by shared Git directory. It does not check out, merge, or push branches.
+4. Push sends the selected repository's current branch to its remote. When the branch has no upstream, it asks which remote to publish to. Pull updates the selected repository with a fast-forward-only pull. Neither action applies to every repo.
+5. Fetch updates the selected repository's remote refs. Fetch All (`Space gF`) fetches each repository's remotes, grouping linked worktrees by shared Git directory. Neither action checks out, merges, or pushes branches.
+
+The second button row is `[Push] [Pull] [Fetch] [Fetch All] [More]`. At narrow widths the remaining buttons wrap onto another row. More includes Open LazyGit, refresh, and other repository actions.
+
+### Graph
+
+Graph appears below Changes for the selected repository. It shows branch lanes, commit subjects and branch labels across local and fetched remote refs. Click a commit to expand its hash, author, refs and changed files; click one of those files to open the historical Before / After comparison. Merge commits compare against their first parent. Root commits compare against an empty Before.
+
+The initial graph contains up to 30 commits. Load more adds 30 at a time, up to 200. Use the refresh button beside Graph to reload history. Expanded commit files are cached by commit hash. Scrolling does not request more Git history.
 
 LazyGit remains available for branches, history, rebase, stash and other Git tasks. Its default keys include `Space` to stage a file, `a` to stage/unstage all in the files panel, `P` to push, and `p` to pull. Panel focus matters; use `?` to inspect the bindings of your installed LazyGit version.
 
@@ -39,7 +47,9 @@ For a branch merge, check out the target branch, pull it, select the source bran
 
 ## Review and resolve conflicts
 
-`Space gd` opens the current repo's working changes. `Space gD` reviews staged changes. `Space gc` closes the review. You can also use `:DiffviewOpen`, `:DiffviewOpen --cached`, and `:DiffviewClose`.
+Click a changed file to review it in the same two resizable Before / After windows, without opening another tab. For unstaged changes, Before is the index and After is the editable working file; staged changes compare HEAD against the index. Historical and staged snapshots are read-only. Inline text review accepts files up to 2 MB; open binary or larger files in another viewer or LazyGit.
+
+`Space gd` opens the current repo's working-change overview. `Space gD` opens the staged overview. `Space gc` closes either the native file review or a Diffview overview/merge. The explicit commands `:DiffviewOpen`, `:DiffviewOpen --cached` and `:DiffviewClose` control Diffview views only.
 
 Conflicted files open in this layout:
 

@@ -4,10 +4,14 @@ local function current()
   local lib=package.loaded['diffview.lib']
   return lib and lib.get_current_view()
 end
-function M.active() local view=current(); return view and view.workbench_review end
-function M.close()
+function M.active() local view=current(); return require('git_diff').active() or view and view.workbench_review end
+function M.close_merge()
   local view=current()
   if view and view.workbench_review then require('diffview').close(); return true end
+end
+function M.close()
+  require('git_diff').close()
+  return M.close_merge()
 end
 
 function M.labels(view)
@@ -102,6 +106,12 @@ local function select_file(view,path,staged)
 end
 
 function M.open(root,path,staged)
+  local info=require('repo_panel').state().info[root] or {}
+  local selected
+  for _,file in ipairs(info.files or {}) do
+    if (not path or file.path==path) and (not staged or file.staged) then selected=file;break end
+  end
+  if selected and not selected.conflict then return require('git_diff').working(root,selected,staged) end
   require('replace_review').close()
   require('lazy').load({plugins={'diffview.nvim'}})
   local view=current()

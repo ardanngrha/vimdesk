@@ -1,8 +1,18 @@
-local M = { mode = 'explorer', width = 36, sidebar_open = false, output = {}, gitlog = {}, terminals = {} }
+local M = { mode = 'explorer', width = 36, sidebar_open = false, sidebar_epoch = 0, output = {}, gitlog = {}, terminals = {} }
 local api = vim.api
 local modes = { { 'Files', 'explorer' }, { 'Search', 'search' }, { 'Git', 'git' } }
+local explorer, explorer_tab
+
+local function explorer_picker()
+  -- A picker still finding its first results has no visible window yet, so
+  -- Snacks' current-tab lookup cannot see it. Track it until close as well.
+  if explorer and not explorer.closed and explorer_tab==api.nvim_get_current_tabpage() then return explorer end
+  return Snacks.picker.get({source='explorer'})[1]
+end
 
 function M.main()
+  local diff=package.loaded.git_diff
+  if diff and diff.active() then M.editor=diff.state.right;return M.editor end
   local preview=package.loaded.replace_review
   if preview and preview.state and api.nvim_win_is_valid(preview.state.right) then M.editor=preview.state.right;return M.editor end
   local lib=package.loaded['diffview.lib']; local view=lib and lib.get_current_view()
@@ -64,7 +74,10 @@ end
 
 function M.sidebar_click(index,_,button)
   if button~='l' then return end
+  M.sidebar_click_epoch=(M.sidebar_click_epoch or 0)+1
+  local epoch=M.sidebar_click_epoch
   vim.schedule(function()
+    if epoch~=M.sidebar_click_epoch then return end
     if index==4 then M.hide_sidebar()
     elseif index==3 then M.open_git()
     else
@@ -83,28 +96,26 @@ function M.choose_repo()
     local info=s.info[root] or {}
     return require('sidebar_ui').repo_name(s.parent,root)..'  ·  '..(info.branch or '')
   end},function(root)
-    if root then require('scm').select(root); if M.mode=='git' then p.open_lazygit(root) end; vim.cmd.redrawstatus() end
+    if root then p.select(root);vim.cmd.redrawstatus() end
   end)
 end
 
 function M.open_git()
   require('replace_review').close()
-  local p=require('repo_panel'); local s=p.state()
   if M.bottom_win() then M.close_bottom() end
-  M.sidebar('git',false)
-  local function open()
-    if M.mode=='git' and s.active then
-      vim.defer_fn(function() if M.mode=='git' then p.open_lazygit(s.active) end end,60)
-    end
-  end
-  if s.loaded and not s.scanning then open() else s.after_scan=open end
+  M.sidebar('git',true)
 end
 
 local function close_explorer()
+  local pending=explorer_picker()
+  if pending then pending:close() end
   for _, picker in ipairs(Snacks.picker.get({ source = 'explorer' })) do picker:close() end
 end
 
 function M.hide_sidebar()
+  M.sidebar_epoch=M.sidebar_epoch+1
+  M.sidebar_click_epoch=(M.sidebar_click_epoch or 0)+1
+  M.sidebar_open = false
   require('search_box').hide()
   require('commit_box').hide()
   require('repo_panel').hide_lazygit()
@@ -112,7 +123,6 @@ function M.hide_sidebar()
   close_explorer()
   local win = M.side_win()
   if win and vim.bo[api.nvim_win_get_buf(win)].filetype=='workbench_sidebar' then pcall(api.nvim_win_close, win, true) end
-  M.sidebar_open = false
   M.rail()
 end
 
@@ -140,44 +150,40 @@ end
 function M.sidebar(mode, focus)
   vim.cmd.stopinsert()
   mode = mode or M.mode
+  M.sidebar_epoch=M.sidebar_epoch+1
   if mode~='git' then require('commit_box').hide() end
   if mode~='search' then require('search_box').hide();require('replace_review').close() end
-  local owned=M.side_win()
-  if #Snacks.picker.get({source='explorer'})>0 or (owned and vim.bo[api.nvim_win_get_buf(owned)].filetype=='snacks_layout_box') then
-    -- Snacks closes its owned layout on the next tick. Do not reuse/close its
-    -- root window as a native sidebar before that cleanup has completed.
-    M.focus_editor(); close_explorer(); M.mode=mode
-    vim.defer_fn(function() M.sidebar(mode,focus) end,20)
-    return
-  end
   local previous = api.nvim_get_current_win()
-  local old = M.side_win()
-  if mode ~= M.mode or mode == 'explorer' then
-    close_explorer()
-    if old and api.nvim_win_is_valid(old) and vim.bo[api.nvim_win_get_buf(old)].filetype=='workbench_sidebar' then pcall(api.nvim_win_close, old, true) end
+  local win = M.side_win()
+  if not win then
+    api.nvim_set_current_win(M.main())
+    vim.cmd('topleft ' .. M.width .. 'vsplit')
+    win = api.nvim_get_current_win()
+    api.nvim_win_set_buf(win, sidebar_buffer())
   end
+  -- All views share this split. Explorer renders inside it, so closing its
+  -- asynchronous picker layout cannot collapse or resize the editing surface.
+  for key, value in pairs({ number = false, relativenumber = false, signcolumn = 'no', wrap = false,
+    cursorline = false, winfixwidth = true, foldcolumn = '0', winbar = '', scrolloff=0,sidescrolloff=0,
+    winhighlight = 'Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,CursorLine:WorkbenchSelected' }) do vim.wo[win][key] = value end
+  if mode~='explorer' then close_explorer() end
   M.mode, M.sidebar_open = mode, true
   if mode == 'explorer' then
-    api.nvim_set_current_win(M.main())
-    local picker = Snacks.explorer({ cwd = vim.fn.getcwd(), hidden = true, exclude={'.git','**/.git/**'},
-      prompt='',
-      layout = require('sidebar_ui').explorer_layout(M.width),
-      win = { list = { on_buf=function(self) vim.b[self.buf].workbench_explorer=true end,
-        on_win=function() vim.defer_fn(M.rail, 50) end, wo = { foldcolumn = '0', foldenable = false,
-          winhighlight='Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,CursorLine:WorkbenchSelected' },
-      } } })
+    local picker=explorer_picker()
+    if not picker then
+      M.draw({})
+      api.nvim_set_current_win(M.main())
+      picker = Snacks.explorer({ cwd = vim.fn.getcwd(), hidden = true, exclude={'.git','**/.git/**'},
+        prompt='', focus=focus and 'list' or false,
+        layout = require('sidebar_ui').explorer_layout(win),
+        win = { list = { on_buf=function(self) vim.b[self.buf].workbench_explorer=true end,
+          on_win=function() vim.defer_fn(M.rail, 50) end, wo = { foldcolumn = '0', foldenable = false,
+            winhighlight='Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,CursorLine:WorkbenchSelected' },
+        } } })
+      explorer, explorer_tab=picker,api.nvim_get_current_tabpage()
+    elseif focus then picker:focus() end
     if picker and picker.list and picker.list.win.buf then vim.b[picker.list.win.buf].workbench_explorer = true end
   else
-    local win = M.side_win()
-    if not win then
-      api.nvim_set_current_win(M.main())
-      vim.cmd('topleft ' .. M.width .. 'vsplit')
-      win = api.nvim_get_current_win()
-      api.nvim_win_set_buf(win, sidebar_buffer())
-    end
-    for key, value in pairs({ number = false, relativenumber = false, signcolumn = 'no', wrap = false,
-      cursorline = false, winfixwidth = true, foldcolumn = '0', winbar = '',
-      winhighlight = 'Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,CursorLine:WorkbenchSelected' }) do vim.wo[win][key] = value end
     if mode == 'git' then
       local p = require('repo_panel'); local s = p.state(); s.buf = M.side_buf
       require('scm').render(s)
@@ -196,10 +202,20 @@ end
 function M.draw(lines, actions, highlights)
   local buf = sidebar_buffer()
   M.actions = actions or {}
-  vim.bo[buf].modifiable = true
   local compact={}; for _,line in ipairs(lines) do compact[#compact+1]=line:gsub('^      ','  ') end
-  api.nvim_buf_set_lines(buf, 0, -1, false, compact)
+  local old=api.nvim_buf_get_lines(buf,0,-1,false)
+  if vim.deep_equal(old,compact) and vim.deep_equal(M.drawn_highlights,highlights or {}) then return end
+  local first=0
+  while first<math.min(#old,#compact) and old[first+1]==compact[first+1] do first=first+1 end
+  local tail=0
+  while tail<math.min(#old,#compact)-first and old[#old-tail]==compact[#compact-tail] do tail=tail+1 end
+  local replacement={}
+  for i=first+1,#compact-tail do replacement[#replacement+1]=compact[i] end
+  vim.bo[buf].modifiable = true
+  api.nvim_buf_set_lines(buf,first,#old-tail,false,replacement)
   vim.bo[buf].modifiable = false
+  M.drawn_highlights=vim.deepcopy(highlights or {})
+  require('sidebar_ui').clamp(M.side_win())
   local ns = api.nvim_create_namespace('workbench_sidebar')
   api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   for _, h in ipairs(highlights or {}) do
@@ -478,6 +494,7 @@ function M.setup()
   _G.Workbench = M
   require('commit_box').setup()
   require('search_box').setup()
+  require('sidebar_ui').setup()
   require('editor_tools').setup()
   local function map(key, action, desc, modes_) vim.keymap.set(modes_ or 'n', key, action, { desc = desc }) end
   map('<leader>e', function() M.sidebar('explorer', true) end, 'Explorer')
@@ -507,28 +524,39 @@ function M.setup()
   local left_mouse=vim.keycode('<LeftMouse>')
   local left_drag=vim.keycode('<LeftDrag>')
   local left_release=vim.keycode('<LeftRelease>')
+  local wheel_up,wheel_down=vim.keycode('<ScrollWheelUp>'),vim.keycode('<ScrollWheelDown>')
+  local wheel_left,wheel_right=vim.keycode('<ScrollWheelLeft>'),vim.keycode('<ScrollWheelRight>')
   vim.on_key(function(key,typed)
     local event=typed or key
-    if event==left_mouse then
+    if event==wheel_up or event==wheel_down or event==wheel_left or event==wheel_right then
+      local mouse=vim.fn.getmousepos();local side=M.side_win()
+      if side and api.nvim_win_is_valid(mouse.winid) then
+        local ft=vim.bo[api.nvim_win_get_buf(mouse.winid)].filetype
+        if M.mode~='explorer' and (mouse.winid==side or ft=='workbench_commit' or ft=='workbench_search_input') then
+          if event==wheel_up or event==wheel_down then
+            local step=tonumber(vim.o.mousescroll:match('ver:(%d+)')) or 3
+            require('sidebar_ui').queue_scroll(side,(event==wheel_up and -1 or 1)*step)
+          end
+          return ''
+        end
+      end
+    elseif event==left_mouse then
       local mouse=vim.fn.getmousepos(); local side=M.side_win()
       M.dragging_sidebar=side and mouse.screenrow>1 and mouse.screencol==api.nvim_win_get_width(side)+1
       if M.mouse() then return '' end
     elseif event==left_drag and M.dragging_sidebar then
+      local side=M.side_win()
       local width=math.max(20,math.min(math.floor(vim.o.columns*0.6),vim.fn.getmousepos().screencol-1))
-      -- Update Snacks' requested width before its native resize handler runs.
+      -- Resize the shared split; Explorer's floating layout follows its anchor.
       M.width=width
-      for _,picker in ipairs(Snacks.picker.get({source='explorer'})) do
-        if picker.layout then
-          picker.layout.opts.layout.width=width
-          vim.schedule(function()
-            if not picker.closed and picker.layout.root:win_valid() then
-              picker.layout.root.opts.width=width
-              api.nvim_win_set_width(picker.layout.root.win,width)
-              picker.layout:update()
-            end
-          end)
+      vim.schedule(function()
+        if side and api.nvim_win_is_valid(side) and M.side_win()==side then
+          api.nvim_win_set_width(side,width)
+          for _,picker in ipairs(Snacks.picker.get({source='explorer'})) do
+            if picker.layout and not picker.closed then picker.layout:update() end
+          end
         end
-      end
+      end)
       if M.mode=='explorer' then return '' end
     elseif event==left_release then M.dragging_sidebar=nil end
   end,mouse_ns)
@@ -536,15 +564,17 @@ function M.setup()
   api.nvim_create_autocmd('WinEnter', { group = group, callback = function()
     if vim.bo.buftype == '' then M.editor = api.nvim_get_current_win() end
   end })
-  api.nvim_create_autocmd({ 'WinResized', 'TabEnter' }, { group = group, callback = function() vim.defer_fn(M.rail, 60) end })
+  api.nvim_create_autocmd('TabEnter', { group = group, callback = M.rail })
   api.nvim_create_autocmd('WinResized',{group=group,callback=function()
     local win=M.side_win()
-    if win then
+    if win and vim.tbl_contains(vim.v.event.windows or {},win) then
       local width=api.nvim_win_get_width(win)
       if width~=M.width then
         M.width=width
       end
-      if M.mode=='git' then require('repo_list').render(require('repo_panel').state()) end
+      local state=require('repo_panel').state()
+      if M.mode=='git' and state.render_width~=width then require('repo_list').render(state) end
+      M.rail()
     end
   end})
   api.nvim_create_autocmd('User', { group = group, pattern = 'PersistenceSavePre', callback = function() M.save_metadata(); M.detach_panels() end })

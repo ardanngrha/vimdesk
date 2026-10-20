@@ -76,7 +76,9 @@ function M.render()
 end
 function M.prompt()
   if wb().mode~='search' or not wb().side_win() then wb().sidebar('search',true) end
+  local epoch=wb().sidebar_epoch
   vim.defer_fn(function()
+    if not wb().sidebar_open or wb().mode~='search' or wb().sidebar_epoch~=epoch then return end
     local side=wb().side_win()
     if side then api.nvim_win_call(side,function() vim.cmd('normal! ggzt') end);M.render() end
     require('search_box').focus('query')
