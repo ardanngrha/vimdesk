@@ -1,0 +1,1138 @@
+{
+  "method": {
+    "comparison": "navigation",
+    "paired_repetitions": 7,
+    "warmups_discarded": 2,
+    "repos": 17,
+    "regular_files": 4097,
+    "mixed_extensions": [
+      "go",
+      "rs",
+      "py",
+      "tsx",
+      "jsx",
+      "js",
+      "ts",
+      "lua",
+      "json",
+      "md",
+      "yaml",
+      "toml"
+    ],
+    "ui_cells": [
+      160,
+      44
+    ],
+    "scroll_events_each_phase": 240,
+    "rows_per_wheel": 10,
+    "idle_seconds": 1,
+    "startup": "new process, filesystem/code caches primed",
+    "memory": "Neovim current resident memory; full Lua GC before steady samples",
+    "cpu": "Neovim user+system time; child Git processes excluded",
+    "limits": [
+      "Embedded RGB UI; Warp/WindowServer GPU not measured",
+      "LSP inactive on the plain text entry file",
+      "Synthetic expanded sibling repositories, not every real workload"
+    ]
+  },
+  "summary": {
+    "startup_cpu_ms": {
+      "before_median": 57.878,
+      "after_median": 57.867,
+      "delta": -0.011000000000002785,
+      "delta_pct": -0.019005494315634242,
+      "before_range": [
+        51.169,
+        62.07
+      ],
+      "after_range": [
+        51.935,
+        63.156
+      ]
+    },
+    "startup_wall_ms": {
+      "before_median": 58.187,
+      "after_median": 60.63,
+      "delta": 2.443000000000005,
+      "delta_pct": 4.198532318215418,
+      "before_range": [
+        53.669,
+        77.285
+      ],
+      "after_range": [
+        52.83,
+        88.881
+      ]
+    },
+    "files_open_cpu_ms": {
+      "before_median": 80.11500000000004,
+      "after_median": 78.72,
+      "delta": -1.3950000000000387,
+      "delta_pct": -1.7412469574986433,
+      "before_range": [
+        70.76799999999997,
+        88.91100000000002
+      ],
+      "after_range": [
+        62.61,
+        82.479
+      ]
+    },
+    "files_open_wall_ms": {
+      "before_median": 196.37862502713688,
+      "after_median": 195.84079200285487,
+      "delta": -0.5378330242820084,
+      "delta_pct": -0.27387554231408184,
+      "before_range": [
+        188.48658300703391,
+        206.7068750038743
+      ],
+      "after_range": [
+        177.41329199634492,
+        202.83945798291825
+      ]
+    },
+    "files_rss_mib": {
+      "before_median": 22.53179931640625,
+      "after_median": 22.625526428222656,
+      "delta": 0.09372711181640625,
+      "delta_pct": 0.4159770398281509,
+      "before_range": [
+        22.172401428222656,
+        23.188026428222656
+      ],
+      "after_range": [
+        22.078651428222656,
+        23.10992431640625
+      ]
+    },
+    "files_heap_mib": {
+      "before_median": 10.135859489440918,
+      "after_median": 10.233230590820312,
+      "delta": 0.09737110137939453,
+      "delta_pct": 0.9606595422996081,
+      "before_range": [
+        10.091940879821777,
+        10.290793418884277
+      ],
+      "after_range": [
+        10.1126708984375,
+        10.323699951171875
+      ]
+    },
+    "idle_cpu_ms_per_second": {
+      "before_median": 10.395999999999958,
+      "after_median": 9.28699999999992,
+      "delta": -1.1090000000000373,
+      "delta_pct": -10.667564447864965,
+      "before_range": [
+        6.785999999999831,
+        13.13000000000011
+      ],
+      "after_range": [
+        6.76299999999992,
+        10.916000000000054
+      ]
+    },
+    "cold_scroll_cpu_ms": {
+      "before_median": 431.4359999999999,
+      "after_median": 354.35299999999995,
+      "delta": -77.08299999999997,
+      "delta_pct": -17.866612892758134,
+      "before_range": [
+        355.495,
+        515.702
+      ],
+      "after_range": [
+        322.596,
+        470.26499999999993
+      ]
+    },
+    "cold_scroll_wall_ms": {
+      "before_median": 745.7427500048652,
+      "after_median": 700.1723750145175,
+      "delta": -45.57037499034777,
+      "delta_pct": -6.1107365763931965,
+      "before_range": [
+        720.4305840132292,
+        949.3245839839801
+      ],
+      "after_range": [
+        685.3432090138085,
+        790.882999979658
+      ]
+    },
+    "warm_scroll_cpu_ms": {
+      "before_median": 432.2660000000001,
+      "after_median": 352.06499999999994,
+      "delta": -80.20100000000014,
+      "delta_pct": -18.553622075296257,
+      "before_range": [
+        326.01699999999994,
+        437.09299999999996
+      ],
+      "after_range": [
+        323.4560000000001,
+        446.3420000000002
+      ]
+    },
+    "warm_scroll_wall_ms": {
+      "before_median": 735.4864999942947,
+      "after_median": 728.4927500004414,
+      "delta": -6.993749993853271,
+      "delta_pct": -0.9509012053800475,
+      "before_range": [
+        707.2877500031609,
+        757.9557920107618
+      ],
+      "after_range": [
+        693.6268330027815,
+        753.6617919977289
+      ]
+    },
+    "after_scroll_rss_mib": {
+      "before_median": 38.85992431640625,
+      "after_median": 38.797401428222656,
+      "delta": -0.06252288818359375,
+      "delta_pct": -0.1608929746607799,
+      "before_range": [
+        38.703651428222656,
+        39.25054931640625
+      ],
+      "after_range": [
+        38.62554931640625,
+        39.14122009277344
+      ]
+    },
+    "after_scroll_heap_mib": {
+      "before_median": 10.197287559509277,
+      "after_median": 10.199512481689453,
+      "delta": 0.0022249221801757812,
+      "delta_pct": 0.02181876471749563,
+      "before_range": [
+        10.1393461227417,
+        10.36527156829834
+      ],
+      "after_range": [
+        10.156059265136719,
+        10.37613296508789
+      ]
+    }
+  },
+  "warmups": [
+    {
+      "variant": "before",
+      "startup_cpu_ms": 86.636,
+      "startup_wall_ms": 130.219,
+      "files_open_cpu_ms": 89.93800000000002,
+      "files_open_wall_ms": 214.0546659938991,
+      "files_rss_mib": 23.62554931640625,
+      "files_heap_mib": 10.562461853027344,
+      "idle_cpu_ms_per_second": 7.8120000000001255,
+      "cold_scroll_cpu_ms": 374.0830000000001,
+      "cold_scroll_wall_ms": 739.9199579958804,
+      "warm_scroll_cpu_ms": 382.8380000000001,
+      "warm_scroll_wall_ms": 753.7565419916064,
+      "after_scroll_rss_mib": 39.172447204589844,
+      "after_scroll_heap_mib": 10.522258758544922,
+      "glyphs": {
+        "rs": {
+          "width": 1,
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange"
+        },
+        "go": {
+          "width": 1,
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure"
+        },
+        "py": {
+          "width": 1,
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow"
+        },
+        "lua": {
+          "width": 1,
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure"
+        },
+        "tsx": {
+          "width": 1,
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue"
+        },
+        "json": {
+          "width": 1,
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow"
+        },
+        "js": {
+          "width": 1,
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "variant": "after",
+      "startup_cpu_ms": 82.295,
+      "startup_wall_ms": 88.609,
+      "files_open_cpu_ms": 90.572,
+      "files_open_wall_ms": 207.6404580147937,
+      "files_rss_mib": 23.891128540039062,
+      "files_heap_mib": 10.643338203430176,
+      "idle_cpu_ms_per_second": 8.524999999999977,
+      "cold_scroll_cpu_ms": 330.923,
+      "cold_scroll_wall_ms": 707.8838750021532,
+      "warm_scroll_cpu_ms": 358.95000000000005,
+      "warm_scroll_wall_ms": 764.5994579943363,
+      "after_scroll_rss_mib": 39.172401428222656,
+      "after_scroll_heap_mib": 10.626896858215332,
+      "glyphs": {
+        "go": {
+          "glyph": "\udb81\udfd3",
+          "width": 1,
+          "highlight": "MiniIconsAzure"
+        },
+        "tsx": {
+          "glyph": "\ue7ba",
+          "width": 1,
+          "highlight": "MiniIconsBlue"
+        },
+        "py": {
+          "glyph": "\udb80\udf20",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "json": {
+          "glyph": "\udb81\ude26",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "js": {
+          "glyph": "\udb80\udf1e",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "lua": {
+          "glyph": "\udb82\udcb1",
+          "width": 1,
+          "highlight": "MiniIconsAzure"
+        },
+        "rs": {
+          "glyph": "\udb85\ude17",
+          "width": 1,
+          "highlight": "MiniIconsOrange"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    }
+  ],
+  "runs": [
+    {
+      "pair": 1,
+      "variant": "before",
+      "startup_cpu_ms": 52.407,
+      "startup_wall_ms": 53.669,
+      "files_open_cpu_ms": 76.67299999999999,
+      "files_open_wall_ms": 194.29570800275542,
+      "files_rss_mib": 22.53179931640625,
+      "files_heap_mib": 10.138895988464355,
+      "idle_cpu_ms_per_second": 6.785999999999831,
+      "cold_scroll_cpu_ms": 515.702,
+      "cold_scroll_wall_ms": 949.3245839839801,
+      "warm_scroll_cpu_ms": 437.09299999999996,
+      "warm_scroll_wall_ms": 755.1426249847282,
+      "after_scroll_rss_mib": 39.04747009277344,
+      "after_scroll_heap_mib": 10.19113826751709,
+      "glyphs": {
+        "rs": {
+          "width": 1,
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange"
+        },
+        "lua": {
+          "width": 1,
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure"
+        },
+        "py": {
+          "width": 1,
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow"
+        },
+        "js": {
+          "width": 1,
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow"
+        },
+        "json": {
+          "width": 1,
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow"
+        },
+        "tsx": {
+          "width": 1,
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue"
+        },
+        "go": {
+          "width": 1,
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 1,
+      "variant": "after",
+      "startup_cpu_ms": 58.59,
+      "startup_wall_ms": 60.63,
+      "files_open_cpu_ms": 62.61,
+      "files_open_wall_ms": 177.41329199634492,
+      "files_rss_mib": 23.10992431640625,
+      "files_heap_mib": 10.128604888916016,
+      "idle_cpu_ms_per_second": 9.411999999999807,
+      "cold_scroll_cpu_ms": 459.5479999999999,
+      "cold_scroll_wall_ms": 762.567833007779,
+      "warm_scroll_cpu_ms": 426.40700000000015,
+      "warm_scroll_wall_ms": 734.8722919996362,
+      "after_scroll_rss_mib": 39.14122009277344,
+      "after_scroll_heap_mib": 10.163421630859375,
+      "glyphs": {
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf20"
+        },
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb81\ude26"
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "width": 1,
+          "glyph": "\ue7ba"
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb81\udfd3"
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "width": 1,
+          "glyph": "\udb85\ude17"
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf1e"
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb82\udcb1"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 2,
+      "variant": "after",
+      "startup_cpu_ms": 57.779,
+      "startup_wall_ms": 58.844,
+      "files_open_cpu_ms": 78.72,
+      "files_open_wall_ms": 195.60974999330938,
+      "files_rss_mib": 22.484878540039062,
+      "files_heap_mib": 10.323699951171875,
+      "idle_cpu_ms_per_second": 10.916000000000054,
+      "cold_scroll_cpu_ms": 329.43500000000006,
+      "cold_scroll_wall_ms": 697.1068329876289,
+      "warm_scroll_cpu_ms": 340.7790000000001,
+      "warm_scroll_wall_ms": 728.4927500004414,
+      "after_scroll_rss_mib": 38.797401428222656,
+      "after_scroll_heap_mib": 10.273273468017578,
+      "glyphs": {
+        "tsx": {
+          "width": 1,
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue"
+        },
+        "rs": {
+          "width": 1,
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange"
+        },
+        "lua": {
+          "width": 1,
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure"
+        },
+        "py": {
+          "width": 1,
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow"
+        },
+        "js": {
+          "width": 1,
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow"
+        },
+        "json": {
+          "width": 1,
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow"
+        },
+        "go": {
+          "width": 1,
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 2,
+      "variant": "before",
+      "startup_cpu_ms": 58.631,
+      "startup_wall_ms": 73.245,
+      "files_open_cpu_ms": 85.489,
+      "files_open_wall_ms": 206.7068750038743,
+      "files_rss_mib": 22.609901428222656,
+      "files_heap_mib": 10.121886253356934,
+      "idle_cpu_ms_per_second": 11.289000000000215,
+      "cold_scroll_cpu_ms": 490.4459999999999,
+      "cold_scroll_wall_ms": 809.7292909806129,
+      "warm_scroll_cpu_ms": 436.1509999999997,
+      "warm_scroll_wall_ms": 735.0529999821447,
+      "after_scroll_rss_mib": 38.85992431640625,
+      "after_scroll_heap_mib": 10.1393461227417,
+      "glyphs": {
+        "lua": {
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        },
+        "rs": {
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange",
+          "width": 1
+        },
+        "py": {
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "json": {
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "go": {
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        },
+        "js": {
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "tsx": {
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue",
+          "width": 1
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 3,
+      "variant": "before",
+      "startup_cpu_ms": 57.878,
+      "startup_wall_ms": 60.284,
+      "files_open_cpu_ms": 70.76799999999997,
+      "files_open_wall_ms": 188.48658300703391,
+      "files_rss_mib": 22.234901428222656,
+      "files_heap_mib": 10.135859489440918,
+      "idle_cpu_ms_per_second": 9.322000000000003,
+      "cold_scroll_cpu_ms": 362.32800000000003,
+      "cold_scroll_wall_ms": 722.7976670255885,
+      "warm_scroll_cpu_ms": 376.06899999999985,
+      "warm_scroll_wall_ms": 757.9557920107618,
+      "after_scroll_rss_mib": 38.76617431640625,
+      "after_scroll_heap_mib": 10.224608421325684,
+      "glyphs": {
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb81\ude26"
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "width": 1,
+          "glyph": "\ue7ba"
+        },
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf20"
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "width": 1,
+          "glyph": "\udb85\ude17"
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb81\udfd3"
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb82\udcb1"
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf1e"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 3,
+      "variant": "after",
+      "startup_cpu_ms": 59.785,
+      "startup_wall_ms": 74.894,
+      "files_open_cpu_ms": 78.10200000000003,
+      "files_open_wall_ms": 195.84079200285487,
+      "files_rss_mib": 22.703651428222656,
+      "files_heap_mib": 10.1126708984375,
+      "idle_cpu_ms_per_second": 8.825000000000045,
+      "cold_scroll_cpu_ms": 470.26499999999993,
+      "cold_scroll_wall_ms": 778.9263750019018,
+      "warm_scroll_cpu_ms": 446.3420000000002,
+      "warm_scroll_wall_ms": 747.4207920022309,
+      "after_scroll_rss_mib": 38.875526428222656,
+      "after_scroll_heap_mib": 10.156059265136719,
+      "glyphs": {
+        "rs": {
+          "glyph": "\udb85\ude17",
+          "width": 1,
+          "highlight": "MiniIconsOrange"
+        },
+        "py": {
+          "glyph": "\udb80\udf20",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "json": {
+          "glyph": "\udb81\ude26",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "lua": {
+          "glyph": "\udb82\udcb1",
+          "width": 1,
+          "highlight": "MiniIconsAzure"
+        },
+        "js": {
+          "glyph": "\udb80\udf1e",
+          "width": 1,
+          "highlight": "MiniIconsYellow"
+        },
+        "go": {
+          "glyph": "\udb81\udfd3",
+          "width": 1,
+          "highlight": "MiniIconsAzure"
+        },
+        "tsx": {
+          "glyph": "\ue7ba",
+          "width": 1,
+          "highlight": "MiniIconsBlue"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 4,
+      "variant": "after",
+      "startup_cpu_ms": 57.867,
+      "startup_wall_ms": 57.18,
+      "files_open_cpu_ms": 81.03399999999998,
+      "files_open_wall_ms": 196.1020420130808,
+      "files_rss_mib": 22.547401428222656,
+      "files_heap_mib": 10.215137481689453,
+      "idle_cpu_ms_per_second": 6.76299999999992,
+      "cold_scroll_cpu_ms": 406.55499999999995,
+      "cold_scroll_wall_ms": 790.882999979658,
+      "warm_scroll_cpu_ms": 352.7450000000001,
+      "warm_scroll_wall_ms": 709.019542002352,
+      "after_scroll_rss_mib": 38.67242431640625,
+      "after_scroll_heap_mib": 10.199512481689453,
+      "glyphs": {
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb81\ude26"
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf1e"
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb82\udcb1"
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "width": 1,
+          "glyph": "\udb85\ude17"
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "width": 1,
+          "glyph": "\ue7ba"
+        },
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf20"
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb81\udfd3"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 4,
+      "variant": "before",
+      "startup_cpu_ms": 62.07,
+      "startup_wall_ms": 77.285,
+      "files_open_cpu_ms": 73.07000000000001,
+      "files_open_wall_ms": 195.57383301435038,
+      "files_rss_mib": 22.281776428222656,
+      "files_heap_mib": 10.290793418884277,
+      "idle_cpu_ms_per_second": 8.812999999999988,
+      "cold_scroll_cpu_ms": 355.495,
+      "cold_scroll_wall_ms": 775.4592499986757,
+      "warm_scroll_cpu_ms": 326.01699999999994,
+      "warm_scroll_wall_ms": 708.2290840044152,
+      "after_scroll_rss_mib": 38.85992431640625,
+      "after_scroll_heap_mib": 10.36527156829834,
+      "glyphs": {
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb81\ude26",
+          "width": 1
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb82\udcb1",
+          "width": 1
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf1e",
+          "width": 1
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "glyph": "\udb85\ude17",
+          "width": 1
+        },
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf20",
+          "width": 1
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb81\udfd3",
+          "width": 1
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "glyph": "\ue7ba",
+          "width": 1
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 5,
+      "variant": "before",
+      "startup_cpu_ms": 51.169,
+      "startup_wall_ms": 54.033,
+      "files_open_cpu_ms": 82.227,
+      "files_open_wall_ms": 199.27779198042117,
+      "files_rss_mib": 22.172401428222656,
+      "files_heap_mib": 10.091940879821777,
+      "idle_cpu_ms_per_second": 10.395999999999958,
+      "cold_scroll_cpu_ms": 371.886,
+      "cold_scroll_wall_ms": 722.121957980562,
+      "warm_scroll_cpu_ms": 353.8750000000001,
+      "warm_scroll_wall_ms": 707.2877500031609,
+      "after_scroll_rss_mib": 38.703651428222656,
+      "after_scroll_heap_mib": 10.245268821716309,
+      "glyphs": {
+        "go": {
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        },
+        "py": {
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "tsx": {
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue",
+          "width": 1
+        },
+        "lua": {
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        },
+        "js": {
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "rs": {
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange",
+          "width": 1
+        },
+        "json": {
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 5,
+      "variant": "after",
+      "startup_cpu_ms": 63.156,
+      "startup_wall_ms": 88.881,
+      "files_open_cpu_ms": 82.27499999999999,
+      "files_open_wall_ms": 202.83945798291825,
+      "files_rss_mib": 22.078651428222656,
+      "files_heap_mib": 10.233230590820312,
+      "idle_cpu_ms_per_second": 7.107000000000085,
+      "cold_scroll_cpu_ms": 354.35299999999995,
+      "cold_scroll_wall_ms": 700.1723750145175,
+      "warm_scroll_cpu_ms": 352.06499999999994,
+      "warm_scroll_wall_ms": 753.6617919977289,
+      "after_scroll_rss_mib": 38.625572204589844,
+      "after_scroll_heap_mib": 10.26812744140625,
+      "glyphs": {
+        "py": {
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "lua": {
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        },
+        "tsx": {
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue",
+          "width": 1
+        },
+        "json": {
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "js": {
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow",
+          "width": 1
+        },
+        "rs": {
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange",
+          "width": 1
+        },
+        "go": {
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure",
+          "width": 1
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 6,
+      "variant": "after",
+      "startup_cpu_ms": 51.935,
+      "startup_wall_ms": 52.83,
+      "files_open_cpu_ms": 82.479,
+      "files_open_wall_ms": 198.09562497539446,
+      "files_rss_mib": 22.625526428222656,
+      "files_heap_mib": 10.321258544921875,
+      "idle_cpu_ms_per_second": 9.28699999999992,
+      "cold_scroll_cpu_ms": 326.53999999999996,
+      "cold_scroll_wall_ms": 693.5083749995101,
+      "warm_scroll_cpu_ms": 323.4560000000001,
+      "warm_scroll_wall_ms": 693.6268330027815,
+      "after_scroll_rss_mib": 38.62554931640625,
+      "after_scroll_heap_mib": 10.169097900390625,
+      "glyphs": {
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf20",
+          "width": 1
+        },
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb81\ude26",
+          "width": 1
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "glyph": "\ue7ba",
+          "width": 1
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf1e",
+          "width": 1
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb81\udfd3",
+          "width": 1
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb82\udcb1",
+          "width": 1
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "glyph": "\udb85\ude17",
+          "width": 1
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    },
+    {
+      "pair": 6,
+      "variant": "before",
+      "startup_cpu_ms": 55.134,
+      "startup_wall_ms": 54.917,
+      "files_open_cpu_ms": 88.91100000000002,
+      "files_open_wall_ms": 205.8774170000106,
+      "files_rss_mib": 22.750526428222656,
+      "files_heap_mib": 10.169886589050293,
+      "idle_cpu_ms_per_second": 11.296999999999798,
+      "cold_scroll_cpu_ms": 431.4359999999999,
+      "cold_scroll_wall_ms": 720.4305840132292,
+      "warm_scroll_cpu_ms": 432.84900000000005,
+      "warm_scroll_wall_ms": 741.1882500164211,
+      "after_scroll_rss_mib": 38.81304931640625,
+      "after_scroll_heap_mib": 10.197287559509277,
+      "glyphs": {
+        "go": {
+          "width": 1,
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure"
+        },
+        "tsx": {
+          "width": 1,
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue"
+        },
+        "py": {
+          "width": 1,
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow"
+        },
+        "lua": {
+          "width": 1,
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure"
+        },
+        "json": {
+          "width": 1,
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow"
+        },
+        "rs": {
+          "width": 1,
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange"
+        },
+        "js": {
+          "width": 1,
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 7,
+      "variant": "before",
+      "startup_cpu_ms": 60.899,
+      "startup_wall_ms": 58.187,
+      "files_open_cpu_ms": 80.11500000000004,
+      "files_open_wall_ms": 196.37862502713688,
+      "files_rss_mib": 23.188026428222656,
+      "files_heap_mib": 10.133357048034668,
+      "idle_cpu_ms_per_second": 13.13000000000011,
+      "cold_scroll_cpu_ms": 445.51599999999996,
+      "cold_scroll_wall_ms": 745.7427500048652,
+      "warm_scroll_cpu_ms": 432.2660000000001,
+      "warm_scroll_wall_ms": 735.4864999942947,
+      "after_scroll_rss_mib": 39.25054931640625,
+      "after_scroll_heap_mib": 10.140807151794434,
+      "glyphs": {
+        "tsx": {
+          "width": 1,
+          "glyph": "\ue7ba",
+          "highlight": "MiniIconsBlue"
+        },
+        "go": {
+          "width": 1,
+          "glyph": "\udb81\udfd3",
+          "highlight": "MiniIconsAzure"
+        },
+        "rs": {
+          "width": 1,
+          "glyph": "\udb85\ude17",
+          "highlight": "MiniIconsOrange"
+        },
+        "lua": {
+          "width": 1,
+          "glyph": "\udb82\udcb1",
+          "highlight": "MiniIconsAzure"
+        },
+        "json": {
+          "width": 1,
+          "glyph": "\udb81\ude26",
+          "highlight": "MiniIconsYellow"
+        },
+        "py": {
+          "width": 1,
+          "glyph": "\udb80\udf20",
+          "highlight": "MiniIconsYellow"
+        },
+        "js": {
+          "width": 1,
+          "glyph": "\udb80\udf1e",
+          "highlight": "MiniIconsYellow"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "pair": 7,
+      "variant": "after",
+      "startup_cpu_ms": 56.626,
+      "startup_wall_ms": 72.739,
+      "files_open_cpu_ms": 76.404,
+      "files_open_wall_ms": 192.3065840092022,
+      "files_rss_mib": 22.672378540039062,
+      "files_heap_mib": 10.311412811279297,
+      "idle_cpu_ms_per_second": 9.64599999999973,
+      "cold_scroll_cpu_ms": 322.596,
+      "cold_scroll_wall_ms": 685.3432090138085,
+      "warm_scroll_cpu_ms": 327.14300000000014,
+      "warm_scroll_wall_ms": 702.1224579948466,
+      "after_scroll_rss_mib": 38.906776428222656,
+      "after_scroll_heap_mib": 10.37613296508789,
+      "glyphs": {
+        "go": {
+          "width": 1,
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb81\udfd3"
+        },
+        "lua": {
+          "width": 1,
+          "highlight": "MiniIconsAzure",
+          "glyph": "\udb82\udcb1"
+        },
+        "js": {
+          "width": 1,
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf1e"
+        },
+        "tsx": {
+          "width": 1,
+          "highlight": "MiniIconsBlue",
+          "glyph": "\ue7ba"
+        },
+        "rs": {
+          "width": 1,
+          "highlight": "MiniIconsOrange",
+          "glyph": "\udb85\ude17"
+        },
+        "json": {
+          "width": 1,
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb81\ude26"
+        },
+        "py": {
+          "width": 1,
+          "highlight": "MiniIconsYellow",
+          "glyph": "\udb80\udf20"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 18
+    }
+  ],
+  "within_process_scroll": [],
+  "within_process_summary": {}
+}

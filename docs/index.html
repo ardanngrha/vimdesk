@@ -15,13 +15,13 @@
     />
     <meta
       property="og:image"
-      content="https://ardanngrha.github.io/vimdesk/images/review.png?v=20261020"
+      content="https://ardanngrha.github.io/vimdesk/images/review.png?v=20261026"
     />
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://ardanngrha.github.io/vimdesk/" />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="assets/site.css?v=5" />
-    <script src="assets/site.js?v=6" defer></script>
+    <script src="assets/site.js?v=7" defer></script>
     <title>VimDesk</title>
   </head>
   <body>
@@ -197,6 +197,31 @@
             </ul>
           </details>
           <details>
+            <summary data-i18n="filesTitle">
+              Files, preview, dan mode ringan
+            </summary>
+            <p data-i18n="filesText">
+              Sekali klik untuk preview; double-click, Enter, atau mulai edit
+              untuk menyimpan tab. Open Editors dan tombol file/folder berada di
+              atas tree.
+            </p>
+            <p data-i18n="fontText">
+              Icon file membutuhkan Nerd Font yang dipilih di terminal. Space ui
+              mematikan icon jika memakai font biasa. Untuk WSL, font dipasang
+              di Windows Terminal.
+            </p>
+            <p data-i18n="lightText">
+              Space up men-toggle Light mode. Watcher dan dekorasi explorer
+              dimatikan; refresh dengan u di Files atau r di Git. Language server
+              tetap berjalan.
+            </p>
+            <a
+              href="https://github.com/ardanngrha/vimdesk/blob/main/docs/workflow.md#preview-tabs-and-open-editors"
+              data-i18n="filesMore"
+              >Panduan Files dan pengaturan</a
+            >
+          </details>
+          <details>
             <summary data-i18n="workflowTitle">
               Pemakaian, update, dan backup
             </summary>
@@ -259,6 +284,16 @@
                 data-i18n="tabSearch"
               >
                 Search/replace
+              </button><button
+                role="tab"
+                id="tab-explorer"
+                aria-selected="false"
+                aria-controls="preview-panel"
+                tabindex="-1"
+                data-view="explorer"
+                data-i18n="tabExplorer"
+              >
+                Files
               </button>
             </div>
             <div
@@ -268,9 +303,9 @@
             >
               <img
                 id="preview-image"
-                src="images/review.png?v=20261020"
-                width="1634"
-                height="1176"
+                src="images/review.png?v=20261026"
+                width="1544"
+                height="1044"
                 alt="Git sidebar with commit graph and Before / After review"
                 loading="lazy"
               />

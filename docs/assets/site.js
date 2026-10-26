@@ -34,6 +34,11 @@ const strings = {
     aiTitle: "AI commit message (opsional)",
     aiText:
       "Pasang dan login Codex CLI atau Claude Code mengikuti panduan resminya. Simpan file, stage perubahan, klik Generate di sidebar Git, pilih agent, lalu review pesannya sebelum Commit. Staged diff dikirim ke provider memakai akunmu; biaya penggunaan normal berlaku.",
+    filesTitle: "Files, preview, dan mode ringan",
+    filesText: "Sekali klik untuk preview; double-click, Enter, atau mulai edit untuk menyimpan tab. Open Editors dan tombol file/folder berada di atas tree.",
+    fontText: "Icon file membutuhkan Nerd Font yang dipilih di terminal. Space ui mematikan icon jika memakai font biasa. Untuk WSL, font dipasang di Windows Terminal.",
+    lightText: "Space up men-toggle Light mode. Watcher dan dekorasi explorer dimatikan; refresh dengan u di Files atau r di Git. Language server tetap berjalan.",
+    filesMore: "Panduan Files dan pengaturan",
     workflowTitle: "Pemakaian, update, dan backup",
     workflow: "Editing, Git, konflik, dan search/replace",
     maintenance: "Update, restore, dan uninstall",
@@ -43,6 +48,7 @@ const strings = {
     tabReview: "Git diff",
     tabConflicts: "Konflik",
     tabSearch: "Search/replace",
+    tabExplorer: "Files",
     faqTitle: "Masalah umum",
     faqQ1: "Config Neovim lama akan tertimpa?",
     faqA1:
@@ -98,6 +104,11 @@ const strings = {
     aiTitle: "AI commit messages (optional)",
     aiText:
       "Install and authenticate Codex CLI or Claude Code using its official guide. Save files, stage changes, click Generate in the Git sidebar, select an agent, and review the message before Commit. The staged diff goes to the provider using your account; normal usage costs apply.",
+    filesTitle: "Files, previews, and Light mode",
+    filesText: "Single-click to preview; double-click, press Enter, or edit to keep the tab. Open Editors and file/folder controls sit above the tree.",
+    fontText: "File icons need a Nerd Font selected in your terminal. Space ui disables icons for a plain font. For WSL, install/select the font in Windows Terminal.",
+    lightText: "Space up toggles Light mode. Explorer watchers and decorations stop; refresh with u in Files or r in Git. Language servers keep running.",
+    filesMore: "Files and settings guide",
     workflowTitle: "Usage, updates, and backups",
     workflow: "Editing, Git, conflicts, and search/replace",
     maintenance: "Update, restore, and uninstall",
@@ -107,6 +118,7 @@ const strings = {
     tabReview: "Git diff",
     tabConflicts: "Conflicts",
     tabSearch: "Search/replace",
+    tabExplorer: "Files",
     faqTitle: "Troubleshooting",
     faqQ1: "Will this overwrite my existing Neovim config?",
     faqA1:
@@ -131,20 +143,26 @@ const strings = {
 };
 
 const views = {
+  explorer: {
+    image: "images/explorer.png?v=20261026",
+    alt: "File explorer with Open Editors, file icons and creation controls",
+    id: "Files, Open Editors, icon file, dan tombol file/folder.",
+    en: "Files, Open Editors, file icons, and file/folder controls.",
+  },
   review: {
-    image: "images/review.png?v=20261020",
+    image: "images/review.png?v=20261026",
     alt: "Git sidebar with commit graph and Before / After review",
     id: "Sidebar Git, Graph commit, dan perbandingan Before / After.",
     en: "Git sidebar, commit graph, and Before / After comparison.",
   },
   conflicts: {
-    image: "images/conflicts.png?v=20261020",
+    image: "images/conflicts.png?v=20261026",
     alt: "Incoming left, Current right, editable Result below",
     id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah.",
     en: "Incoming on the left, Current on the right, editable Result below.",
   },
   search: {
-    image: "images/search.png?v=20261020",
+    image: "images/search.png?v=20261026",
     alt: "Search and replace fields with a replacement preview",
     id: "Kolom Search dan Replace, dengan preview perubahan per file.",
     en: "Search and Replace fields, with per-file replacement previews.",

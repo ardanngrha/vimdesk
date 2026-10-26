@@ -1,5 +1,21 @@
 # Verification
 
+## Explorer, navigation and statusline update — 26 October 2026
+
+Verified on macOS with Neovim 0.12.5. All **16 pinned plugin revisions**, including mini.icons, matched the cache used for these checks; the checks did not update it.
+
+- All 11 installer/restore, onboarding and AI-helper unit tests passed. AI providers were mocked; no paid provider request was made.
+- Fifteen rendered mode/branch scenarios passed in the installed profile: editor Normal/Insert, Files tree/filter/Open Editors, editing with Files open, Search, Git commit input, resize/header changes, Light mode and a PTY terminal. Tests inspect the actual RGB-grid cells and float bounds, catching a blank border covering a correct statusline string. Tested viewports: 150 × 44, 90 × 24 and 180 × 52.
+- Terminal I/O and panel reuse passed in a dummy repo with a clean shell environment and discarded history. Toggling reused the same terminal job.
+- Thirteen navigation checks passed: single/double clicks, Enter pinning, edited/split preview retention, bounded Open Editors/close control, toolbar actions, 100 previews without accumulating listed buffers, sidebar selection/scroll, watcher release and cached-badge suppression, and session restart with repo/draft/filter/search state restored.
+- Eighteen explorer checks passed, including real right-click menus, path copying, file/folder copy, collisions, symlinks, create/rename with open buffers, unsaved-file protection, recoverable trash and restore after restart.
+- Seventeen Git-sidebar checks passed with 17 sibling repos, including actual branch checkout, toolbar mouse regions at 26/36/64 columns, stable diff windows, staged/working/history comparisons, graph expansion and three-pane conflict resolution.
+- Scroll regressions passed: bounded viewports, anchored inputs, preserved drafts and no idle sidebar redraw work in the sampled interval.
+- The separate runtime workflow passed with three repos: LazyGit, mocked AI draft routing, resizable Before/After, Incoming/Current/Result merge handling, Fetch All against local bare remotes, search and selected replacement before disk saving. The four public screenshots were regenerated from that current workflow, including Files/Open Editors.
+- Lua/Python/JavaScript syntax, generated-guide checks and git diff --check passed. [Performance samples and limits](performance.md) are recorded separately.
+
+Computer Use access to Warp was attempted but blocked by the tool. Screenshots and UI checks use actual embedded Neovim rendering, not native Warp screenshots or a GPU benchmark. Linux/WSL and real AI-provider requests remain unverified; native Windows is unsupported. No private project source, account settings, sessions or personal filesystem paths are included in public screenshots.
+
 ## Git sidebar update — 20 October 2026
 
 Verified on macOS with Neovim 0.12.5. All 15 plugin revisions in the public lockfile matched the existing cache used for the UI checks; the checks did not update that cache.

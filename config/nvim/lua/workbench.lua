@@ -9,6 +9,7 @@ local function explorer_picker()
   if explorer and not explorer.closed and explorer_tab==api.nvim_get_current_tabpage() then return explorer end
   return Snacks.picker.get({source='explorer'})[1]
 end
+M.explorer_picker=explorer_picker
 
 function M.main()
   local diff=package.loaded.git_diff
@@ -106,11 +107,24 @@ function M.open_git()
   M.sidebar('git',true)
 end
 
+function M.toggle_file_icons()
+  vim.g.workbench_file_icons=vim.g.workbench_file_icons==false
+  local picker=explorer_picker()
+  if picker then
+    if vim.g.workbench_file_icons then require('mini.icons') end
+    picker.opts.icons.files.enabled=vim.g.workbench_file_icons and not require('performance').enabled()
+    picker.list:update()
+  end
+end
+
 local function close_explorer()
   local pending=explorer_picker()
+  if pending then require('workspace_state').capture(pending) end
+  require('explorer_panel').hide()
   if pending then pending:close() end
   for _, picker in ipairs(Snacks.picker.get({ source = 'explorer' })) do picker:close() end
 end
+function M.rebuild_explorer(focus) close_explorer();return M.sidebar('explorer',focus) end
 
 function M.hide_sidebar()
   M.sidebar_epoch=M.sidebar_epoch+1
@@ -171,15 +185,32 @@ function M.sidebar(mode, focus)
   if mode == 'explorer' then
     local picker=explorer_picker()
     if not picker then
+      local light=require('performance').enabled()
+      if vim.g.workbench_file_icons~=false and not light then require('mini.icons') end
       M.draw({})
       api.nvim_set_current_win(M.main())
-      picker = Snacks.explorer({ cwd = vim.fn.getcwd(), hidden = true, exclude={'.git','**/.git/**'},
+      local opts=vim.tbl_extend('force',{hidden=true},require('performance').explorer_options(),require('workspace_state').prepare())
+      opts=vim.tbl_extend('force',opts,{ cwd = vim.fn.getcwd(-1,0), exclude={'.git','**/.git/**'},
+        icons={files={enabled=vim.g.workbench_file_icons~=false and not light,dir='󰉋 ',dir_open='󰝰 ',file='󰈔 '}},
+        config=function(options) options.actions=options.actions or {};options.actions.confirm=function(p,item,action)
+          if not item or item.dir then return require('snacks.explorer.actions').actions.confirm(p,item,action) end
+          if p.input.filter.meta.searching then require('snacks.explorer.actions').update(p,{target=item.file}) end
+          require('file_preview').open(item.file,true)
+        end end,
+        on_show=function(p)
+          require('explorer_panel').attach(p);require('workspace_state').restore(p)
+          if not p.opts.watch then vim.schedule(require('performance').release_watches) end
+        end,
+        on_close=function(p) require('workspace_state').capture(p);require('explorer_panel').hide() end,
         prompt='', focus=focus and 'list' or false,
         layout = require('sidebar_ui').explorer_layout(win),
         win = { list = { on_buf=function(self) vim.b[self.buf].workbench_explorer=true end,
+          keys=require('explorer_actions').keys(),
           on_win=function() vim.defer_fn(M.rail, 50) end, wo = { foldcolumn = '0', foldenable = false,
+            winbar='',
             winhighlight='Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,CursorLine:WorkbenchSelected' },
         } } })
+      picker=Snacks.explorer(opts)
       explorer, explorer_tab=picker,api.nvim_get_current_tabpage()
     elseif focus then picker:focus() end
     if picker and picker.list and picker.list.win.buf then vim.b[picker.list.win.buf].workbench_explorer = true end
@@ -187,7 +218,7 @@ function M.sidebar(mode, focus)
     if mode == 'git' then
       local p = require('repo_panel'); local s = p.state(); s.buf = M.side_buf
       require('scm').render(s)
-      if not s.loaded then p.refresh(s) else p.update_status(s) end
+      if not s.loaded then p.refresh(s) else p.ensure_status(s) end
     elseif mode == 'search' then require('workspace_search').render()
     else M.tools() end
     if focus then api.nvim_set_current_win(win) end
@@ -230,8 +261,9 @@ function M.activate(row, col)
   if action then action(col or 0) end
 end
 
-function M.mouse()
+function M.mouse(permanent)
   local mouse = vim.fn.getmousepos()
+  if require('explorer_panel').mouse(mouse,permanent) then return true end
   local side=M.side_win()
   if side and mouse.screenrow==1 and mouse.screencol<=api.nvim_win_get_width(side)+1 then
     local text=api.nvim_eval_statusline(vim.o.tabline,{use_tabline=true,maxwidth=vim.o.columns}).str
@@ -283,7 +315,11 @@ function M.mouse()
           or list.win.buf~=buf or list:get(index)~=item then return end
         vim.cmd.stopinsert(); api.nvim_set_current_win(list.win.win)
         list:move(index,true,true)
-        picker:action('confirm')
+        if item.dir then if not permanent then picker:action('confirm') end
+        elseif picker.input.filter.meta.searching then
+          require('snacks.explorer.actions').update(picker,{target=item.file})
+          require('file_preview').open(item.file,permanent)
+        else require('file_preview').open(item.file,permanent) end
       end)
       return true
     end
@@ -292,6 +328,7 @@ function M.mouse()
 end
 
 function M.open_file(path, line, col)
+  local preview=require('file_preview');if preview.buf and api.nvim_buf_get_name(preview.buf)==path then preview.pin() end
   require('replace_review').close()
   M.focus_editor()
   vim.cmd.edit(vim.fn.fnameescape(path))
@@ -409,6 +446,15 @@ function M.palette()
     { 'Tabs: move file tab right', function() vim.cmd.BufferLineMoveNext() end },
     { 'Tabs: pin/unpin file', function() vim.cmd.BufferLineTogglePin() end },
     { 'Explorer: show files', function() M.sidebar('explorer', true) end },
+    { 'Explorer: file actions', function() M.sidebar('explorer',true);require('explorer_actions').menu() end },
+    { 'Explorer: toggle file icons',M.toggle_file_icons },
+    { 'Explorer: new file',function() M.sidebar('explorer',true);require('explorer_actions').create(false) end },
+    { 'Explorer: new folder',function() M.sidebar('explorer',true);require('explorer_actions').create(true) end },
+    { 'Explorer: collapse folders',function() require('explorer_panel').collapse() end },
+    { 'Explorer: reveal active file',function() M.sidebar('explorer',false);require('explorer_panel').reveal() end },
+    { 'Editor: Open Editors',function() require('explorer_panel').choose() end },
+    { 'Tabs: keep preview',function() require('file_preview').pin() end },
+    { 'Performance: toggle Light mode',function() require('performance').toggle() end },
     { 'Search: workspace text', function() M.sidebar('search', true); require('workspace_search').prompt() end },
     { 'Git: review selected repository', M.open_git },
     { 'Git: choose repository', M.choose_repo },
@@ -450,14 +496,18 @@ function M.setup_layout()
 end
 
 local function metadata_path()
-  return vim.fn.stdpath('state') .. '/workbench/' .. vim.fn.sha256(vim.fn.getcwd()) .. '.json'
+  return vim.fn.stdpath('state') .. '/workbench/' .. vim.fn.sha256(vim.fn.getcwd(-1,0)) .. '.json'
 end
 function M.save_metadata()
   require('commit_box').flush()
+  local snapshot=require('workspace_state');snapshot.capture(explorer_picker())
   vim.fn.mkdir(vim.fn.stdpath('state') .. '/workbench', 'p')
   local s = require('repo_panel').state()
   vim.fn.writefile({ vim.json.encode({ mode = M.mode, sidebar_open = M.side_win()~=nil,
-    bottom = M.bottom_win() and M.bottom_mode or nil, active = s.active, drafts=s.drafts, ai_tree=s.ai_tree, width = M.width }) }, metadata_path())
+    bottom = M.bottom_win() and M.bottom_mode or nil, active = s.active, drafts=s.drafts, ai_tree=s.ai_tree, width = M.width,
+    version=2,explorer=snapshot.explorers[vim.fn.getcwd(-1,0)],search=snapshot.search_snapshot(),
+    viewport=snapshot.viewport(M.mode),light=require('performance').enabled(),file_icons=vim.g.workbench_file_icons,
+    open_editors=require('explorer_panel').expanded }) }, metadata_path())
 end
 function M.detach_panels()
   require('replace_review').close()
@@ -469,19 +519,27 @@ function M.restore_metadata()
   if vim.fn.filereadable(metadata_path()) == 0 then return end
   local ok, state = pcall(vim.json.decode, table.concat(vim.fn.readfile(metadata_path()), '\n'))
   if not ok then return end
+  if type(state)~='table' then return end
   require('repo_panel').state().active = state.active
   require('repo_panel').state().drafts = state.drafts or {}
   require('repo_panel').state().ai_tree = state.ai_tree or {}
-  M.width = math.max(20, math.min(math.floor(vim.o.columns*0.6), state.width or 36))
-  if state.sidebar_open then M.sidebar(state.mode, false) end
+  local snapshot=require('workspace_state')
+  if type(state.explorer)=='table' then snapshot.explorers[vim.fn.getcwd(-1,0)]=state.explorer end
+  snapshot.restore_search(state.search)
+  if type(state.light)=='boolean' then vim.g.workbench_light=state.light end
+  if type(state.file_icons)=='boolean' then vim.g.workbench_file_icons=state.file_icons end
+  if type(state.open_editors)=='boolean' then require('explorer_panel').expanded=state.open_editors end
+  M.width = math.max(20, math.min(math.floor(vim.o.columns*0.6), tonumber(state.width) or 36))
+  if state.sidebar_open and vim.tbl_contains({'explorer','search','git'},state.mode) then M.sidebar(state.mode, false);snapshot.restore_view(state.viewport) end
   -- Keep the editing surface clear on startup; reopen the lower panel explicitly.
 end
 function M.save_session()
   local ui = { mode = M.mode, side = M.side_win()~=nil, bottom = M.bottom_win() and M.bottom_mode or nil }
-  M.save_metadata(); M.detach_panels(); require('persistence').save()
+  M.save_metadata();M.saving_session=true;M.detach_panels()
+  local ok,err=pcall(function() require('persistence').save() end);M.saving_session=nil
   if ui.side then M.sidebar(ui.mode, false) end
   if ui.bottom then M.bottom(ui.bottom, false) end
-  vim.notify('Workspace session saved.')
+  if ok then vim.notify('Workspace session saved.') else vim.notify('Could not save session: '..tostring(err),vim.log.levels.ERROR) end
 end
 function M.restore_session()
   for _, buf in ipairs(api.nvim_list_bufs()) do if vim.bo[buf].modified then
@@ -492,6 +550,7 @@ end
 
 function M.setup()
   _G.Workbench = M
+  require('file_preview').setup();require('explorer_panel').setup()
   require('commit_box').setup()
   require('search_box').setup()
   require('sidebar_ui').setup()
@@ -503,6 +562,9 @@ function M.setup()
   map('<leader>p', M.palette, 'Command Palette')
   map('<leader>ue', function() if M.side_win() then M.hide_sidebar() else M.sidebar(M.mode, false) end end, 'Toggle sidebar')
   map('<leader>ut', function() if M.bottom_win() then M.close_bottom() else M.bottom('terminal') end end, 'Toggle terminal/panel')
+  map('<leader>ui',M.toggle_file_icons,'Toggle file icons')
+  map('<leader>up',function() require('performance').toggle() end,'Toggle Light mode')
+  map('<leader>bp',function() require('file_preview').pin() end,'Keep preview tab')
   map('<leader>wa',require('editor_tools').save_all,'Save all files')
   map('<leader>so',require('editor_tools').outline,'Document outline')
   map('<leader>bu',function() M.bottom('editors',true) end,'Unsaved files')
@@ -522,14 +584,22 @@ function M.setup()
   -- replay loses native tabline click handling. Consume only our own controls.
   local mouse_ns=api.nvim_create_namespace('workbench_mouse')
   local left_mouse=vim.keycode('<LeftMouse>')
+  local double_left=vim.keycode('<2-LeftMouse>')
   local left_drag=vim.keycode('<LeftDrag>')
   local left_release=vim.keycode('<LeftRelease>')
+  local right_mouse,right_release={},{}
+  for _,prefix in ipairs({'','2-','3-','4-'}) do
+    right_mouse[vim.keycode('<'..prefix..'RightMouse>')]=true
+    right_release[vim.keycode('<'..prefix..'RightRelease>')]=true
+  end
+  local right_consumed=false
   local wheel_up,wheel_down=vim.keycode('<ScrollWheelUp>'),vim.keycode('<ScrollWheelDown>')
   local wheel_left,wheel_right=vim.keycode('<ScrollWheelLeft>'),vim.keycode('<ScrollWheelRight>')
   vim.on_key(function(key,typed)
     local event=typed or key
     if event==wheel_up or event==wheel_down or event==wheel_left or event==wheel_right then
       local mouse=vim.fn.getmousepos();local side=M.side_win()
+      if mouse.winid==require('explorer_panel').win then return '' end
       if side and api.nvim_win_is_valid(mouse.winid) then
         local ft=vim.bo[api.nvim_win_get_buf(mouse.winid)].filetype
         if M.mode~='explorer' and (mouse.winid==side or ft=='workbench_commit' or ft=='workbench_search_input') then
@@ -540,10 +610,16 @@ function M.setup()
           return ''
         end
       end
-    elseif event==left_mouse then
+    elseif right_mouse[event] then
+      right_consumed=require('explorer_actions').mouse()
+      if right_consumed then return '' end
+    elseif right_release[event] and right_consumed then
+      right_consumed=false;return ''
+    elseif event==left_mouse or event==double_left then
+      if event==double_left and M.mode~='explorer' then return end
       local mouse=vim.fn.getmousepos(); local side=M.side_win()
       M.dragging_sidebar=side and mouse.screenrow>1 and mouse.screencol==api.nvim_win_get_width(side)+1
-      if M.mouse() then return '' end
+      if M.mouse(event==double_left) then return '' end
     elseif event==left_drag and M.dragging_sidebar then
       local side=M.side_win()
       local width=math.max(20,math.min(math.floor(vim.o.columns*0.6),vim.fn.getmousepos().screencol-1))
@@ -577,7 +653,7 @@ function M.setup()
       M.rail()
     end
   end})
-  api.nvim_create_autocmd('User', { group = group, pattern = 'PersistenceSavePre', callback = function() M.save_metadata(); M.detach_panels() end })
+  api.nvim_create_autocmd('User', { group = group, pattern = 'PersistenceSavePre', callback = function() if not M.saving_session then M.save_metadata(); M.detach_panels() end end })
   api.nvim_create_autocmd('User', { group = group, pattern = 'PersistenceLoadPost', callback = function() vim.defer_fn(M.restore_metadata, 100) end })
   api.nvim_create_autocmd('VimEnter', { group = group, callback = function()
     if #vim.api.nvim_list_uis() == 0 or vim.g.workbench_disable_startup then return end

@@ -82,7 +82,11 @@ function M.field_style(win)
   vim.wo[win].cursorline=false;vim.wo[win].scrolloff=0
 end
 function M.explorer_layout(side)
-  return {preview=false,layout={box='vertical',position='float',relative='win',win=side,row=0,col=0,backdrop=false,height=0,
+  return {preview=false,layout={box='vertical',position='float',relative='win',win=side,
+    row=function() return require('explorer_panel').height end,col=0,backdrop=false,
+    -- The root float adds two border rows. Reserve both inside the anchor;
+    -- otherwise its blank bottom border covers the global mode/branch bar.
+    height=function() return math.max(5,api.nvim_win_get_height(side)-require('explorer_panel').height-2) end,
     width=0,min_width=1,border={' ',' ',' ',' ',' ',' ',' ',' '},
     wo={winhighlight='Normal:WorkbenchSidebar,NormalNC:WorkbenchSidebar,FloatBorder:WorkbenchSidebar'},
     {win='input',height=1,border='rounded',title=' Filter files ',title_pos='left',

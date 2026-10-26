@@ -13,6 +13,13 @@ function M.flush()
     s[key]=value(field);vim.bo[field.buf].modified=false;placeholder(field)
   end end
 end
+function M.sync()
+  local s=require('workspace_search')
+  for key,field in pairs(M.fields) do if api.nvim_buf_is_valid(field.buf) then
+    field.updating=true;api.nvim_buf_set_lines(field.buf,0,-1,false,vim.split(s[key] or '','\n',{plain=true}))
+    vim.bo[field.buf].modified=false;placeholder(field);field.updating=false
+  end end
+end
 function M.hide()
   M.flush()
   for _,field in pairs(M.fields) do
@@ -39,7 +46,9 @@ local function get(key)
   local group=api.nvim_create_augroup('WorkbenchSearchInput'..field.buf,{clear=true})
   api.nvim_create_autocmd({'TextChanged','TextChangedI'},{group=group,buffer=field.buf,callback=function()
     if field.updating then return end
-    s[key]=value(field);vim.bo[field.buf].modified=false;placeholder(field)
+    local text=value(field)
+    if text==s[key] then vim.bo[field.buf].modified=false;placeholder(field);return end
+    s[key]=text;vim.bo[field.buf].modified=false;placeholder(field)
     if key~='replacement' then s.changed() else s.invalidate_preview();s.render() end
   end})
   api.nvim_create_autocmd('BufEnter',{group=group,buffer=field.buf,callback=function()

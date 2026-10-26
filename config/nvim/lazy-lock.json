@@ -27,6 +27,10 @@
     "branch": "master",
     "commit": "221ce6b2d999187044529f49da6554a92f740a96"
   },
+  "mini.icons": {
+    "branch": "main",
+    "commit": "eab3e692d796d78ea6ffc978d8a380ff26fcf4e3"
+  },
   "nvim-lspconfig": {
     "branch": "master",
     "commit": "3e8d598d3b5f8338a41699c436e5fa11d2666cf0"

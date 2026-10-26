@@ -19,9 +19,15 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 - **Commit history below Changes.** Graph shows branch lanes and commit subjects. Click a commit to expand its details and files, then click a file to review that revision. Load more history when needed.
 - **Review without losing context.** Changed files and historical revisions reuse the same Before / After panes. Conflicts open Incoming on the left, Current on the right, and an editable Result below. Drag native dividers to resize; `Space gc` closes the review.
 - **Search in the sidebar.** Search and replace fields, all-repo or active-repo scope, include/exclude filters, ignored-file toggle, and unsaved-buffer search. Preview replacements before applying selected files; saving remains explicit.
+- **File actions in the explorer.** Right-click a file or folder, or use New File / New Folder / Paste / More above the tree. Create, rename, copy/paste, duplicate, copy relative/absolute paths, and delete to a recoverable VimDesk trash.
+- **File icons on demand.** mini.icons loads when Files opens, with colored language/file icons and open/closed folder icons. `Space ui` toggles them without restarting.
+- **Preview tabs and Open Editors.** One click previews a file; double-click, Enter, or editing keeps it. The bounded Open Editors list references existing buffers, and the toolbar exposes file/folder creation, collapse, reveal and paste.
+- **Light mode.** `Space up` disables explorer watchers and decorations, symbol breadcrumbs and automatic Git focus refresh. Manual refresh remains available. Workspace sessions remember the explorer, search fields and mode preferences.
 - **Daily editing essentials.** TokyoNight Moon, completion, Go / Rust / JS / TS / React / Python LSP configuration, per-repository terminals, outline, Problems, Save All, and workspace sessions.
 
 Files, Search and Git share the sidebar width. Commit/search inputs move with the content and hide when scrolled out of view; ordinary file reviews reuse the same Before / After windows.
+
+![Files with Open Editors, file icons and visible controls](docs/images/explorer.png)
 
 ![Three-pane conflict resolution](docs/images/conflicts.png)
 
@@ -31,7 +37,7 @@ Files, Search and Git share the sidebar width. Commit/search inputs move with th
 
 The quick path below is for people who already have Homebrew.
 
-**macOS tested.** [Linux instructions](docs/getting-started-linux.md) cover Ubuntu/Debian with Homebrew. [Windows instructions](docs/getting-started-windows.md) use Ubuntu in WSL 2; native Windows is unsupported. Linux and WSL have not been validated end to end. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. A normal monospace font works; Nerd Fonts are optional.
+**macOS tested.** [Linux instructions](docs/getting-started-linux.md) cover Ubuntu/Debian with Homebrew. [Windows instructions](docs/getting-started-windows.md) use Ubuntu in WSL 2; native Windows is unsupported. Linux and WSL have not been validated end to end. Requires **Neovim 0.12+**, Git, LazyGit, ripgrep, fd, and Python 3.9+. A compiler and tree-sitter CLI ≥0.26.1 are needed to build syntax parsers. Use a Nerd Font for file glyph icons, or turn them off with `Space ui` when using a plain monospace font. [Font and icon settings →](docs/workflow.md#file-icons)
 
 ```sh
 git clone https://github.com/ardanngrha/vimdesk.git
@@ -69,12 +75,16 @@ Language runtimes and project dependencies still belong to your projects. AI gen
 | Diff / staged diff / close review | `Space gd` / `Space gD` / `Space gc` |
 | Terminal / outline / Problems | `Space ut` / `Space so` / `Space xx` |
 | Save all / unsaved files | `Space wa` / `Space bu` |
+| Keep preview tab / toggle file icons | `Space bp` / `Space ui` |
+| Toggle Light mode | `Space up` |
 | Command palette / shortcut guide | `Space p` / `Space ?` |
 | Quit (asks about unsaved changes) | `Space qq` |
 
 Inside LazyGit, use `?` for its own shortcuts. AI generation lives in the **Git sidebar → Generate**; this distribution does not override your global LazyGit configuration or bind Ctrl+G.
 
 [Workflow and editing guide →](docs/workflow.md) · [Architecture →](docs/architecture.md) · [Contributing and verification →](CONTRIBUTING.md)
+
+[QA coverage and limitations](docs/verification.md) · [Performance measurements](docs/performance.md)
 
 ## Designed for sibling repositories
 
@@ -97,6 +107,6 @@ The staged diff (up to 100 KB) is sent to the selected provider through your loc
 
 This is an opinionated config and custom Lua workbench, not a fork of Neovim, LazyGit or LazyVim. It is a personal project with macOS verification, not a promise of compatibility with every terminal or plugin update. The lockfile pins the plugin revisions used for verification; updating plugins can change behavior.
 
-Built on [Neovim](https://neovim.io), [lazy.nvim](https://github.com/folke/lazy.nvim), [Snacks](https://github.com/folke/snacks.nvim), [TokyoNight](https://github.com/folke/tokyonight.nvim), [LazyGit](https://github.com/jesseduffield/lazygit), [Diffview](https://github.com/sindrets/diffview.nvim), [blink.cmp](https://github.com/saghen/blink.cmp), [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [Gitsigns](https://github.com/lewis6991/gitsigns.nvim), [bufferline](https://github.com/akinsho/bufferline.nvim), [lualine](https://github.com/nvim-lualine/lualine.nvim), [Edgy](https://github.com/folke/edgy.nvim), [Trouble](https://github.com/folke/trouble.nvim), [which-key](https://github.com/folke/which-key.nvim), [persistence](https://github.com/folke/persistence.nvim), and [Plenary](https://github.com/nvim-lua/plenary.nvim). These projects retain their own licenses. This repository's original code is MIT licensed.
+Built on [Neovim](https://neovim.io), [lazy.nvim](https://github.com/folke/lazy.nvim), [Snacks](https://github.com/folke/snacks.nvim), [mini.icons](https://github.com/nvim-mini/mini.icons), [TokyoNight](https://github.com/folke/tokyonight.nvim), [LazyGit](https://github.com/jesseduffield/lazygit), [Diffview](https://github.com/sindrets/diffview.nvim), [blink.cmp](https://github.com/saghen/blink.cmp), [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [Gitsigns](https://github.com/lewis6991/gitsigns.nvim), [bufferline](https://github.com/akinsho/bufferline.nvim), [lualine](https://github.com/nvim-lualine/lualine.nvim), [Edgy](https://github.com/folke/edgy.nvim), [Trouble](https://github.com/folke/trouble.nvim), [which-key](https://github.com/folke/which-key.nvim), [persistence](https://github.com/folke/persistence.nvim), and [Plenary](https://github.com/nvim-lua/plenary.nvim). These projects retain their own licenses. This repository's original code is MIT licensed.
 
 Screenshots use disposable fictional repositories; no work projects or credentials are included.

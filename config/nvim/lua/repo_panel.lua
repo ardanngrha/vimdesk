@@ -74,12 +74,18 @@ function M.update_status(s)
       end)
   end, function()
     s.reading = false
+    s.checked_at=uv.now()
     if s.pending_status then s.pending_status = nil; M.update_status(s)
     elseif s.review_refresh then
       local root=s.review_refresh;s.review_refresh=nil
       local diff=package.loaded.git_diff;if diff then diff.refresh(root) end
     end
   end)
+end
+function M.ensure_status(s)
+  s=s or M.state()
+  if not s.checked_at or (not require('performance').enabled() and uv.now()-s.checked_at>2000) then M.update_status(s);return true end
+  return false
 end
 
 function M.refresh(s)
@@ -208,8 +214,8 @@ function M.setup()
   vim.keymap.set('n', '<leader>gn', function() M.cycle(1) end, { desc='Next repository' })
   vim.keymap.set('n', '<leader>gp', function() M.cycle(-1) end, { desc='Previous repository' })
   api.nvim_create_user_command('GitFetchAll', function() M.show(false); M.fetch(true) end, {})
-  api.nvim_create_autocmd('FocusGained', { callback=function() if M.visible() then
-    M.update_status();require('git_graph').refresh(M.state().active)
+  api.nvim_create_autocmd('FocusGained', { callback=function() if M.visible() and not require('performance').enabled() then
+    if M.ensure_status() then require('git_graph').refresh(M.state().active) end
   end end })
 end
 return M

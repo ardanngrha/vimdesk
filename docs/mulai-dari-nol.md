@@ -187,6 +187,16 @@ vimdesk "$HOME/Developer"
 
 Helper Homebrew untuk language server opsional dijalankan di Terminal. Runtime dan dependensi bahasa tetap mengikuti masing-masing proyek. Clipboard sistem macOS tersedia untuk Neovim.
 
+## Files, preview tab, dan icon
+
+Sekali klik file untuk preview. Double-click, tekan Enter, atau mulai edit untuk menyimpan tabnya. Open Editors menampilkan buffer yang sudah ada; New File, New Folder, Collapse, Reveal, dan Paste berada di atas tree.
+
+Icon file membutuhkan Nerd Font, misalnya Hack Nerd Font Mono, yang dipilih di pengaturan terminal. [Download font dari Nerd Fonts](https://www.nerdfonts.com/font-downloads), pasang lewat font installer OS, lalu pilih di terminal. Untuk WSL, pasang/pilih font di Windows melalui profil Windows Terminal, bukan di Ubuntu. Di Linux, gunakan font installer desktop atau ~/.local/share/fonts. Buka ulang terminal jika font baru belum terdaftar. Font tidak dibundel dengan VimDesk.
+
+Tekan Space, lalu u, lalu i untuk toggle icon file; Space b p menyimpan preview; Space u p men-toggle Light mode. Light mode mematikan watcher dan dekorasi explorer; gunakan u di Files atau r di Git untuk refresh. Mode ini tidak menghentikan language server atau membatasi RAM-nya.
+
+[Files and settings / Files dan pengaturan](workflow.md#preview-tabs-and-open-editors)
+
 ## Opsional: dukungan bahasa dan AI
 
 Untuk completion, diagnostik, dan formatting, pasang language server dari folder sumber:

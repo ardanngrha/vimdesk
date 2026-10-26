@@ -221,6 +221,16 @@ vimdesk "$HOME/Developer"
 
 Install language servers, project runtimes, Git credentials, and optional AI CLIs inside Ubuntu. Windows-side tools and accounts are separate. Run :checkhealth vim.provider to inspect clipboard support; Windows Terminal selection/copy is separate from Neovim registers. Store projects under ~/Developer in Ubuntu; Microsoft recommends the Linux file system for Linux tools.
 
+## Files, preview tabs and icons
+
+Single-click a file to preview it. Double-click, press Enter, or start editing to keep its tab. Open Editors lists existing buffers; New File, New Folder, Collapse, Reveal and Paste are above the tree.
+
+File icons need a Nerd Font, such as Hack Nerd Font Mono, selected in your terminal settings. [Download a font from Nerd Fonts](https://www.nerdfonts.com/font-downloads), install it using your OS font installer, and select it in the terminal. For WSL, install/select the font on Windows in the Windows Terminal profile, not inside Ubuntu. On Linux, use your desktop font installer or ~/.local/share/fonts. Restart the terminal if the new font is not listed. Fonts are not bundled with VimDesk.
+
+Press Space, then u, then i to toggle file icons; Space b p keeps a preview; Space u p toggles Light mode. Light mode disables explorer watchers and decorations; use u in Files or r in Git to refresh. It does not unload language servers or cap their RAM.
+
+[Files and settings / Files dan pengaturan](workflow.md#preview-tabs-and-open-editors)
+
 ## Optional: language support and AI
 
 For completion, diagnostics and formatting, install language servers from the source checkout:

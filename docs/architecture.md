@@ -1,5 +1,7 @@
 # Architecture
 
+`file_preview.lua` owns at most one disposable unedited buffer; edited or multiply displayed buffers become permanent. `explorer_panel.lua` renders a bounded Open Editors header from existing buffer metadata and updates on buffer/layout events. `workspace_state.lua` captures paths/options on close/save rather than scroll, without serializing directory contents or search results. `performance.lua` controls Light mode and releases directory watchers that no remaining explorer uses. The existing shared sidebar and Snacks tree continue to own their window/scroll state.
+
 The original goal was a practical handoff: let an agentic editor make changes across sibling projects, then use one Neovim instance to inspect, commit and merge them. A repository picker alone required too much switching; the solution is a persistent Git sidebar alongside native editor windows.
 
 ```text
@@ -7,6 +9,7 @@ config/nvim/init.lua              Plugin specs, editor options, LSP
 config/nvim/lua/
   workbench.lua                  Sidebar, bottom panel, palette, mouse events
   sidebar_ui.lua                 Shared field geometry and styles
+  explorer_actions.lua           Files menu, copy state, safe rename/trash/restore
   workbench_theme.lua            TokyoNight surface and semantic colors
   multi_repo.lua                 Buffer roots and bounded repository discovery
   repo_panel.lua / repo_list.lua  Repository state, fetch queue, LazyGit sessions

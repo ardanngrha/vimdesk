@@ -35,6 +35,14 @@ def generate(language, data, platform_data, platform):
             lines += ['> ' + step['note'][language], '']
     lines += ['## ' + ('Platform notes' if en else 'Catatan platform'), '',
               selected['notes'][language], '',
+              '## ' + ('Files, preview tabs and icons' if en else 'Files, preview tab, dan icon'), '',
+              ('Single-click a file to preview it. Double-click, press Enter, or start editing to keep its tab. Open Editors lists existing buffers; New File, New Folder, Collapse, Reveal and Paste are above the tree.' if en else
+               'Sekali klik file untuk preview. Double-click, tekan Enter, atau mulai edit untuk menyimpan tabnya. Open Editors menampilkan buffer yang sudah ada; New File, New Folder, Collapse, Reveal, dan Paste berada di atas tree.'), '',
+              ('File icons need a Nerd Font, such as Hack Nerd Font Mono, selected in your terminal settings. [Download a font from Nerd Fonts](https://www.nerdfonts.com/font-downloads), install it using your OS font installer, and select it in the terminal. For WSL, install/select the font on Windows in the Windows Terminal profile, not inside Ubuntu. On Linux, use your desktop font installer or ~/.local/share/fonts. Restart the terminal if the new font is not listed. Fonts are not bundled with VimDesk.' if en else
+               'Icon file membutuhkan Nerd Font, misalnya Hack Nerd Font Mono, yang dipilih di pengaturan terminal. [Download font dari Nerd Fonts](https://www.nerdfonts.com/font-downloads), pasang lewat font installer OS, lalu pilih di terminal. Untuk WSL, pasang/pilih font di Windows melalui profil Windows Terminal, bukan di Ubuntu. Di Linux, gunakan font installer desktop atau ~/.local/share/fonts. Buka ulang terminal jika font baru belum terdaftar. Font tidak dibundel dengan VimDesk.'), '',
+              ('Press Space, then u, then i to toggle file icons; Space b p keeps a preview; Space u p toggles Light mode. Light mode disables explorer watchers and decorations; use u in Files or r in Git to refresh. It does not unload language servers or cap their RAM.' if en else
+               'Tekan Space, lalu u, lalu i untuk toggle icon file; Space b p menyimpan preview; Space u p men-toggle Light mode. Light mode mematikan watcher dan dekorasi explorer; gunakan u di Files atau r di Git untuk refresh. Mode ini tidak menghentikan language server atau membatasi RAM-nya.'), '',
+              '[Files and settings / Files dan pengaturan](workflow.md#preview-tabs-and-open-editors)', '',
               '## ' + ('Optional: language support and AI' if en else 'Opsional: dukungan bahasa dan AI'), '',
               ('For completion, diagnostics and formatting, install language servers from the source checkout:' if en else
                'Untuk completion, diagnostik, dan formatting, pasang language server dari folder sumber:'), '', '```sh',

@@ -15,7 +15,7 @@ This page covers reference requirements and maintenance after the beginner walkt
 - macOS: tested with Neovim 0.12.5. Linux: installer uses POSIX paths, but the complete UI/toolchain is untested there. Windows: use the Linux instructions inside WSL 2; this path is documented but untested end to end. Native Windows is unsupported.
 - Required: Neovim **0.12+**, Git, LazyGit, ripgrep (`rg`), fd (`fd`), Python **3.9+**.
 - Syntax parsers: `tar`, `curl`, a C compiler, and tree-sitter CLI **0.26.1+**, installed through your package manager. These requirements follow the [pinned Treesitter revision](https://github.com/nvim-treesitter/nvim-treesitter/blob/910fdf6f49e9dee7e7257c7d11a76b040fdfb9de/README.md#requirements).
-- Any modern terminal with true color and mouse reporting. No special font is required. On macOS the system clipboard works; Linux may need `wl-clipboard` or `xclip`.
+- Any modern terminal with true color and mouse reporting. File glyph icons need a Nerd Font selected in the terminal; `Space ui` disables them for a plain monospace font. See [font settings](workflow.md#file-icons). On macOS the system clipboard works; Linux may need `wl-clipboard` or `xclip`.
 
 For macOS with Homebrew already installed:
 

@@ -1,0 +1,264 @@
+{
+  "method": {
+    "comparison": "light",
+    "paired_repetitions": 0,
+    "warmups_discarded": 2,
+    "repos": 17,
+    "regular_files": 4097,
+    "mixed_extensions": [
+      "go",
+      "rs",
+      "py",
+      "tsx",
+      "jsx",
+      "js",
+      "ts",
+      "lua",
+      "json",
+      "md",
+      "yaml",
+      "toml"
+    ],
+    "ui_cells": [
+      160,
+      44
+    ],
+    "scroll_events_each_phase": 240,
+    "rows_per_wheel": 10,
+    "idle_seconds": 1,
+    "startup": "new process, filesystem/code caches primed",
+    "memory": "Neovim current resident memory; full Lua GC before steady samples",
+    "cpu": "Neovim user+system time; child Git processes excluded",
+    "limits": [
+      "Embedded RGB UI; Warp/WindowServer GPU not measured",
+      "LSP inactive on the plain text entry file",
+      "Synthetic expanded sibling repositories, not every real workload"
+    ]
+  },
+  "summary": {},
+  "warmups": [
+    {
+      "variant": "before",
+      "startup_cpu_ms": 79.508,
+      "startup_wall_ms": 123.441,
+      "files_open_cpu_ms": 94.40699999999998,
+      "files_open_wall_ms": 218.09787501115352,
+      "files_rss_mib": 22.625526428222656,
+      "files_heap_mib": 10.621345520019531,
+      "idle_cpu_ms_per_second": 10.597000000000094,
+      "cold_scroll_cpu_ms": 360.36800000000005,
+      "cold_scroll_wall_ms": 697.7886250242591,
+      "warm_scroll_cpu_ms": 355.4150000000001,
+      "warm_scroll_wall_ms": 708.9762919931673,
+      "after_scroll_rss_mib": 39.42242431640625,
+      "after_scroll_heap_mib": 10.575355529785156,
+      "glyphs": {
+        "json": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb81\ude26"
+        },
+        "rs": {
+          "highlight": "MiniIconsOrange",
+          "width": 1,
+          "glyph": "\udb85\ude17"
+        },
+        "tsx": {
+          "highlight": "MiniIconsBlue",
+          "width": 1,
+          "glyph": "\ue7ba"
+        },
+        "lua": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb82\udcb1"
+        },
+        "py": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf20"
+        },
+        "go": {
+          "highlight": "MiniIconsAzure",
+          "width": 1,
+          "glyph": "\udb81\udfd3"
+        },
+        "js": {
+          "highlight": "MiniIconsYellow",
+          "width": 1,
+          "glyph": "\udb80\udf1e"
+        }
+      },
+      "items": 4149,
+      "tree_visible_rows": 36,
+      "watchers": 18
+    },
+    {
+      "variant": "after",
+      "startup_cpu_ms": 86.375,
+      "startup_wall_ms": 88.162,
+      "files_open_cpu_ms": 80.084,
+      "files_open_wall_ms": 197.97708399710245,
+      "files_rss_mib": 24.031776428222656,
+      "files_heap_mib": 10.26899242401123,
+      "idle_cpu_ms_per_second": 6.985000000000014,
+      "cold_scroll_cpu_ms": 307.6379999999999,
+      "cold_scroll_wall_ms": 708.5782499925699,
+      "warm_scroll_cpu_ms": 309.726,
+      "warm_scroll_wall_ms": 705.6495000142604,
+      "after_scroll_rss_mib": 38.21929931640625,
+      "after_scroll_heap_mib": 10.159518241882324,
+      "glyphs": {},
+      "items": 4149,
+      "tree_visible_rows": 33,
+      "watchers": 0
+    }
+  ],
+  "runs": [],
+  "within_process_scroll": [
+    {
+      "pair": 1,
+      "light": false,
+      "cpu_ms": 354.72000000000014,
+      "wall_ms": 753.8737500144634,
+      "rss_mib": 40.90679931640625
+    },
+    {
+      "pair": 1,
+      "light": true,
+      "cpu_ms": 350.3449999999998,
+      "wall_ms": 819.5694999885745,
+      "rss_mib": 42.56304931640625
+    },
+    {
+      "pair": 2,
+      "light": true,
+      "cpu_ms": 304.7700000000002,
+      "wall_ms": 715.0745420076419,
+      "rss_mib": 42.54742431640625
+    },
+    {
+      "pair": 2,
+      "light": false,
+      "cpu_ms": 371.1750000000002,
+      "wall_ms": 742.9166669899132,
+      "rss_mib": 42.60992431640625
+    },
+    {
+      "pair": 3,
+      "light": false,
+      "cpu_ms": 375.2439999999997,
+      "wall_ms": 794.6328340040054,
+      "rss_mib": 42.48492431640625
+    },
+    {
+      "pair": 3,
+      "light": true,
+      "cpu_ms": 346.0999999999999,
+      "wall_ms": 758.9334170043003,
+      "rss_mib": 42.48492431640625
+    },
+    {
+      "pair": 4,
+      "light": true,
+      "cpu_ms": 379.69000000000005,
+      "wall_ms": 841.5783749951515,
+      "rss_mib": 42.56304931640625
+    },
+    {
+      "pair": 4,
+      "light": false,
+      "cpu_ms": 338.33200000000033,
+      "wall_ms": 719.787499983795,
+      "rss_mib": 42.71929931640625
+    },
+    {
+      "pair": 5,
+      "light": false,
+      "cpu_ms": 381.9409999999998,
+      "wall_ms": 819.7420829965267,
+      "rss_mib": 42.75054931640625
+    },
+    {
+      "pair": 5,
+      "light": true,
+      "cpu_ms": 342.9599999999991,
+      "wall_ms": 748.8963340001646,
+      "rss_mib": 42.62554931640625
+    },
+    {
+      "pair": 6,
+      "light": true,
+      "cpu_ms": 368.4859999999999,
+      "wall_ms": 784.9481670127716,
+      "rss_mib": 42.78179931640625
+    },
+    {
+      "pair": 6,
+      "light": false,
+      "cpu_ms": 362.054000000001,
+      "wall_ms": 737.1074999973644,
+      "rss_mib": 42.64117431640625
+    },
+    {
+      "pair": 7,
+      "light": false,
+      "cpu_ms": 377.2640000000001,
+      "wall_ms": 754.2076669924427,
+      "rss_mib": 42.79742431640625
+    },
+    {
+      "pair": 7,
+      "light": true,
+      "cpu_ms": 332.8889999999992,
+      "wall_ms": 724.1389580012765,
+      "rss_mib": 42.76617431640625
+    },
+    {
+      "pair": 8,
+      "light": true,
+      "cpu_ms": 352.34100000000035,
+      "wall_ms": 764.0484159928747,
+      "rss_mib": 42.82867431640625
+    },
+    {
+      "pair": 8,
+      "light": false,
+      "cpu_ms": 354.29099999999926,
+      "wall_ms": 750.1290419895668,
+      "rss_mib": 42.71929931640625
+    }
+  ],
+  "within_process_summary": {
+    "cpu_ms": {
+      "off_median": 366.6145000000006,
+      "on_median": 348.22249999999985,
+      "delta": -18.392000000000735,
+      "delta_pct": -5.016713741546148,
+      "paired_delta_median": -16.75950000000006,
+      "off_range": [
+        338.33200000000033,
+        381.9409999999998
+      ],
+      "on_range": [
+        304.7700000000002,
+        379.69000000000005
+      ]
+    },
+    "wall_ms": {
+      "off_median": 752.0013960020151,
+      "on_median": 761.4909164985875,
+      "delta": 9.489520496572368,
+      "delta_pct": 1.2619019787759727,
+      "paired_delta_median": -6.961375489481725,
+      "off_range": [
+        719.787499983795,
+        819.7420829965267
+      ],
+      "on_range": [
+        715.0745420076419,
+        841.5783749951515
+      ]
+    }
+  }
+}

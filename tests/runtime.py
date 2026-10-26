@@ -148,6 +148,14 @@ func main() {
             nvim.ui_attach(ui.width,ui.height,rgb=True,ext_linegrid=True);ui.drain(1800)
             nvim.exec_lua('''_G.test_errors={};local notify=vim.notify;vim.notify=function(msg,level,opts)
               if level==vim.log.levels.ERROR then table.insert(_G.test_errors,tostring(msg)) end;return notify(msg,level,opts) end''')
+            for path in [backend/'main.go',frontend/'app.tsx',tools/'release.txt',backend/'main.go']:
+                nvim.exec_lua('require("workbench").open_file(...)',str(path))
+            nvim.exec_lua('require("workbench").sidebar("explorer",false)')
+            wait('require("workbench").explorer_picker() and require("workbench").explorer_picker().list.win:valid()')
+            nvim.exec_lua('''local paths,target=...;local tree=require('snacks.explorer.tree');for _,path in ipairs(paths) do tree:open(path) end
+              require('snacks.explorer.actions').update(require('workbench').explorer_picker(),{target=target,refresh=true})''',
+              [str(backend),str(frontend),str(tools)],str(backend/'main.go'))
+            ui.drain(300);nvim.exec_lua('require("workbench").focus_editor()');screenshot('explorer.png')
             nvim.exec_lua('require("workbench").open_file(...);require("workbench").open_git()',str(backend/'main.go'))
             wait('#require("repo_panel").state().repos==3 and not require("repo_panel").state().reading')
             assert nvim.exec_lua('return require("multi_repo").root(...)',str(frontend/'app.tsx'))==str(frontend)

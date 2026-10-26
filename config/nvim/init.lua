@@ -59,6 +59,7 @@ if not vim.uv.fs_stat(lazy_path) then
 end
 vim.opt.rtp:prepend(lazy_path)
 local plugins = {
+  { 'nvim-mini/mini.icons', lazy = true, main = 'mini.icons', opts = {} },
   {
     'folke/tokyonight.nvim', lazy = false, priority = 1200,
     opts = { style = 'moon', transparent = false, terminal_colors = true,

@@ -21,6 +21,50 @@ Neovim starts in Normal mode. Press `i` to type and `Esc` to return to Normal mo
 
 Clipboard copying uses the system clipboard when your OS has a Neovim clipboard provider. Run `:Tutor` to learn the basic editing motions.
 
+## Files and folders
+
+Open Files (`Space e`). Right-click a file/folder to open its actions, or click More above the tree. New File, New Folder and Paste also have visible buttons there. `g.` opens the actions menu from the keyboard; `?` shows the explorer's bindings.
+
+| Action, with focus in the file tree | Key |
+| --- | --- |
+| New file or folder | `a` (end a folder name with `/`) |
+| Rename / move | `r`, `F2`, or `m` |
+| Copy file/folder | `c` or `Ctrl+c` |
+| Paste into the selected folder | `p` or `Ctrl+v` |
+| Duplicate alongside the original | `Shift+d` |
+| Copy workspace-relative path | `y` |
+| Copy absolute path | `Shift+y` |
+| Delete, with confirmation | `d` or `Delete` |
+| Refresh | `u` |
+
+Select a destination directory before Paste; when a file is selected, Paste uses its containing directory. A name collision creates a `name copy.ext` (or numbered copy) rather than replacing the destination. Folder copies preserve symlinks, and a folder cannot be pasted into itself. File-copy state is separate from the text clipboard, so copying a path does not replace the files waiting to be pasted.
+
+Rename and delete refuse items with unsaved buffers, including files inside a selected directory. Save first. Renames notify attached language servers and update open file/child-buffer paths. The explorer root itself cannot be renamed or deleted.
+
+Delete moves items to this profile's VimDesk trash under `stdpath('state')/workbench/trash/files`, with a manifest of original paths. More → Restore last deleted restores the most recent deletion, including after a restart, and refuses to overwrite an existing destination. It is separate from the OS trash. A failed move (for example across different filesystems) leaves that source in place. Older saved deletions remain in their timestamped directories; no automatic purge runs.
+
+### File icons
+
+Files uses mini.icons for language/file symbols and open/closed folder symbols. The provider loads on the first Files opening. Other picker views and file tabs keep their existing icon settings.
+
+Choose a Nerd Font in your terminal, such as Hack Nerd Font Mono. On Warp, set it under Settings → Appearance → Text; a newly installed font may need a Warp restart before appearing. Font size can stay unchanged. No icon font is bundled with the configuration.
+
+`Space ui` toggles Files icons in Normal mode, including while the explorer is focused. The command palette also has Explorer: toggle file icons. To start without glyph icons, add `vim.g.workbench_file_icons = false` near the top of your profile's `init.lua`. This keeps the plain tree usable without a Nerd Font.
+
+### Preview tabs and Open Editors
+
+Single-click a file in Files to open a temporary tab, marked `~`. Clicking another file replaces that preview and releases its unedited buffer. Double-click, press Enter in the tree, click its editor tab, or use `Space bp` to keep it. Editing or saving a preview keeps it automatically. A modified buffer or one still visible in another split is never discarded when changing previews. Files that are already open permanently stay permanent.
+
+Open Editors above the tree lists the same file buffers, with `●` for unsaved changes, `~` for a preview, and `×` to close. Closing a modified file asks before saving/closing; Cancel preserves it. The visible list is capped at six rows, keeps the active editor visible, and offers Show all for longer lists. Click the heading to collapse the list. The picker opened by Show all also uses existing buffers; it does not copy their contents.
+
+The two toolbar rows expose **New File**, **New Folder**, **More**, **Collapse**, **Reveal**, and **Paste**. Reveal selects the active editor file in the tree without changing the workspace root. Files outside the workspace are left alone. Automatic following is disabled so switching files does not continually expand/reposition the tree; use Reveal when needed. Right-click and the existing file-operation keys remain available.
+
+### Light mode
+
+`Space up` toggles Light mode; the command palette has Performance: toggle Light mode. A Light label appears in the status line. In this mode Files skips icons, Git badges, diagnostic badges and directory watchers. Breadcrumbs keep the path but skip tree-sitter symbol lookup. The Git sidebar skips automatic focus refresh and uses its cached status after the initial scan. Refresh explicitly with `u` in Files or `r` in Git; Git commands still refresh status when they finish. Normal mode also reuses Git status for two seconds when rapidly switching views.
+
+Turning Light mode off restores normal explorer options and the previous icon preference. The toggle rebuilds the current Files view once, keeping its selection, filter and expanded folders. Other already-open Neovim tabpages retain their existing explorer options until reopened. Watchers still needed by another tabpage are preserved. There is no new periodic refresh timer. Existing language servers and opened files stay attached; this mode does not impose a RAM limit on LSPs or unload their buffers.
+
 ## Git across repositories
 
 `Space gG` opens/focuses the Git sidebar. Click a repository's name to select it and display its Changes. Click its branch badge, such as `[staging ↑2 ↓1]`, to open the branch picker for that repository. The arrows show commits ahead of / behind its upstream. Save and commit or stash outstanding changes before switching branches. `Space gP` provides a searchable repo picker; `Space gn` / `Space gp` cycle repositories. Opening a single repository displays its directory name, not `.`.
@@ -87,6 +131,8 @@ In a terminal, `Ctrl+\` then `Ctrl+n` returns to Normal mode. A shell may interc
 `Space so` requests the current document's LSP outline. Click a symbol to navigate. `gd` goes to definition, `grr` finds references, `K` shows docs, `Space rn` renames a symbol, `Space ca` opens code actions, and `Space cf` formats explicitly. These features require an attached language server.
 
 `Space qs` saves the workspace session and `Space qr` restores it. Sessions remember editing layout/files, not shell processes. Save All (`Space wa`) handles unsaved file buffers; `Space bu` lists them first.
+
+Workspace metadata also remembers the selected repo, commit drafts, sidebar width/mode, expanded folders, explorer filter and scroll position, search/replace fields and search options, Open Editors visibility, and Light/icon preferences. Up to 256 expanded paths are saved per workspace. Search results and directory contents are not serialized; restoring fields does not launch a background search. Missing folders are skipped. Metadata is captured on sidebar close or session save/exit, not on every scroll. An edited buffer must be saved before restoring a session.
 
 ## AI commit drafts
 
