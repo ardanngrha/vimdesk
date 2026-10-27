@@ -30,6 +30,9 @@ function M.more()
     {'Fetch all repositories',function() M.fetch(true) end},
     {'Refresh status and graph',function() M.refresh();require('git_graph').refresh(s.active) end},
     {'Unstage all',function() require('scm').stage_all(false) end},
+    {'Open all changes',function() require('scm').open_all(s.active,false) end},
+    {'Discard all working changes…',function() require('scm').discard_all(s.active) end},
+    {'Restore last discard…',function() require('git_discard').restore(s.active) end},
     {'Git Log',M.log},
     {'Branches',function() require('scm').branches(false) end},
   }
@@ -79,6 +82,7 @@ function M.update_status(s)
     elseif s.review_refresh then
       local root=s.review_refresh;s.review_refresh=nil
       local diff=package.loaded.git_diff;if diff then diff.refresh(root) end
+      local all=package.loaded.git_changes;if all then all.refresh(root) end
     end
   end)
 end
@@ -165,6 +169,8 @@ function M.open_lazygit(root)
   w.focus_editor()
   local function editor() return w.main() end
   local function bounds()
+    local all=package.loaded.git_changes
+    if all and all.active() then local s=all.state;return s.left,api.nvim_win_get_width(s.left)+api.nvim_win_get_width(s.right)+1 end
     local diff=require('git_diff')
     if diff.active() then
       local s=diff.state

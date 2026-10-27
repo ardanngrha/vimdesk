@@ -1,5 +1,20 @@
 # Performance measurements
 
+## Change overview rulers — 27 October 2026
+
+Four alternating ruler-off/on pairs in the same Neovim 0.12.5 process, 180 × 52 embedded RGB UI, 240 wheel events per sample. Three disposable repositories; the combined fixture contains seven files and 168 aligned rows. LSP is disabled for this UI benchmark. CPU is Neovim's user + system time; wall includes RPC/UI draining. No other test ran during these samples; host applications were not controlled. [All samples](benchmarks/2026-10-27-diff-ruler.json).
+
+| Median per 240 wheel events | Ruler off | Ruler on |
+|---|---:|---:|
+| Neovim CPU | 127.24 ms | 136.10 ms |
+| Embedded batch wall | 518.83 ms | 526.63 ms |
+
+The ruler adds about 8.87 ms CPU and 7.81 ms batch wall in these samples. This small fixture does not establish results for large diffs, language servers, terminal FPS or GPU usage. Light mode hides the ruler; the command palette also offers an independent toggle. The diff map and its screen-row buckets are cached; scrolling only updates the ends of the viewport thumb. A separate 160-event combined-view check created zero Git subprocesses and performed zero diff-map rescans.
+
+Ten combined-review open/close cycles left loaded-buffer count at four before and after. Settled Lua memory grew from 6,085.90 to 6,317.08 KiB after GC (about 231 KiB); this is not RSS or a guarantee of zero allocation. Combined review uses two content windows and buffers, caps content at 100 files / 4 MB / 20,000 rows, and does not create one window or parser per file.
+
+## Explorer and navigation samples — 26 October 2026
+
 Local development measurements from 26 October 2026, macOS, Neovim 0.12.5. The baseline already included file icons. These samples preceded the final one-row Explorer/statusline bounds correction; they describe the navigation update during development, not a performance guarantee for every release or project.
 
 ## Method

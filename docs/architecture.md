@@ -16,6 +16,9 @@ config/nvim/lua/
   scm.lua / commit_box.lua        Git actions, drafts, staged-snapshot guards
   git_graph.lua                  Cached commit graph and expanded file lists
   git_diff.lua                   Reusable native file/history review windows
+  git_changes.lua                Bounded, read-only combined Before/After review
+  diff_ui.lua                    Cached change/viewport rulers for review panes
+  git_discard.lua                Index-preserving discard with recovery manifests
   git_review.lua                 Diffview overview and three-pane merge controls
   workspace_search.lua           Search UI state, scope and filters
   search_engine.lua              Bounded ripgrep search and buffer overlays
@@ -32,6 +35,8 @@ scripts/install.py               Profile installation, backups, restore
 ## Decisions
 
 - **Reusable splits for file review.** Git supplies index/commit blobs asynchronously; ordinary and historical file review swap buffers in the same Before/After windows. Stale results cannot replace a newer selection. The editable working side uses the actual file buffer. Diffview supplies the repository overview and three-pane conflict actions.
+- **Two windows for combined review.** Open All builds aligned scratch rows with file headers, original line numbers, intraline highlights and manual context folds. It never creates a window per changed file. Content is read-only, with explicit refresh and Open/individual-diff actions. Reads are capped at three concurrent Git subprocesses, 100 files, 4 MB total text, and 20,000 rows. The overview ruler caches the diff map and screen-row buckets; scrolling updates only the changed ends of its viewport thumb. Light mode hides it.
+- **Recoverable working changes.** Discard backs up tracked working files before `git restore --worktree`, preserving the index; untracked items move into recovery storage. Literal pathspecs prevent wildcard filenames affecting another file. Per-repository manifests survive restart. Restore verifies both the index and post-discard file state before changing anything, keeping newer work intact.
 - **Stable sidebar geometry.** Files, Search and Git share a native sidebar split. Explorer floats inside it. Input floats anchor to buffer rows and hide outside the viewport. Viewport events update only that sidebar's fields; unchanged content does not rewrite its buffer. Tab metadata is cached on buffer events rather than recomputed during scrolling.
 - **Stable workspace directory.** Repository state is keyed by the global workspace cwd; file/LSP roots and Git subprocess cwd are resolved separately. Switching repos does not change the parent workspace.
 - **One state per workspace, drafts per repo.** Async AI results return to the originating repo and cannot overwrite a subsequently edited message. Git's staged tree is checked again before using a generated subject.

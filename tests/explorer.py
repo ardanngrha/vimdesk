@@ -95,12 +95,12 @@ try:
     def toolbar(label):
         header=nvim.exec_lua('return package.loaded.explorer_panel and require("explorer_panel").win')
         if header:
-            text=nvim.api.buf_get_lines(nvim.api.win_get_buf(header),0,2,False)
-            token='['+('New File' if label=='New' else label)+']'
-            row=next(i for i,line in enumerate(text) if token in line)
-            pos=nvim.api.win_get_position(header)
-            col=text[row].index(token)+2
-            for action in ['press','release']: nvim.api.input_mouse('left',action,'',0,pos[0]+row,pos[1]+col-1)
+            row=nvim.exec_lua('return require("explorer_panel").toolbar_row')
+            text=nvim.api.buf_get_lines(nvim.api.win_get_buf(header),row-1,row,False)[0]
+            icon={'New':'\uea7f','Paste':'\ueac0'}[label]
+            col=len(text[:text.index(icon)].encode())+1
+            pos=nvim.funcs.screenpos(header,row,col)
+            for action in ['press','release']: nvim.api.input_mouse('left',action,'',0,pos['row']-1,pos['col']-1)
             ui.drain(180)
             return
         win=nvim.exec_lua('return explorer().list.win.win')

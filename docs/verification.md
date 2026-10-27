@@ -1,5 +1,29 @@
 # Verification
 
+## Documentation and release check — 27 October 2026
+
+The six beginner guides (EN/ID, macOS/Linux/WSL), workflow notes and website describe the new review controls and discard recovery. All 11 installer/onboarding/mock-AI unit tests and generated-guide checks passed. The final runtime fixture passed explicit LazyGit, a two-file combined review, mocked AI routing, resize, three-pane accept/save/stage/continue merge, local Fetch All, and search/replacement. Five screenshots were regenerated from its real 168 × 46 RGB grid using fictional repo contents.
+
+The website's EN/ID review copy and Open All gallery were checked in the browser. At a 390 px mobile viewport, document width and content width both measured 390 px; the new screenshot loaded at 1544 × 1044. The existing mobile contents behavior was preserved. Lua/JS/Python syntax and whitespace checks passed.
+
+The icon toolbar's six glyphs are available in the test Nerd Font. Navigation checks passed 13 workflows, including actual create/collapse/reveal clicks and session restart; the Explorer suite passed 18 file-action checks, including Paste. All 15 rendered statusline checks passed after symmetric toolbar padding was added. These are separate from the bounded ruler timings below; no GPU or native Warp performance claim is made.
+
+## Startup argument cleanup — 27 October 2026
+
+An old workspace session containing `$argadd ,` reproduced a phantom comma tab while the process itself was launched with a directory argument. The startup regression fails on that fixture with the previous configuration and passes all seven cases with both the source config and a copy of the personal-config candidate: no saved session, stale session, no arguments, real comma file, explicit comma argument, modified buffer, and nonempty buffer marked unmodified. All test sessions and files were disposable. Cleanup runs only for workspace startup and checks that the comma path does not exist and its buffer has no content or modifications.
+
+## Combined Changes and overview rulers — 27 October 2026
+
+Verified locally on macOS with Neovim 0.12.5 and the existing pinned plugin cache; no plugins were added or updated.
+
+- The new Changes test passed 17 workflow checks against both the public-source config and a copied installation of the personal config. Three disposable sibling repos cover header hit regions at 26/36/64 columns, aligned working/staged snapshots, context and file folds, header Open/Stage clicks, Light-mode ruler visibility, cleanup, and full-row/intraline colors read from the actual RGB grid.
+- Actual discard/recovery tests passed: cancel, unsaved-buffer protection, literal `[]` filenames, partial staging, deleted files, untracked folders, independent recovery pointers per repo, and refusal to overwrite newer disk edits. The Git index stayed unchanged during discard/recovery. Recovery manifests were reloaded from disk after reloading the module.
+- A 160-wheel-event combined review performed zero Git subprocesses and zero diff-map rescans. Ten open/close cycles retained the same four loaded buffers. [Raw ruler benchmark samples and limitations](performance.md#change-overview-rulers--27-october-2026) are separate from these correctness checks.
+- The existing 17-repo Git regression passed, including actual branch checkout, stable windows, zero ordinary full-screen clears, stage/history updates and three-pane resolution. The personal-profile candidate passed all 15 rendered statusline scenarios. All 11 installer/onboarding/mock-AI unit tests passed.
+- The runtime workflow passed discovery, buffer-root detection, explicit LazyGit, mocked AI drafting, resize, accept/save/stage/continue merge, local Fetch All, search and selected replacement. The first restricted run timed out waiting for LazyGit's rendered UI; the terminal-enabled rerun passed. No real remote push or AI-provider request was used.
+
+Screenshots for this local update use embedded Neovim and fictional fixtures. Native Warp rendering, GPU usage, large-diff performance and Linux/WSL remain unverified. The combined view is intentionally read-only, has file/byte/row limits, and uses plain diff colors for mixed-language content.
+
 ## Explorer, navigation and statusline update — 26 October 2026
 
 Verified on macOS with Neovim 0.12.5. All **16 pinned plugin revisions**, including mini.icons, matched the cache used for these checks; the checks did not update it.

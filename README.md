@@ -15,9 +15,9 @@ Built by [Ardana Nugraha](https://github.com/ardanngrha) from a daily workflow: 
 ## What you get
 
 - **Multiple repositories, one workspace.** Click a repository to select it and show its Changes. Click its branch badge, such as `[staging ↑2 ↓1]`, to switch branches. LazyGit is available under More; `Space gg` opens it for the current file's repository.
-- **A visible Git workflow.** Staged/unstaged changes, commit textbox, Generate → Codex / Claude Code, Commit, and `[Push] [Pull] [Fetch] [Fetch All] [More]`. Use `[+]` beside Changes to stage all, or `[−]` beside Staged Changes to unstage all. Controls wrap when the sidebar is narrow.
+- **A visible Git workflow.** Staged/unstaged changes, commit textbox, Generate → Codex / Claude Code, Commit, and `[Push] [Pull] [Fetch] [Fetch All] [More]`. Changes offers Open All, recoverable Discard All, and Stage All; narrow headers show `[Open] [↶] [+]`. Each working file has Discard and Stage; `[−]` unstages staged files.
 - **Commit history below Changes.** Graph shows branch lanes and commit subjects. Click a commit to expand its details and files, then click a file to review that revision. Load more history when needed.
-- **Review without losing context.** Changed files and historical revisions reuse the same Before / After panes. Conflicts open Incoming on the left, Current on the right, and an editable Result below. Drag native dividers to resize; `Space gc` closes the review.
+- **Review without losing context.** Individual diffs reuse the same Before / After panes; Open All stacks changed files in one read-only review with context folds. Full-row/intraline colors and cached right-side change markers show differences without wrapping long lines. Conflicts open Incoming on the left, Current on the right, and an editable Result below. Drag native dividers to resize; `Space gc` closes the review.
 - **Search in the sidebar.** Search and replace fields, all-repo or active-repo scope, include/exclude filters, ignored-file toggle, and unsaved-buffer search. Preview replacements before applying selected files; saving remains explicit.
 - **File actions in the explorer.** Right-click a file or folder, or use New File / New Folder / Paste / More above the tree. Create, rename, copy/paste, duplicate, copy relative/absolute paths, and delete to a recoverable VimDesk trash.
 - **File icons on demand.** mini.icons loads when Files opens, with colored language/file icons and open/closed folder icons. `Space ui` toggles them without restarting.
@@ -30,6 +30,8 @@ Files, Search and Git share the sidebar width. Commit/search inputs move with th
 ![Files with Open Editors, file icons and visible controls](docs/images/explorer.png)
 
 ![Three-pane conflict resolution](docs/images/conflicts.png)
+
+![Open All with stacked files, context folds and Stage / Open controls](docs/images/changes.png)
 
 ## Install
 
@@ -108,5 +110,7 @@ The staged diff (up to 100 KB) is sent to the selected provider through your loc
 This is an opinionated config and custom Lua workbench, not a fork of Neovim, LazyGit or LazyVim. It is a personal project with macOS verification, not a promise of compatibility with every terminal or plugin update. The lockfile pins the plugin revisions used for verification; updating plugins can change behavior.
 
 Built on [Neovim](https://neovim.io), [lazy.nvim](https://github.com/folke/lazy.nvim), [Snacks](https://github.com/folke/snacks.nvim), [mini.icons](https://github.com/nvim-mini/mini.icons), [TokyoNight](https://github.com/folke/tokyonight.nvim), [LazyGit](https://github.com/jesseduffield/lazygit), [Diffview](https://github.com/sindrets/diffview.nvim), [blink.cmp](https://github.com/saghen/blink.cmp), [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [Gitsigns](https://github.com/lewis6991/gitsigns.nvim), [bufferline](https://github.com/akinsho/bufferline.nvim), [lualine](https://github.com/nvim-lualine/lualine.nvim), [Edgy](https://github.com/folke/edgy.nvim), [Trouble](https://github.com/folke/trouble.nvim), [which-key](https://github.com/folke/which-key.nvim), [persistence](https://github.com/folke/persistence.nvim), and [Plenary](https://github.com/nvim-lua/plenary.nvim). These projects retain their own licenses. This repository's original code is MIT licensed.
+
+Toolbar glyphs use [Codicons](https://github.com/microsoft/vscode-codicons) from the terminal's Nerd Font; no font files are bundled here.
 
 Screenshots use disposable fictional repositories; no work projects or credentials are included.

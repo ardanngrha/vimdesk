@@ -12,6 +12,8 @@ end
 M.explorer_picker=explorer_picker
 
 function M.main()
+  local all=package.loaded.git_changes
+  if all and all.active() then M.editor=all.state.right;return M.editor end
   local diff=package.loaded.git_diff
   if diff and diff.active() then M.editor=diff.state.right;return M.editor end
   local preview=package.loaded.replace_review
@@ -283,6 +285,8 @@ function M.mouse(permanent)
   -- reporting line/column zero. Leave those events to Neovim and bufferline.
   if mouse.line<1 or mouse.column<1 then return false end
   local buf = api.nvim_win_get_buf(mouse.winid)
+  local all=package.loaded.git_changes
+  if all and all.mouse(mouse) then return true end
   if buf == M.side_buf then
     if mouse.line>api.nvim_buf_line_count(buf) then return false end
     local mode, actions, action=M.mode, M.actions, M.actions and M.actions[mouse.line]
@@ -455,6 +459,7 @@ function M.palette()
     { 'Editor: Open Editors',function() require('explorer_panel').choose() end },
     { 'Tabs: keep preview',function() require('file_preview').pin() end },
     { 'Performance: toggle Light mode',function() require('performance').toggle() end },
+    { 'Git: toggle change overview ruler',function() require('diff_ui').toggle() end },
     { 'Search: workspace text', function() M.sidebar('search', true); require('workspace_search').prompt() end },
     { 'Git: review selected repository', M.open_git },
     { 'Git: choose repository', M.choose_repo },
@@ -541,6 +546,29 @@ function M.save_session()
   if ui.bottom then M.bottom(ui.bottom, false) end
   if ok then vim.notify('Workspace session saved.') else vim.notify('Could not save session: '..tostring(err),vim.log.levels.ERROR) end
 end
+function M.clean_startup_args()
+  -- Old sessions can contain `$argadd ,`, which creates a phantom file tab
+  -- when a workspace is reopened. Keep real files, links and all buffer edits.
+  local path=vim.fs.normalize(vim.fn.getcwd(-1,0)..'/,')
+  if vim.uv.fs_lstat(path) then return end
+  local buffers={}
+  for _,buf in ipairs(api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype=='' and vim.fs.normalize(api.nvim_buf_get_name(buf))==path then
+      if vim.bo[buf].modified then return end
+      if api.nvim_buf_is_loaded(buf) then
+        local content=api.nvim_buf_get_lines(buf,0,-1,false)
+        if #content~=1 or content[1]~='' then return end
+      end
+      buffers[#buffers+1]=buf
+    end
+  end
+  local args=vim.fn.argv()
+  for index=#args,1,-1 do
+    if vim.fs.normalize(vim.fn.fnamemodify(args[index],':p'))==path then vim.cmd(index..'argdelete') end
+  end
+  for _,buf in ipairs(buffers) do if api.nvim_buf_is_valid(buf) then api.nvim_buf_delete(buf,{force=false}) end end
+end
+
 function M.restore_session()
   for _, buf in ipairs(api.nvim_list_bufs()) do if vim.bo[buf].modified then
     vim.notify('Save modified files before restoring a session.', vim.log.levels.WARN); return
@@ -659,14 +687,16 @@ function M.setup()
     if #vim.api.nvim_list_uis() == 0 or vim.g.workbench_disable_startup then return end
     vim.defer_fn(function()
       local directory=vim.fn.argc()==1 and vim.fn.argv(0) or nil
+      local workspace=vim.fn.argc()==0 or directory and vim.fn.isdirectory(directory)==1
       if directory and vim.fn.isdirectory(directory)==1 then
         vim.cmd.cd(vim.fn.fnamemodify(directory,':p'))
         if vim.fn.isdirectory(api.nvim_buf_get_name(0))==1 then vim.cmd.enew() end
       end
-      if vim.fn.argc() == 0 or (vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1) then
+      if workspace then
         if vim.fn.filereadable(require('persistence').current()) == 1 then M.restore_session()
         else M.sidebar('explorer', false) end
       else M.sidebar('explorer', false) end
+      if workspace then M.clean_startup_args() end
       local p=require('repo_panel'); if not p.state().loaded then p.refresh() end
     end, 150)
   end })

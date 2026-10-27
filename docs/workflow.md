@@ -45,6 +45,8 @@ Delete moves items to this profile's VimDesk trash under `stdpath('state')/workb
 
 ### File icons
 
+The Files toolbar uses six icon buttons, in order: New File, New Folder, More, Collapse All, Reveal Active File, and Paste. The ellipsis opens the named actions menu. These static glyphs use the terminal's Nerd Font and do not load an extra icon provider or run a hover timer. In the header, move the cursor onto an icon and press `K` to show its name; Enter activates it. Button spacing compacts when the sidebar is narrow.
+
 Files uses mini.icons for language/file symbols and open/closed folder symbols. The provider loads on the first Files opening. Other picker views and file tabs keep their existing icon settings.
 
 Choose a Nerd Font in your terminal, such as Hack Nerd Font Mono. On Warp, set it under Settings → Appearance → Text; a newly installed font may need a Warp restart before appearing. Font size can stay unchanged. No icon font is bundled with the configuration.
@@ -57,13 +59,13 @@ Single-click a file in Files to open a temporary tab, marked `~`. Clicking anoth
 
 Open Editors above the tree lists the same file buffers, with `●` for unsaved changes, `~` for a preview, and `×` to close. Closing a modified file asks before saving/closing; Cancel preserves it. The visible list is capped at six rows, keeps the active editor visible, and offers Show all for longer lists. Click the heading to collapse the list. The picker opened by Show all also uses existing buffers; it does not copy their contents.
 
-The two toolbar rows expose **New File**, **New Folder**, **More**, **Collapse**, **Reveal**, and **Paste**. Reveal selects the active editor file in the tree without changing the workspace root. Files outside the workspace are left alone. Automatic following is disabled so switching files does not continually expand/reposition the tree; use Reveal when needed. Right-click and the existing file-operation keys remain available.
+The icon toolbar exposes **New File**, **New Folder**, **More**, **Collapse**, **Reveal**, and **Paste**, with one blank row above and below it. Reveal selects the active editor file in the tree without changing the workspace root. Files outside the workspace are left alone. Automatic following is disabled so switching files does not continually expand/reposition the tree; use Reveal when needed. Right-click and the existing file-operation keys remain available.
 
 ### Light mode
 
 `Space up` toggles Light mode; the command palette has Performance: toggle Light mode. A Light label appears in the status line. In this mode Files skips icons, Git badges, diagnostic badges and directory watchers. Breadcrumbs keep the path but skip tree-sitter symbol lookup. The Git sidebar skips automatic focus refresh and uses its cached status after the initial scan. Refresh explicitly with `u` in Files or `r` in Git; Git commands still refresh status when they finish. Normal mode also reuses Git status for two seconds when rapidly switching views.
 
-Turning Light mode off restores normal explorer options and the previous icon preference. The toggle rebuilds the current Files view once, keeping its selection, filter and expanded folders. Other already-open Neovim tabpages retain their existing explorer options until reopened. Watchers still needed by another tabpage are preserved. There is no new periodic refresh timer. Existing language servers and opened files stay attached; this mode does not impose a RAM limit on LSPs or unload their buffers.
+Light mode also hides the change overview strips in review panes; full-row and intraline diff colors remain. Turning Light mode off restores normal explorer options and the previous icon preference. The toggle rebuilds the current Files view once, keeping its selection, filter and expanded folders. Other already-open Neovim tabpages retain their existing explorer options until reopened. Watchers still needed by another tabpage are preserved. There is no new periodic refresh timer. Existing language servers and opened files stay attached; this mode does not impose a RAM limit on LSPs or unload their buffers.
 
 ## Git across repositories
 
@@ -92,6 +94,16 @@ For a branch merge, check out the target branch, pull it, select the source bran
 ## Review and resolve conflicts
 
 Click a changed file to review it in the same two resizable Before / After windows, without opening another tab. For unstaged changes, Before is the index and After is the editable working file; staged changes compare HEAD against the index. Historical and staged snapshots are read-only. Inline text review accepts files up to 2 MB; open binary or larger files in another viewer or LazyGit.
+
+Changed rows have a background across the pane and a stronger highlight on the changed text. Lines do not wrap in reviews. A two-column strip on the right shows change locations and the visible part of the file; merge Result also marks unresolved conflict blocks. Light mode hides these strips. Use the command palette's **Git: toggle change overview ruler** to toggle them independently, or set `vim.g.workbench_diff_overview = false` in your config. Native diff highlights remain available when the strip is hidden. Files over 30,000 lines omit the native overview map.
+
+The Changes heading has **Open All**, **Discard All**, and **Stage All**. Narrow sidebars abbreviate these to **[Open] [↶] [+]**. Each working file has **[↶]** to discard and **[+]** to stage. Staged Changes offers Open All and **[−]** to unstage. Conflicts must be resolved and saved before staging.
+
+**Open All** shows the selected repository's working files in one read-only Before / After review, one file after another. Unchanged context is folded; click a file heading to collapse/expand that file. Its Stage / Unstage button updates the index; Open opens the real file, and Enter opens that file's individual diff. Use `[f` / `]f`, or the **↑ / ↓** header buttons, to jump between files. **↻** refreshes the snapshots; **×**, `q`, or `Space gc` closes the combined review. Individual working diffs remain editable; combined snapshots are read-only and need Refresh after editing a real file elsewhere.
+
+The combined review reuses two windows and two content buffers. It shows at most 100 files, 4 MB of snapshot text and 20,000 aligned rows; oversized/binary entries offer individual opening. Untracked folders are expanded into their non-ignored files. In a review containing one language, Vim syntax highlighting is used; mixed-language snapshots retain diff colors without language-specific syntax. No Git process or diff-map scan runs for scrolling.
+
+**Discard** requires confirmation, preserves the index, and saves a recovery copy before changing tracked files. Untracked files/folders move into the recovery directory. The safety backup is limited to 16 MB of tracked content per operation; larger discards are refused. Unsaved buffers block discarding. Use **More → Restore last discard** in the same repo to restore its last saved batch, including after restarting. Restore refuses to overwrite newer disk edits or a changed index; the saved path remains in Git Log for manual recovery. Recovery copies stay in your local state directory until you remove them.
 
 `Space gd` opens the current repo's working-change overview. `Space gD` opens the staged overview. `Space gc` closes either the native file review or a Diffview overview/merge. The explicit commands `:DiffviewOpen`, `:DiffviewOpen --cached` and `:DiffviewClose` control Diffview views only.
 
@@ -133,6 +145,8 @@ In a terminal, `Ctrl+\` then `Ctrl+n` returns to Normal mode. A shell may interc
 `Space qs` saves the workspace session and `Space qr` restores it. Sessions remember editing layout/files, not shell processes. Save All (`Space wa`) handles unsaved file buffers; `Space bu` lists them first.
 
 Workspace metadata also remembers the selected repo, commit drafts, sidebar width/mode, expanded folders, explorer filter and scroll position, search/replace fields and search options, Open Editors visibility, and Light/icon preferences. Up to 256 expanded paths are saved per workspace. Search results and directory contents are not serialized; restoring fields does not launch a background search. Missing folders are skipped. Metadata is captured on sidebar close or session save/exit, not on every scroll. An edited buffer must be saved before restoring a session.
+
+When reopening a workspace, VimDesk removes an old session's missing, empty `,` placeholder from the argument list and buffers. Existing files, symlinks, nonempty/modified buffers and an explicit `nvim ,` launch are preserved.
 
 ## AI commit drafts
 

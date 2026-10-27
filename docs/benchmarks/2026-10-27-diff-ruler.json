@@ -1,0 +1,69 @@
+{
+  "ruler_benchmark": {
+    "method": "4 alternating same-process pairs, 240 wheel events, 180x52 embedded RGB UI, no LSP; wall includes RPC/drain; no terminal/GPU measurement",
+    "samples": {
+      "off": [
+        {
+          "cpu_ms": 109.66700000000003,
+          "wall_ms": 498.9327079965733
+        },
+        {
+          "cpu_ms": 126.99700000000007,
+          "wall_ms": 522.3865000007208
+        },
+        {
+          "cpu_ms": 128.00199999999995,
+          "wall_ms": 517.1432500064839
+        },
+        {
+          "cpu_ms": 127.481,
+          "wall_ms": 520.5129999958444
+        }
+      ],
+      "on": [
+        {
+          "cpu_ms": 136.00400000000002,
+          "wall_ms": 523.9527910016477
+        },
+        {
+          "cpu_ms": 136.20500000000004,
+          "wall_ms": 529.3134580133483
+        },
+        {
+          "cpu_ms": 132.74,
+          "wall_ms": 522.8471249865834
+        },
+        {
+          "cpu_ms": 143.2449999999999,
+          "wall_ms": 544.6508339955471
+        }
+      ]
+    },
+    "medians": {
+      "off": {
+        "cpu_ms": 127.23900000000003,
+        "wall_ms": 518.8281250011642
+      },
+      "on": {
+        "cpu_ms": 136.10450000000003,
+        "wall_ms": 526.633124507498
+      }
+    }
+  },
+  "retention": {
+    "before": {
+      "lua_kib": 6085.8984375,
+      "buffers": 4
+    },
+    "after": {
+      "lua_kib": 6317.08203125,
+      "buffers": 4
+    }
+  },
+  "fixture": {
+    "repositories": 3,
+    "combined_files": 7,
+    "combined_rows": 168,
+    "scroll_git_processes": 0
+  }
+}

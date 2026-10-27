@@ -63,10 +63,11 @@ def click_file(path,double=False):
     for action in ['press','release']: nvim.api.input_mouse('left',action,'2' if double else '',0,pos['row']-1,pos['col']-1)
     ui.drain(120)
 def toolbar(token):
-    win=nvim.exec_lua('return require("explorer_panel").win');lines=nvim.api.buf_get_lines(nvim.api.win_get_buf(win),0,2,False)
-    row=next(i for i,line in enumerate(lines) if token in line);col=lines[row].index(token)+2
-    pos=nvim.api.win_get_position(win)
-    for action in ['press','release']: nvim.api.input_mouse('left',action,'',0,pos[0]+row,pos[1]+col-1)
+    icons={'[New File]':'\uea7f','[New Folder]':'\uea80','[More]':'\uea7c','[Collapse]':'\ueac5','[Reveal]':'\uebF8','[Paste]':'\ueac0'}
+    win=nvim.exec_lua('return require("explorer_panel").win');row=nvim.exec_lua('return require("explorer_panel").toolbar_row');line=nvim.api.buf_get_lines(nvim.api.win_get_buf(win),row-1,row,False)[0]
+    col=len(line[:line.index(icons[token])].encode())+1
+    pos=nvim.funcs.screenpos(win,row,col)
+    for action in ['press','release']: nvim.api.input_mouse('left',action,'',0,pos['row']-1,pos['col']-1)
     ui.drain(100)
 try:
     start();side=nvim.exec_lua('return require("workbench").side_win()');width=nvim.api.win_get_width(side)
@@ -115,7 +116,7 @@ try:
     # Open Editors is capped on screen, reuses existing buffers, and shows dirty state.
     assert edited in nvim.exec_lua('return require("explorer_panel").editors()')
     assert any('●' in line for line in nvim.exec_lua('return require("explorer_panel").lines'))
-    assert nvim.exec_lua('return require("explorer_panel").height')<=10
+    assert nvim.exec_lua('return require("explorer_panel").height')<=11
     geometry=nvim.exec_lua('''local h=require('explorer_panel');local p=explorer();return {
       header=vim.api.nvim_win_get_position(h.win),height=vim.api.nvim_win_get_height(h.win),
       input=vim.api.nvim_win_get_position(p.input.win.win),root=vim.api.nvim_win_get_position(p.layout.root.win)}''')

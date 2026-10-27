@@ -22,6 +22,7 @@ function M.toggle()
     if not focused and vim.api.nvim_win_is_valid(current) then vim.api.nvim_set_current_win(current) end
   end
   vim.schedule(M.release_watches)
+  local diff=package.loaded.diff_ui;if diff then diff.refresh() end
   vim.cmd.redrawstatus();vim.cmd.redrawtabline()
   vim.notify('Light mode '..(M.enabled() and 'on · explorer refresh: u' or 'off'))
 end

@@ -21,6 +21,7 @@ end
 function M.close()
   M.generation=M.generation+1
   local s=M.state;if not s then return end;M.state=nil
+  for _,win in ipairs({s.left,s.right}) do require('diff_ui').detach(win) end
   for _,win in ipairs({s.left,s.right}) do if valid(win) then pcall(api.nvim_win_call,win,function() vim.cmd('diffoff') end) end end
   local restore=valid(s.left) and s.left or s.right
   if valid(s.left) and valid(s.right) then pcall(api.nvim_win_close,s.right,true) end
@@ -64,6 +65,7 @@ local function show(root,path,before,after,opts,generation)
   else rightbuf=scratch('after/'..path,after,ft);owned[#owned+1]=rightbuf end
   require('repo_panel').hide_lazygit()
   require('replace_review').close()
+  local all=package.loaded.git_changes;if all then all.close() end
   if not M.active() then
     if M.state then M.close() end
     require('git_review').close_merge()
@@ -86,6 +88,7 @@ local function show(root,path,before,after,opts,generation)
     vim.wo[win].winfixwidth=false;vim.wo[win].winfixheight=false
     vim.wo[win].winhighlight='DiffAdd:Review'..kind..'Line,DiffChange:Review'..kind..'Line,DiffText:Review'..kind..'Text'
     api.nvim_win_call(win,function() vim.cmd('diffthis') end)
+    require('diff_ui').attach(win,{role=kind})
   end
   api.nvim_win_call(s.right,function() vim.cmd('diffupdate');vim.cmd('normal! ggzt') end)
   api.nvim_win_call(s.left,function() vim.cmd('normal! ggzt') end)

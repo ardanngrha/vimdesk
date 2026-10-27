@@ -189,13 +189,23 @@ The optional Homebrew language-server helper runs in Terminal. Keep each project
 
 ## Files, preview tabs and icons
 
-Single-click a file to preview it. Double-click, press Enter, or start editing to keep its tab. Open Editors lists existing buffers; New File, New Folder, Collapse, Reveal and Paste are above the tree.
+Single-click a file to preview it. Double-click, press Enter, or start editing to keep its tab. Open Editors lists existing buffers. The six toolbar icons, from left to right, are New File, New Folder, More, Collapse All, Reveal Active File and Paste. More opens the named actions menu.
 
 File icons need a Nerd Font, such as Hack Nerd Font Mono, selected in your terminal settings. [Download a font from Nerd Fonts](https://www.nerdfonts.com/font-downloads), install it using your OS font installer, and select it in the terminal. For WSL, install/select the font on Windows in the Windows Terminal profile, not inside Ubuntu. On Linux, use your desktop font installer or ~/.local/share/fonts. Restart the terminal if the new font is not listed. Fonts are not bundled with VimDesk.
 
 Press Space, then u, then i to toggle file icons; Space b p keeps a preview; Space u p toggles Light mode. Light mode disables explorer watchers and decorations; use u in Files or r in Git to refresh. It does not unload language servers or cap their RAM.
 
 [Files and settings / Files dan pengaturan](workflow.md#preview-tabs-and-open-editors)
+
+## Review and stage Git changes
+
+Select a repo in Git. The Changes heading offers Open All, Discard All and Stage All; a narrow sidebar shows [Open] [↶] [+]. Beside each working file, [↶] discards that file and [+] stages it. [−] unstages a staged file. Save your edits before staging.
+
+Open All shows files one after another in a read-only Before / After view. Click a file heading to fold it, use [f / ]f to jump between files, and click Open to edit the real file. Enter opens an individual diff; Refresh reloads snapshots. Space g c closes the review. Individual working-file diffs and merge Result remain editable.
+
+Discard asks for confirmation and saves a recovery copy, while preserving staged changes. To recover the latest batch for the selected repo, use More → Restore last discard. Recovery refuses to overwrite newer edits or a changed index; its backup path is in Git Log. Review the files before committing or discarding.
+
+[Git review and recovery / Review Git dan pemulihan](workflow.md#review-and-resolve-conflicts)
 
 ## Optional: language support and AI
 

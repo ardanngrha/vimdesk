@@ -4,12 +4,13 @@ local function current()
   local lib=package.loaded['diffview.lib']
   return lib and lib.get_current_view()
 end
-function M.active() local view=current(); return require('git_diff').active() or view and view.workbench_review end
+function M.active() local view=current();local all=package.loaded.git_changes;return all and all.active() or require('git_diff').active() or view and view.workbench_review end
 function M.close_merge()
   local view=current()
   if view and view.workbench_review then require('diffview').close(); return true end
 end
 function M.close()
+  local all=package.loaded.git_changes;if all then all.close() end
   require('git_diff').close()
   return M.close_merge()
 end
@@ -42,6 +43,7 @@ function M.labels(view)
           local text=win.file.symbol=='a' and 'ReviewBeforeText' or 'ReviewAfterText'
           vim.wo[win.id].winhighlight='DiffAdd:'..line..',DiffDelete:'..line..',DiffChange:'..line..',DiffText:'..text
         end
+        require('diff_ui').attach(win.id,{role=label})
         if win.file.bufnr and api.nvim_buf_is_valid(win.file.bufnr) then
           local RevType=require('diffview.vcs.rev').RevType
           vim.bo[win.file.bufnr].modifiable=win.file.rev.type==RevType.LOCAL

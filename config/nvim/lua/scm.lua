@@ -117,8 +117,8 @@ function M.stage(item, stage)
   M.run(item.root, args, stage and 'Stage file' or 'Unstage file')
 end
 
-function M.stage_all(stage)
-  local root = M.selected()
+function M.stage_all(stage,root)
+  root = root or M.selected()
   if not root or M.unsaved(root) then return end
   if stage then
     for _, file in ipairs((state().info[root] or {}).files or {}) do if unresolved_markers(root,file) then return end end
@@ -307,19 +307,18 @@ function M.continue_merge()
   if merge.code ~= 0 then vim.notify('No merge is in progress.'); return end
   M.run(root, { '-c', 'core.editor=true', 'merge', '--continue' }, 'Continue merge')
 end
-function M.discard()
-  local item = node(); if not item or not item.file then return end
+function M.discard(item)
+  item = item or node(); if not item or not item.file then return end
   if item.staged then vim.notify('Unstage this file before discarding working changes.'); return end
-  vim.ui.select({ 'Cancel', 'Discard working changes' }, { prompt='Discard ' .. clean(item.file.path) .. '?' }, function(choice)
-    if choice ~= 'Discard working changes' or M.unsaved(item.root) then return end
-    if item.file.untracked then
-      local trash = vim.fn.stdpath('state') .. '/workbench/trash/' .. os.date('%Y%m%d-%H%M%S') .. '-' .. vim.uv.hrtime()
-      vim.fn.mkdir(trash, 'p')
-      local ok, err = vim.uv.fs_rename(item.root .. '/' .. item.file.path, trash .. '/' .. vim.fs.basename(item.file.path))
-      wb().log('Discard untracked file', ok and ('Moved to ' .. trash) or err)
-      require('repo_panel').update_status()
-    else M.run(item.root, { 'restore', '--worktree', '--', item.file.path }, 'Discard working changes') end
-  end)
+  require('git_discard').discard(item.root,{item.file})
+end
+function M.discard_all(root)
+  root=root or M.selected();if not root then return end
+  local files={};for _,file in ipairs((state().info[root] or {}).files or {}) do if file.changed then files[#files+1]=file end end
+  require('git_discard').discard(root,files)
+end
+function M.open_all(root,staged)
+  root=root or M.selected();if root then require('git_changes').open(root,staged) end
 end
 
 function M.key(key)

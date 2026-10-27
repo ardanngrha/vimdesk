@@ -35,10 +35,15 @@ const strings = {
     aiText:
       "Pasang dan login Codex CLI atau Claude Code mengikuti panduan resminya. Simpan file, stage perubahan, klik Generate di sidebar Git, pilih agent, lalu review pesannya sebelum Commit. Staged diff dikirim ke provider memakai akunmu; biaya penggunaan normal berlaku.",
     filesTitle: "Files, preview, dan mode ringan",
-    filesText: "Sekali klik untuk preview; double-click, Enter, atau mulai edit untuk menyimpan tab. Open Editors dan tombol file/folder berada di atas tree.",
+    filesText: "Sekali klik untuk preview; double-click, Enter, atau mulai edit untuk menyimpan tab. Enam icon di atas tree: New File, New Folder, More, Collapse All, Reveal Active File, dan Paste. More membuka menu dengan nama aksi.",
     fontText: "Icon file membutuhkan Nerd Font yang dipilih di terminal. Space ui mematikan icon jika memakai font biasa. Untuk WSL, font dipasang di Windows Terminal.",
-    lightText: "Space up men-toggle Light mode. Watcher dan dekorasi explorer dimatikan; refresh dengan u di Files atau r di Git. Language server tetap berjalan.",
+    lightText: "Space up men-toggle Light mode. Watcher dan dekorasi explorer dimatikan, dan strip perubahan di kanan disembunyikan; refresh dengan u di Files atau r di Git. Language server tetap berjalan.",
     filesMore: "Panduan Files dan pengaturan",
+    reviewTitle: "Review, stage, dan discard",
+    reviewText: "Header Changes menyediakan Open All, Discard All, dan Stage All. Sidebar sempit menampilkan [Open] [↶] [+]; tiap file punya Discard dan Stage.",
+    reviewReadOnly: "Open All menampilkan file berurutan dalam Before / After yang read-only, dengan konteks yang bisa dilipat. Klik Open untuk mengedit file asli. Saat merge, Incoming di kiri, Current di kanan, dan Result yang bisa diedit ada di bawah.",
+    reviewRecovery: "Discard meminta konfirmasi dan menyimpan salinan pemulihan; perubahan staged dipertahankan. Gunakan More → Restore last discard pada repo yang sama. Pemulihan menolak menimpa edit yang lebih baru.",
+    reviewMore: "Panduan review dan pemulihan",
     workflowTitle: "Pemakaian, update, dan backup",
     workflow: "Editing, Git, konflik, dan search/replace",
     maintenance: "Update, restore, dan uninstall",
@@ -49,6 +54,7 @@ const strings = {
     tabConflicts: "Konflik",
     tabSearch: "Search/replace",
     tabExplorer: "Files",
+    tabChanges: "Open All",
     faqTitle: "Masalah umum",
     faqQ1: "Config Neovim lama akan tertimpa?",
     faqA1:
@@ -68,6 +74,8 @@ const strings = {
     faqQ6: "Folder sudah ada saat git clone",
     faqA6:
       "Buka folder vimdesk yang sudah diunduh, simpan perubahan lokal, lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus folder yang berisi pekerjaanmu.",
+    faqQ7: "Tab koma muncul saat membuka workspace",
+    faqA7: "Sesi lama dapat menyimpan argumen file koma yang tidak ada. Versi ini membersihkan placeholder kosong itu saat membuka workspace. File yang benar-benar ada, buffer berisi edit, dan perintah nvim , yang sengaja dijalankan tetap dipertahankan.",
     report: "Laporkan masalah",
   },
   en: {
@@ -105,10 +113,15 @@ const strings = {
     aiText:
       "Install and authenticate Codex CLI or Claude Code using its official guide. Save files, stage changes, click Generate in the Git sidebar, select an agent, and review the message before Commit. The staged diff goes to the provider using your account; normal usage costs apply.",
     filesTitle: "Files, previews, and Light mode",
-    filesText: "Single-click to preview; double-click, press Enter, or edit to keep the tab. Open Editors and file/folder controls sit above the tree.",
+    filesText: "Single-click to preview; double-click, press Enter, or edit to keep the tab. The six toolbar icons are New File, New Folder, More, Collapse All, Reveal Active File, and Paste. More opens the named actions menu.",
     fontText: "File icons need a Nerd Font selected in your terminal. Space ui disables icons for a plain font. For WSL, install/select the font in Windows Terminal.",
-    lightText: "Space up toggles Light mode. Explorer watchers and decorations stop; refresh with u in Files or r in Git. Language servers keep running.",
+    lightText: "Space up toggles Light mode. Explorer watchers/decorations stop and right-side change strips hide; refresh with u in Files or r in Git. Language servers keep running.",
     filesMore: "Files and settings guide",
+    reviewTitle: "Review, stage, and discard",
+    reviewText: "The Changes heading offers Open All, Discard All, and Stage All. Narrow sidebars show [Open] [↶] [+]; each working file has Discard and Stage.",
+    reviewReadOnly: "Open All stacks files in a read-only Before / After view with foldable context. Click Open to edit the real file. During a merge, Incoming is left, Current is right, and the editable Result sits below.",
+    reviewRecovery: "Discard asks for confirmation and saves a recovery copy; staged changes stay. Use More → Restore last discard in the same repo. Recovery refuses to overwrite newer edits.",
+    reviewMore: "Review and recovery guide",
     workflowTitle: "Usage, updates, and backups",
     workflow: "Editing, Git, conflicts, and search/replace",
     maintenance: "Update, restore, and uninstall",
@@ -119,6 +132,7 @@ const strings = {
     tabConflicts: "Conflicts",
     tabSearch: "Search/replace",
     tabExplorer: "Files",
+    tabChanges: "Open All",
     faqTitle: "Troubleshooting",
     faqQ1: "Will this overwrite my existing Neovim config?",
     faqA1:
@@ -138,31 +152,39 @@ const strings = {
     faqQ6: "The folder already exists during git clone",
     faqA6:
       "Open the existing vimdesk folder, preserve local edits, then run git pull --ff-only and ./install.sh. Do not delete a folder containing your work.",
+    faqQ7: "A comma tab appears when opening a workspace",
+    faqA7: "An old session can store a missing comma filename in its argument list. This version removes that empty placeholder during workspace startup. Real files, buffers with edits, and an explicit nvim , launch are preserved.",
     report: "Report an issue",
   },
 };
 
 const views = {
   explorer: {
-    image: "images/explorer.png?v=20261026",
+    image: "images/explorer.png?v=20261027",
     alt: "File explorer with Open Editors, file icons and creation controls",
     id: "Files, Open Editors, icon file, dan tombol file/folder.",
     en: "Files, Open Editors, file icons, and file/folder controls.",
   },
+  changes: {
+    image: "images/changes.png?v=20261027",
+    alt: "Combined read-only Before / After review with multiple files and folded context",
+    id: "Open All: file berurutan, konteks terlipat, dan tombol Stage / Open per file. Snapshot ini read-only.",
+    en: "Open All: stacked files, folded context, and per-file Stage / Open buttons. These snapshots are read-only.",
+  },
   review: {
-    image: "images/review.png?v=20261026",
+    image: "images/review.png?v=20261027",
     alt: "Git sidebar with commit graph and Before / After review",
     id: "Sidebar Git, Graph commit, dan perbandingan Before / After.",
     en: "Git sidebar, commit graph, and Before / After comparison.",
   },
   conflicts: {
-    image: "images/conflicts.png?v=20261026",
+    image: "images/conflicts.png?v=20261027",
     alt: "Incoming left, Current right, editable Result below",
     id: "Incoming di kiri, Current di kanan, Result yang bisa diedit di bawah.",
     en: "Incoming on the left, Current on the right, editable Result below.",
   },
   search: {
-    image: "images/search.png?v=20261026",
+    image: "images/search.png?v=20261027",
     alt: "Search and replace fields with a replacement preview",
     id: "Kolom Search dan Replace, dengan preview perubahan per file.",
     en: "Search and Replace fields, with per-file replacement previews.",

@@ -60,6 +60,30 @@ function M.render(s)
     if right then range(row,'WorkbenchMuted',#text-#right,#text) end
     return row
   end
+  local function changes_heading(title,count,key,staged)
+    local items=staged and {{'Open',function() require('scm').open_all(s.active,true) end},
+      {'−',function() require('scm').stage_all(false,s.active) end}} or {
+      {width>=64 and 'Open All' or 'Open',function() require('scm').open_all(s.active,false) end},
+      {width>=64 and 'Discard All' or '↶',function() require('scm').discard_all(s.active) end},
+      {width>=64 and 'Stage All' or '+',function() require('scm').stage_all(true,s.active) end}}
+    local text=' '..(s.collapsed[key] and '▸ ' or '▾ ')..title..' '..count
+    local right={};for _,item in ipairs(items) do right[#right+1]='['..item[1]..']' end
+    local suffix=table.concat(right,' ')
+    -- Narrow sidebars retain compact mouse targets. Labels in More explain
+    -- each action without clipping the filename rows.
+    if vim.fn.strdisplaywidth(text..' '..suffix)>width then text=' '..(s.collapsed[key] and '▸ ' or '▾ ')..(staged and 'Staged' or title)..' '..count end
+    text=text..string.rep(' ',math.max(1,width-vim.fn.strdisplaywidth(text..suffix)-1))
+    local targets={}
+    for _,item in ipairs(items) do
+      local first=#text;text=text..'['..item[1]..']'
+      targets[#targets+1]={first=first,last=#text,run=item[2]};text=text..' '
+    end
+    local row=add(text,function(col)
+      for _,target in ipairs(targets) do if col>=target.first and col<target.last then target.run();return end end
+      toggle(key)
+    end,{root=s.active,kind='changes_header',group=key,key='group:'..s.active..':'..key},'WorkbenchHeading')
+    for _,target in ipairs(targets) do range(row,'WorkbenchButton',target.first,target.last) end
+  end
   heading('Repositories',#s.repos,'repos',nil,nil,'WorkbenchMuted')
   if not s.collapsed.repos then
     for _,root in ipairs(s.repos) do
@@ -110,22 +134,28 @@ function M.render(s)
     local filtered={};for _,file in ipairs(files) do if file[group[2]] then filtered[#filtered+1]=file end end
     if #filtered>0 then
       any=true
-      heading(group[1],#filtered,group[2],group[3] and '[−]' or '[+]',function() require('scm').stage_all(not group[3]) end,
-        group[2]=='conflict' and 'WorkbenchConflict' or nil)
+      if group[2]=='conflict' then
+        heading(group[1],#filtered,group[2],'[+]',function() require('scm').stage_all(true,root) end,'WorkbenchConflict')
+      else changes_heading(group[1],#filtered,group[2],group[3]) end
       if not s.collapsed[group[2]] then
         for _,file in ipairs(filtered) do
           local node={root=root,kind='file',file=file,staged=group[3],key='file:'..root..':'..group[2]..':'..file.path}
           local status=file.conflict and '!' or group[3] and file.x or file.untracked and '?' or file.y
           local base=clean(vim.fs.basename(file.path));local dir=clean(vim.fs.dirname(file.path))
           local name=base..(dir~='.' and ('  '..dir) or '')
-          local prefix='  '..status..' '..fit(name,math.max(8,width-10))
-          local text=prefix..string.rep(' ',math.max(1,width-vim.fn.strdisplaywidth(prefix)-5))..(group[3] and '[−]' or '[+]')
+          local discard=not group[3] and not file.conflict
+          local suffix=discard and '[↶] [+]' or group[3] and '[−]' or '[+]'
+          local prefix='  '..status..' '..fit(name,math.max(1,width-vim.fn.strdisplaywidth(suffix)-6))
+          local text=prefix..string.rep(' ',math.max(1,width-vim.fn.strdisplaywidth(prefix..suffix)-1))..suffix
+          local start=#text-#suffix
           local row=add(text,function(col)
-            if col>=vim.fn.strdisplaywidth(text)-3 then require('scm').stage(node,not node.staged) else require('scm').diff(node) end
+            if col>=#text-3 then require('scm').stage(node,not node.staged)
+            elseif discard and col>=start and col<start+#'[↶]' then require('scm').discard(node)
+            else require('scm').diff(node) end
           end,node)
           range(row,file.conflict and 'WorkbenchConflict' or group[3] and 'WorkbenchAdded' or status=='D' and 'WorkbenchRemoved' or 'WorkbenchChanged',2,3)
           range(row,'WorkbenchMuted',math.min(#prefix,4+#base),#prefix)
-          range(row,'WorkbenchMuted',#text-3,#text)
+          range(row,'WorkbenchButton',start,#text)
         end
       end
     end

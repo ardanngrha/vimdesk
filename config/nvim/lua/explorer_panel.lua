@@ -1,6 +1,17 @@
 -- A bounded header over the existing tree, updated only on buffer/layout events.
-local M={rows={},height=4,expanded=true}
+local M={rows={},height=5,expanded=true,toolbar_row=2,editors_row=4}
 local api=vim.api
+local toolbar_ns=api.nvim_create_namespace('vimdesk_explorer_toolbar')
+-- Codicons already included in the user's Nerd Font; no icon provider/load.
+-- https://github.com/microsoft/vscode-codicons/blob/main/src/template/mapping.json
+M.tools={
+  {id='new_file',label='New File',icon=vim.fn.nr2char(60031),run=function() require('explorer_actions').create(false) end},
+  {id='new_folder',label='New Folder',icon=vim.fn.nr2char(60032),run=function() require('explorer_actions').create(true) end},
+  {id='more',label='More',icon=vim.fn.nr2char(60028),run=function() require('explorer_actions').menu() end},
+  {id='collapse',label='Collapse All',icon=vim.fn.nr2char(60101),run=function() M.collapse() end},
+  {id='reveal',label='Reveal Active File',icon=vim.fn.nr2char(60408),run=function() M.reveal() end},
+  {id='paste',label='Paste',icon=vim.fn.nr2char(60096),run=function() require('explorer_actions').paste() end},
+}
 local function valid(win) return win and api.nvim_win_is_valid(win) end
 local function w() return require('workbench') end
 local function clip(s,width)
@@ -21,13 +32,9 @@ function M.choose()
   end},function(buf) if buf then require('editor_ui').switch_buffer(buf) end end)
 end
 function M.act(row,col)
-  if row==1 then
-    if col<12 then require('explorer_actions').create(false)
-    elseif col<25 then require('explorer_actions').create(true)
-    else require('explorer_actions').menu() end
-  elseif row==2 then
-    if col<12 then M.collapse() elseif col<21 then M.reveal() else require('explorer_actions').paste() end
-  elseif row==3 then M.expanded=not M.expanded;M.render()
+  if row==M.toolbar_row then
+    for _,hit in ipairs(M.buttons or {}) do if col>=hit.first and col<hit.last then hit.tool.run();return end end
+  elseif row==M.editors_row then M.expanded=not M.expanded;M.render()
   elseif M.rows[row] then
     if col>=api.nvim_win_get_width(M.win)-3 then require('editor_ui').close_buffer(M.rows[row])
     else require('editor_ui').switch_buffer(M.rows[row]) end
@@ -62,14 +69,26 @@ function M.render()
   if not M.buf or not api.nvim_buf_is_valid(M.buf) then
     M.buf=api.nvim_create_buf(false,true);vim.bo[M.buf].filetype='workbench_open_editors'
     vim.bo[M.buf].bufhidden='hide';vim.bo[M.buf].swapfile=false
-    vim.keymap.set('n','<CR>',function() M.act(api.nvim_win_get_cursor(0)[1],0) end,{buffer=M.buf,desc='Open editor / action'})
+    vim.keymap.set('n','<CR>',function() local cursor=api.nvim_win_get_cursor(0);M.act(cursor[1],cursor[2]) end,{buffer=M.buf,desc='Open editor / action'})
+    vim.keymap.set('n','K',function()
+      local cursor=api.nvim_win_get_cursor(0)
+      if cursor[1]==M.toolbar_row then for _,hit in ipairs(M.buttons or {}) do if cursor[2]>=hit.first and cursor[2]<hit.last then vim.notify(hit.tool.label);return end end end
+    end,{buffer=M.buf,desc='Describe toolbar icon'})
     vim.keymap.set('n','x',function() local buf=M.rows[api.nvim_win_get_cursor(0)[1]];if buf then require('editor_ui').close_buffer(buf) end end,{buffer=M.buf,desc='Close editor'})
     vim.keymap.set('n','<Esc>',function() w().focus_editor() end,{buffer=M.buf})
     vim.keymap.set('n','q',function() w().focus_editor() end,{buffer=M.buf})
   end
   local editors=M.editors();local width=api.nvim_win_get_width(side);local active=valid(w().editor) and api.nvim_win_get_buf(w().editor)
   local max=math.max(0,math.min(6,math.floor(api.nvim_win_get_height(side)/3)-4))
-  local lines={' [New File] [New Folder] [More]',' [Collapse] [Reveal] [Paste]',
+  local toolbar=' ';M.buttons={}
+  for i,tool in ipairs(M.tools) do
+    if i>1 and width>=26 then toolbar=toolbar..' ' end
+    if i==4 then toolbar=toolbar..' ' end
+    local first=#toolbar;toolbar=toolbar..' '..tool.icon..' '
+    M.buttons[#M.buttons+1]={first=first,last=#toolbar,tool=tool}
+  end
+  -- One blank row above and below the icon buttons.
+  local lines={'',toolbar,'',
     ' '..(M.expanded and '▾' or '▸')..' Open Editors ('..#editors..')'}
   M.rows={};M.more_row=nil
   if M.expanded then
@@ -97,6 +116,11 @@ function M.render()
   end
   if not vim.deep_equal(lines,M.lines) then
     vim.bo[M.buf].modifiable=true;api.nvim_buf_set_lines(M.buf,0,-1,false,lines);vim.bo[M.buf].modifiable=false;M.lines=lines
+    api.nvim_buf_clear_namespace(M.buf,toolbar_ns,0,-1)
+    for _,hit in ipairs(M.buttons) do
+      api.nvim_buf_set_extmark(M.buf,toolbar_ns,M.toolbar_row-1,hit.first,{end_col=hit.last,hl_group='WorkbenchButton'})
+      api.nvim_buf_set_extmark(M.buf,toolbar_ns,M.toolbar_row-1,hit.first+1,{end_col=hit.last-1,hl_group='WorkbenchAccent',hl_mode='combine',priority=120})
+    end
   end
   if resized and p.layout and not p.layout.closed then p.layout:update() end
 end

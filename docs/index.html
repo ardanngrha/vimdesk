@@ -15,13 +15,13 @@
     />
     <meta
       property="og:image"
-      content="https://ardanngrha.github.io/vimdesk/images/review.png?v=20261026"
+      content="https://ardanngrha.github.io/vimdesk/images/review.png?v=20261027"
     />
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://ardanngrha.github.io/vimdesk/" />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="assets/site.css?v=5" />
-    <script src="assets/site.js?v=7" defer></script>
+    <script src="assets/site.js?v=8" defer></script>
     <title>VimDesk</title>
   </head>
   <body>
@@ -202,8 +202,8 @@
             </summary>
             <p data-i18n="filesText">
               Sekali klik untuk preview; double-click, Enter, atau mulai edit
-              untuk menyimpan tab. Open Editors dan tombol file/folder berada di
-              atas tree.
+              untuk menyimpan tab. Enam icon di atas tree: New File, New Folder, More,
+              Collapse All, Reveal Active File, dan Paste. More membuka menu dengan nama aksi.
             </p>
             <p data-i18n="fontText">
               Icon file membutuhkan Nerd Font yang dipilih di terminal. Space ui
@@ -212,7 +212,7 @@
             </p>
             <p data-i18n="lightText">
               Space up men-toggle Light mode. Watcher dan dekorasi explorer
-              dimatikan; refresh dengan u di Files atau r di Git. Language server
+              dimatikan, dan strip perubahan di kanan disembunyikan; refresh dengan u di Files atau r di Git. Language server
               tetap berjalan.
             </p>
             <a
@@ -220,6 +220,13 @@
               data-i18n="filesMore"
               >Panduan Files dan pengaturan</a
             >
+          </details>
+          <details>
+            <summary data-i18n="reviewTitle">Review, stage, dan discard</summary>
+            <p data-i18n="reviewText">Header Changes menyediakan Open All, Discard All, dan Stage All. Sidebar sempit menampilkan [Open] [↶] [+]; tiap file punya Discard dan Stage.</p>
+            <p data-i18n="reviewReadOnly">Open All menampilkan file berurutan dalam Before / After yang read-only, dengan konteks yang bisa dilipat. Klik Open untuk mengedit file asli. Saat merge, Incoming di kiri, Current di kanan, dan Result yang bisa diedit ada di bawah.</p>
+            <p data-i18n="reviewRecovery">Discard meminta konfirmasi dan menyimpan salinan pemulihan; perubahan staged dipertahankan. Gunakan More → Restore last discard pada repo yang sama. Pemulihan menolak menimpa edit yang lebih baru.</p>
+            <a href="https://github.com/ardanngrha/vimdesk/blob/main/docs/workflow.md#review-and-resolve-conflicts" data-i18n="reviewMore">Panduan review dan pemulihan</a>
           </details>
           <details>
             <summary data-i18n="workflowTitle">
@@ -266,6 +273,14 @@
                 Git diff</button
               ><button
                 role="tab"
+                id="tab-changes"
+                aria-selected="false"
+                aria-controls="preview-panel"
+                tabindex="-1"
+                data-view="changes"
+                data-i18n="tabChanges"
+              >Open All</button><button
+                role="tab"
                 id="tab-conflicts"
                 aria-selected="false"
                 aria-controls="preview-panel"
@@ -303,7 +318,7 @@
             >
               <img
                 id="preview-image"
-                src="images/review.png?v=20261026"
+                src="images/review.png?v=20261027"
                 width="1544"
                 height="1044"
                 alt="Git sidebar with commit graph and Before / After review"
@@ -372,6 +387,10 @@
               lalu jalankan git pull --ff-only dan ./install.sh. Jangan hapus
               folder yang berisi pekerjaanmu.
             </p>
+          </details>
+          <details>
+            <summary data-i18n="faqQ7">Tab koma muncul saat membuka workspace</summary>
+            <p data-i18n="faqA7">Sesi lama dapat menyimpan argumen file koma yang tidak ada. Versi ini membersihkan placeholder kosong itu saat membuka workspace. File yang benar-benar ada, buffer berisi edit, dan perintah nvim , yang sengaja dijalankan tetap dipertahankan.</p>
           </details>
         </section>
         <footer>

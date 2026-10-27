@@ -81,12 +81,14 @@ func main() {
 }
 '''
         (backend/'main.go').write_text(before)
+        (backend/'settings.go').write_text('package main\n\nconst RequestTimeout = 10\n')
         (backend/'go.mod').write_text('module example.invalid/demo\n\ngo 1.22\n')
         (backend/'note.txt').write_text('retry one\n')
         (backend/'.gitignore').write_text('ignored.txt\n')
         (backend/'ignored.txt').write_text('retry ignored\n')
         commit(backend,'feat: add service example')
         (backend/'main.go').write_text(before.replace('Retries: 1','Retries: 3').replace('%s: ready','%s: healthy'))
+        (backend/'settings.go').write_text('package main\n\nconst RequestTimeout = 30\n')
         (frontend/'app.tsx').write_text('export function App() {\n  return <main>Workbench</main>;\n}\n')
         (frontend/'note.txt').write_text('retry two\n'); commit(frontend,'feat: add frontend')
         (frontend/'app.tsx').write_text('export function App() {\n  return <main>Welcome to Workbench</main>;\n}\n')
@@ -112,7 +114,9 @@ func main() {
         def wait(expression):
             deadline=time.monotonic()+12
             while not nvim.exec_lua('return '+expression):
-                assert time.monotonic()<deadline,expression+'\n'+nvim.command_output('messages')
+                if time.monotonic()>=deadline:
+                    terminal=nvim.exec_lua('return vim.bo.filetype=="snacks_terminal" and table.concat(vim.api.nvim_buf_get_lines(0,0,60,false),"\\n") or ""')
+                    raise AssertionError(expression+'\n'+nvim.command_output('messages')+'\n'+terminal)
                 ui.drain(100)
 
         def screenshot(name):
@@ -174,6 +178,11 @@ func main() {
             assert 'Retries: 1,' in '\n'.join(v['panes']['a']['lines']) and 'Retries: 3,' in '\n'.join(v['panes']['b']['lines'])
             assert v['panes']['a']['pos'][1]<v['panes']['b']['pos'][1]
             screenshot('review.png')
+            nvim.exec_lua('require("scm").open_all(...,false)',str(backend))
+            wait('require("git_changes").active()')
+            assert nvim.exec_lua('return #require("git_changes").state.data.files')==2
+            ui.drain(150);screenshot('changes.png')
+            nvim.exec_lua('require("git_changes").close()')
             git(backend,'add','main.go')
             original_head=git(backend,'rev-parse','HEAD')
             # Exercise the relocated profile's AI adapter without an account or network call.

@@ -189,13 +189,23 @@ Helper Homebrew untuk language server opsional dijalankan di Terminal. Runtime d
 
 ## Files, preview tab, dan icon
 
-Sekali klik file untuk preview. Double-click, tekan Enter, atau mulai edit untuk menyimpan tabnya. Open Editors menampilkan buffer yang sudah ada; New File, New Folder, Collapse, Reveal, dan Paste berada di atas tree.
+Sekali klik file untuk preview. Double-click, tekan Enter, atau mulai edit untuk menyimpan tabnya. Open Editors menampilkan buffer yang sudah ada. Enam icon toolbar, dari kiri ke kanan: New File, New Folder, More, Collapse All, Reveal Active File, dan Paste. More membuka menu dengan nama aksi.
 
 Icon file membutuhkan Nerd Font, misalnya Hack Nerd Font Mono, yang dipilih di pengaturan terminal. [Download font dari Nerd Fonts](https://www.nerdfonts.com/font-downloads), pasang lewat font installer OS, lalu pilih di terminal. Untuk WSL, pasang/pilih font di Windows melalui profil Windows Terminal, bukan di Ubuntu. Di Linux, gunakan font installer desktop atau ~/.local/share/fonts. Buka ulang terminal jika font baru belum terdaftar. Font tidak dibundel dengan VimDesk.
 
 Tekan Space, lalu u, lalu i untuk toggle icon file; Space b p menyimpan preview; Space u p men-toggle Light mode. Light mode mematikan watcher dan dekorasi explorer; gunakan u di Files atau r di Git untuk refresh. Mode ini tidak menghentikan language server atau membatasi RAM-nya.
 
 [Files and settings / Files dan pengaturan](workflow.md#preview-tabs-and-open-editors)
+
+## Review dan stage perubahan Git
+
+Pilih repo di Git. Header Changes menyediakan Open All, Discard All, dan Stage All; sidebar sempit menampilkan [Open] [↶] [+]. Di setiap file working, [↶] membuang perubahan file itu dan [+] men-stage. [−] meng-unstage file yang sudah staged. Simpan edit sebelum staging.
+
+Open All menampilkan file berurutan di view Before / After yang read-only. Klik header file untuk melipatnya, gunakan [f / ]f untuk berpindah file, dan klik Open untuk mengedit file asli. Enter membuka diff satu file; Refresh memuat ulang snapshot. Space g c menutup review. Diff working satu file dan Result saat merge tetap bisa diedit.
+
+Discard meminta konfirmasi dan menyimpan salinan pemulihan, sambil mempertahankan perubahan staged. Untuk memulihkan batch terakhir repo terpilih, gunakan More → Restore last discard. Pemulihan menolak menimpa edit yang lebih baru atau index yang berubah; lokasi backup ada di Git Log. Review file sebelum commit atau discard.
+
+[Git review and recovery / Review Git dan pemulihan](workflow.md#review-and-resolve-conflicts)
 
 ## Opsional: dukungan bahasa dan AI
 
